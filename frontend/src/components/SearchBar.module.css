@@ -1,0 +1,895 @@
+.root {
+    width: 100%;
+    max-width: 720px;
+}
+
+/* Overlay - занимает весь экран */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    padding-top: var(--space-md);
+    box-sizing: border-box;
+}
+
+.overlayVisible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.overlayContent {
+    position: fixed;
+    top: var(--space-md);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 101;
+    width: calc(100% - 2rem);
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 1rem;
+}
+
+.overlayContentHidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Form Header */
+.formHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.backButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: var(--bg-secondary);
+    border: none;
+    border-radius: 50%;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.backButton:hover {
+    color: var(--color-primary);
+    background: var(--bg-tertiary);
+}
+
+.backButton svg {
+    width: 20px;
+    height: 20px;
+}
+
+.headerTitle {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+/* Steps indicator */
+.steps {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex: 1;
+    min-width: 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+    overflow: hidden;
+}
+
+.steps::-webkit-scrollbar {
+    height: 4px;
+}
+
+.steps::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.steps::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 2px;
+}
+
+.steps::-webkit-scrollbar-thumb:hover {
+    background: var(--text-caption);
+}
+
+.steps::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.stepCompleted {
+    cursor: pointer;
+}
+
+.stepNumber {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--border-color);
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-caption);
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.stepTitle {
+    font-size: 0.875rem;
+    color: var(--text-caption);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.stepCompleted:hover .stepNumber {
+    background: var(--color-primary);
+    opacity: 0.7;
+}
+
+.stepCompleted:hover .stepTitle {
+    opacity: 0.7;
+}
+
+.stepActive .stepNumber {
+    background: var(--color-primary);
+    color: var(--bg-primary);
+}
+
+.stepActive .stepTitle {
+    color: var(--text-primary);
+}
+
+.stepCompleted .stepNumber {
+    background: var(--color-primary);
+    color: var(--bg-primary);
+    opacity: 0.5;
+}
+
+.stepCompleted .stepTitle {
+    color: var(--color-primary);
+    opacity: 0.5;
+}
+
+.stepSeparator {
+    color: var(--text-caption);
+    font-size: 0.875rem;
+    opacity: 0.5;
+}
+
+.stepSeparatorActive {
+    color: var(--color-primary);
+    opacity: 1;
+}
+
+/* Tab container - Telegram style */
+.tabContainer {
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+}
+
+.tabContent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(0);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.tabContentActive {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+}
+
+/* Entering from right (going forward) - новый таб приходит справа */
+.tabContentEnterRight {
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.tabContentEnterRight.tabContentActive {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Entering from left (going back) - новый таб приходит слева */
+.tabContentEnterLeft {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.tabContentEnterLeft.tabContentActive {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Exiting to left (going forward) - старый таб уходит влево */
+.tabContentExitLeft {
+    transform: translateX(-100%) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Exiting to right (going back) - старый таб уходит вправо */
+.tabContentExitRight {
+    transform: translateX(100%) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.tabPanel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.questionTextarea {
+    width: 100%;
+    height: 120px;
+    padding: clamp(0.75rem, 2vw, 1rem);
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    font-family: inherit;
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+    color: var(--text-primary);
+    resize: none;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+    opacity: 0;
+    z-index: 102;
+    transition: all 0.6s ease;
+}
+
+.questionTextarea::placeholder {
+    color: var(--text-caption);
+}
+
+.questionTextarea:focus {
+    border-color: var(--color-primary);
+}
+
+.inputsRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .inputsRow {
+        gap: 0.5rem;
+    }
+}
+
+.inputsRow .formInput {
+    flex: 1;
+}
+
+.formInput {
+    width: 100%;
+    padding: clamp(0.75rem, 2vw, 1rem);
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    font-family: inherit;
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+    color: var(--text-primary);
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+}
+
+.formInput::placeholder {
+    color: var(--text-caption);
+}
+
+.formInput:focus {
+    border-color: var(--color-primary);
+}
+
+.datePicker {
+    margin-top: 8px;
+}
+
+.hint {
+    font-size: 0.875rem;
+    color: var(--text-caption);
+    margin: 0;
+}
+
+.nextButton {
+    width: 100%;
+    padding: 1rem 2rem;
+    background: var(--color-primary);
+    border: none;
+    border-radius: var(--radius-lg);
+    font-family: inherit;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--bg-primary);
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease, background 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 8px;
+}
+
+.nextButton:hover {
+    background: #ffe433;
+    transform: translateY(-2px);
+}
+
+.nextButton:active {
+    transform: translateY(0);
+}
+
+.nextButton:disabled,
+.nextButtonDisabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.nextButtonDisabled:hover {
+    background: var(--color-primary);
+    transform: none;
+    box-shadow: none;
+}
+
+.nextButtonEnterRight {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+.nextButtonEnterLeft {
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
+.searchContainer {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  padding: clamp(0.5rem, 2vw, 1rem);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 0.5fr 0.5fr;
+  grid-template-rows: 1fr 1fr;
+  gap: clamp(0.5rem, 2vw, 1rem);
+  width: calc(100% - clamp(0.5rem, 2vw, 1rem));
+}
+
+.gridItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.25rem, 1vw, 0.5rem);
+  cursor: pointer;
+}
+
+.cube {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  background: var(--border-color);
+  border-radius: clamp(8px, 2vw, 16px);
+  transition: all var(--transition-normal);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cubeImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+.gridItem:hover .cube {
+  background: var(--bg-tertiary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.itemLabel {
+  font-size: clamp(0.625rem, 2vw, 0.875rem);
+  font-weight: 500;
+  color: var(--text-caption);
+  text-decoration: none;
+  text-align: center;
+  transition: color var(--transition-fast);
+  line-height: 1.3;
+}
+
+.gridItem:hover .itemLabel {
+  color: var(--color-primary);
+}
+
+/* 1) Квадрат слева, занимает 2 ряда */
+.firstItem {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  aspect-ratio: 1;
+}
+
+/* 2) Справа сверху */
+.secondItem {
+  grid-column: 2 / 4;
+  grid-row: 1;
+}
+
+/* 3) Половина, снизу слева от 4-го */
+.thirdItem {
+  grid-column: 2;
+  grid-row: 2;
+  aspect-ratio: 1;
+}
+
+/* 4) Половина, снизу справа */
+.fourthItem {
+  grid-column: 3;
+  grid-row: 2;
+  aspect-ratio: 1;
+}
+
+.searchInputContainer {
+  height: 56px;
+}
+
+/* Поисковая строка с анимированной обводкой */
+.searchInputWrapper {
+  min-height: 56px;
+  position: relative;
+  width: 100%;
+  height: fit-content;
+  padding: 2px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  z-index: 101;
+}
+
+.searchInputWrapper.wrapperAnimating::before {
+  display: none;
+}
+
+.searchInputWrapper.wrapperForm .questionTextarea {
+  width: 100%;
+  height: 120px;
+  padding: clamp(0.75rem, 2vw, 1rem);
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  font-family: inherit;
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
+  color: var(--text-primary);
+  resize: none;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.searchInputWrapper.wrapperForm .questionTextarea::placeholder {
+  color: var(--text-caption);
+}
+
+.searchInputWrapper.wrapperForm .questionTextarea:focus {
+  border-color: var(--color-primary);
+}
+
+.searchInputWrapper::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: conic-gradient(
+    from 0deg,
+    rgba(255, 221, 0, 0.2) 0deg,
+    rgba(255, 221, 0, 0.3) 45deg,
+    rgba(255, 215, 0, 0.5) 90deg,
+    rgba(255, 200, 0, 0.7) 135deg,
+    rgba(255, 215, 0, 0.5) 180deg,
+    rgba(255, 221, 0, 0.3) 225deg,
+    rgba(255, 221, 0, 0.2) 270deg,
+    rgba(255, 221, 0, 0.25) 315deg,
+    rgba(255, 221, 0, 0.2) 360deg
+  );
+  animation: rotateBorder 8s linear infinite;
+  filter: blur(3px);
+}
+
+@keyframes rotateBorder {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.searchInput {
+  min-height: 56px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.5rem, 1.5vw, 0.75rem);
+  width: 100%;
+  height: clamp(44px, 8vw, 56px);
+  padding: 0 clamp(0.75rem, 2vw, 1.5rem);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-full);
+  font-size: clamp(0.875rem, 2.5vw, 1.0625rem);
+  font-weight: 400;
+  color: var(--text-caption);
+  cursor: text;
+  transition: all var(--transition-normal);
+  margin: 0;
+  z-index: 101;
+}
+
+.chatIcon {
+  flex-shrink: 0;
+  width: clamp(18px, 4vw, 24px);
+  height: clamp(18px, 4vw, 24px);
+}
+
+.searchInputWrapper:hover .searchInput {
+  background: var(--bg-tertiary);
+}
+
+/* Expanded state - transforms to textarea position */
+.searchInputExpanded {
+  transition: all 0.3s ease;
+}
+
+.searchInputExpanded .searchInput {
+  height: 100%;
+  border-radius: var(--radius-lg);
+  align-items: flex-start;
+  padding-top: clamp(0.75rem, 2vw, 1rem);
+  opacity: 0;
+}
+
+.searchInputExpanded::before {
+  display: none;
+}
+
+.inputWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.inputWrapperInner {
+  position: relative;
+  width: 100%;
+}
+
+.clearButton {
+  position: absolute;
+  right: clamp(0.75rem, 2vw, 1rem);
+  top: calc(50% - 12px);
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.2s ease;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.clearButton:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.formInput:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  padding-right: 40px;
+}
+
+.suggestionsContainer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  margin-top: 16px;
+  z-index: 100;
+}
+
+.suggestionsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.suggestionsCaption {
+  font-weight: bold;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.toggleLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggleLabel input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.toggleLabel input[type="checkbox"]:checked {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.toggleLabel input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--bg-primary);
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.toggleLabel input[type="checkbox"]:hover {
+  border-color: var(--color-primary);
+}
+
+.toggleLabel input[type="checkbox"]:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.manualInputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.mapContainer {
+  width: 100%;
+  height: 300px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-top: 16px;
+}
+
+.submitSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.dataRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.agreeLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: 16px;
+}
+
+.agreeLabel input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.agreeLabel input[type="checkbox"]:checked {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.agreeLabel input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--bg-primary);
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.agreeLabel input[type="checkbox"]:hover {
+  border-color: var(--color-primary);
+}
+
+.agreeLabel input[type="checkbox"]:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.submitData {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.dataCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+}
+
+.dataLabel {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dataValue {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+.suggestionsList {
+  overflow-y: auto;
+  padding: 0;
+  list-style: none;
+}
+
+.suggestionsEmpty {
+  padding: 28px 12px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+}
+
+.suggestionItem {
+  padding: 12px 16px 12px 4px;
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.suggestionName {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.suggestionCoords {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.inputIcon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.loadingSpinner {
+  position: absolute;
+  right: clamp(0.75rem, 2vw, 1rem);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-left-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes spin {
+  to { transform: translateY(-50%) rotate(360deg); }
+}

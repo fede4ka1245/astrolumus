@@ -1,0 +1,60 @@
+.tabContent {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  min-height: 180px;
+  height: 100%;
+}
+
+.tabContentItem {
+  position: relative;
+  height: 100%;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.tabContentItem > * {
+  position: relative;
+  height: 100%;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.tabContentExit,
+.tabContentGoLeft,
+.tabContentGoRight {
+  pointer-events: none !important;
+}
+
+.tabContentExit > *,
+.tabContentGoLeft > *,
+.tabContentGoRight > * {
+  pointer-events: none !important;
+}
+
+/* Активный таб (без классов анимации) */
+.tabContentItem:not(.tabContentExit):not(.tabContentGoLeft):not(.tabContentGoRight) {
+  pointer-events: auto;
+}
+
+.tabContentItem:not(.tabContentExit):not(.tabContentGoLeft):not(.tabContentGoRight) > * {
+  pointer-events: auto;
+}
+
+.scrollableContent {
+  height: 100%;
+}
+
+.tabContentExit {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.tabContentGoLeft {
+  transform: translateX(-100%);
+}
+
+.tabContentGoRight {
+  transform: translateX(100%);
+}

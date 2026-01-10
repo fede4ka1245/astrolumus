@@ -1,0 +1,35 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, var(--bg-primary), transparent);
+  z-index: 100;
+}
+
+.headerContainer {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  align-items: center;
+  padding: var(--space-md);
+}
+
+.logoIcon {
+  display: block;
+  width: 84px;
+  height: 84px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+.logoText {
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
