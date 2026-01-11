@@ -5,17 +5,36 @@ import App from './App';
 import Home from './pages/Home';
 import About from './pages/About';
 
-const root = document.getElementById('app');
+function initClient() {
+  const root = document.getElementById('app');
+  if (!root) {
+    console.error('[Client] Root element not found');
+    return;
+  }
 
-if (root) {
   root.innerHTML = '';
+  
   render(
     () => (
-      <Router root={App}>
-        <Route path="/" component={Home} />
-        <Route path="/about" component={About} />
-      </Router>
+      <App>
+        <Router>
+          <Route path="/" component={Home} />
+          <Route path="/about" component={About} />
+        </Router>
+      </App>
     ),
     root
   );
+}
+
+// Инициализация при загрузке страницы
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initClient);
+} else {
+  // Если DOM уже загружен, используем requestAnimationFrame для гарантии готовности
+  if (typeof requestAnimationFrame !== 'undefined') {
+    requestAnimationFrame(initClient);
+  } else {
+    initClient();
+  }
 }

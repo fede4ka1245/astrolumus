@@ -95,12 +95,16 @@ const SearchBar: Component = () => {
     // Если нет выбранного места, разрешаем ввод
     setPlaceValue(value);
 
-    if (debounceTimer) window.clearTimeout(debounceTimer);
+    if (debounceTimer && typeof window !== 'undefined') {
+      window.clearTimeout(debounceTimer);
+    }
     
     // Debounce запрос на 500мс
-    debounceTimer = window.setTimeout(() => {
-      searchPlaces(value);
-    }, 500);
+    if (typeof window !== 'undefined') {
+      debounceTimer = window.setTimeout(() => {
+        searchPlaces(value);
+      }, 500);
+    }
   };
 
   const handleSelectPlace = (place: OsmPlace) => {
@@ -344,18 +348,20 @@ const SearchBar: Component = () => {
     setCurrentDate(date);
     
     // Clear existing timeout
-    if (pickerUpdateTimeout !== null) {
-      clearTimeout(pickerUpdateTimeout);
+    if (pickerUpdateTimeout !== null && typeof window !== 'undefined') {
+      window.clearTimeout(pickerUpdateTimeout);
     }
     
     // Update inputs only after animation stops (delay)
-    pickerUpdateTimeout = window.setTimeout(() => {
-      setIsUpdatingFromPicker(true);
-      setYearValue(formatDateToString(date));
-      setTimeValue(formatTimeToString(date));
-      setIsUpdatingFromPicker(false);
-      pickerUpdateTimeout = null;
-    }, 500); // Delay to wait for animation to complete
+    if (typeof window !== 'undefined') {
+      pickerUpdateTimeout = window.setTimeout(() => {
+        setIsUpdatingFromPicker(true);
+        setYearValue(formatDateToString(date));
+        setTimeValue(formatTimeToString(date));
+        setIsUpdatingFromPicker(false);
+        pickerUpdateTimeout = null;
+      }, 500); // Delay to wait for animation to complete
+    }
   };
 
   
@@ -519,14 +525,34 @@ const SearchBar: Component = () => {
     setCurrentTab('question');
     
     // Ждем рендеринга формы и textarea, затем запускаем анимацию
-    requestAnimationFrame(() => {
+    // Используем несколько requestAnimationFrame для гарантии готовности DOM после гидратации
+    if (typeof window !== 'undefined' && typeof window.requestAnimationFrame !== 'undefined') {
       requestAnimationFrame(() => {
-        // Дополнительная задержка для гарантии рендеринга textarea
-        setTimeout(() => {
-          applyFormPosition();
-        }, 50);
+        requestAnimationFrame(() => {
+          // Дополнительная задержка для гарантии рендеринга textarea и инициализации refs
+          setTimeout(() => {
+            // Проверяем что все refs готовы перед запуском анимации
+            if (wrapperRef && textareaRef && searchInputRef) {
+              applyFormPosition();
+            } else {
+              // Если refs еще не готовы, ждем еще немного
+              setTimeout(() => {
+                if (wrapperRef && textareaRef && searchInputRef) {
+                  applyFormPosition();
+                }
+              }, 100);
+            }
+          }, 50);
+        });
       });
-    });
+    } else {
+      // Fallback для случаев без requestAnimationFrame
+      setTimeout(() => {
+        if (wrapperRef && textareaRef && searchInputRef) {
+          applyFormPosition();
+        }
+      }, 150);
+    }
   };
 
   const handleClose = () => {
@@ -545,7 +571,9 @@ const SearchBar: Component = () => {
   };
 
   onMount(() => {
-    window.addEventListener('resize', handleResize);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize);
+    }
     
     // Initialize date
     const now = new Date();
@@ -555,11 +583,13 @@ const SearchBar: Component = () => {
   });
 
   onCleanup(() => {
-    window.removeEventListener('resize', handleResize);
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', handleResize);
+    }
     
     // Cleanup timeout
-    if (pickerUpdateTimeout !== null) {
-      clearTimeout(pickerUpdateTimeout);
+    if (pickerUpdateTimeout !== null && typeof window !== 'undefined') {
+      window.clearTimeout(pickerUpdateTimeout);
     }
   });
 
@@ -1237,7 +1267,7 @@ const SearchBar: Component = () => {
               </button>
               <button
                 onClick={handleConfirmClose}
-                style="width: 100%; padding: 0.75rem 1.5rem; background: rgba(255, 255, 255, 0.1); border: 2px solid rgba(255, 255, 255, 0.3); border-radius: 12px; font-size: 1rem; font-weight: 600; color: rgba(255, 255, 255, 0.9); cursor: pointer; transition: all 0.2s ease;"
+                style="width: 100%; padding: 0.75rem 1.5rem; background: rgba(255, 255, 255, 0.1); border: none; outline: none; border-radius: 12px; font-size: 1rem; font-weight: 600; color: rgba(255, 255, 255, 0.9); cursor: pointer; transition: all 0.2s ease;"
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
                   e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)';
