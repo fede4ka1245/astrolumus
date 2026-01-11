@@ -602,13 +602,13 @@ function getYears(): SelectOption[] {
 
   // Generate years from 1000 to 3000 (optimized range)
   for (let i = 1000; i <= 3000; i++) {
-    years.push({
-      value: i,
+          years.push({
+              value: i,
       text: i.toString()
-    });
+          });
+      }
+      return years;
   }
-  return years;
-}
   
 function getMonths(): SelectOption[] {
   const months: SelectOption[] = [];
@@ -846,8 +846,8 @@ const DatePicker: Component<DatePickerProps & { ref?: (ref: DatePickerRef | null
         );
         props.onChange?.(newDate);
       }
-    });
-
+  });
+  
     const now = props.value || new Date();
     setTimeout(() => {
       // Set date instantly on first render

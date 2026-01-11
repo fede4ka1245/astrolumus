@@ -1,0 +1,110 @@
+.forecast {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.loaderContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  width: 100%;
+}
+
+.content {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+  margin: 0 auto;
+}
+
+.sectionTabs {
+  display: flex;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  position: relative;
+}
+
+.sectionTabs::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.sectionTab {
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  white-space: nowrap;
+  position: relative;
+}
+
+.sectionTab:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.sectionTabActive {
+  color: var(--color-primary, #ffe433);
+  border-bottom: 2px solid var(--color-primary, #ffe433);
+  z-index: 1;
+}
+
+.sectionContent {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  max-height: calc(100vh - 130px);
+}
+
+.sectionContent::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.answerSection {
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0 8px;
+}
+
+.answerText {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.chartSection {
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.9);
+  width: 100%;
+  box-sizing: border-box;
+}

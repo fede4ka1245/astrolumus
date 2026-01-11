@@ -51,6 +51,7 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    position: relative;
 }
 
 .backButton {
@@ -86,19 +87,36 @@
     white-space: nowrap;
 }
 
+/* Steps wrapper */
+.stepsWrapper {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    margin-left: auto;
+}
+
 /* Steps indicator */
 .steps {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-left: auto;
     overflow-x: auto;
     overflow-y: hidden;
     flex: 1;
     min-width: 0;
     scrollbar-width: thin;
     scrollbar-color: var(--border-color) transparent;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
     overflow: hidden;
+}
+
+.stepsHidden {
+    position: absolute;
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
 }
 
 .steps::-webkit-scrollbar {
@@ -126,7 +144,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    transition: all 0.2s ease;
+    transition: all 0.6s ease;
 }
 
 .stepCompleted {
@@ -200,6 +218,27 @@
     position: relative;
     overflow: hidden;
     flex: 1;
+}
+
+.forecastTitle {
+    font-size: 24px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    transform: translateY(0);
+    opacity: 1;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    animation: slideDownAppear 0.3s ease;
+}
+
+@keyframes slideDownAppear {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .tabContent {
@@ -358,7 +397,7 @@
 }
 
 .nextButton:hover {
-    background: #ffe433;
+    background: var(--color-primary-hover);
     transform: translateY(-2px);
 }
 
@@ -652,21 +691,69 @@
   top: 100%;
   left: 0;
   width: 100%;
-  margin-top: 16px;
+  margin-top: 8px;
   z-index: 100;
 }
 
 .suggestionsHeader {
   display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.suggestionsHeaderRow {
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.suggestionsHeaderRow .nextButton {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  padding: 1rem 2rem;
+  margin-top: 0;
+  font-size: 1.125rem;
+}
+
+.suggestionsHeaderRow .toggleLabel {
+  flex: 0 0 auto;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-lg, 8px);
+  padding: 0.5rem 0.75rem;
+  transition: border-color 0.2s ease;
+  line-height: 1;
+  height: 53px;
+}
+
+.suggestionsHeaderRow .toggleLabel:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.suggestionsHeaderRow .toggleLabel:has(input[type="checkbox"]:checked) {
+  border-color: var(--color-primary, #ffe433);
+}
+
+@media (max-width: 768px) {
+  .suggestionsHeaderRow {
+    gap: 8px;
+  }
 }
 
 .suggestionsCaption {
   font-weight: bold;
   font-size: 18px;
   color: rgba(255, 255, 255, 0.5);
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .suggestionsCaption {
+    font-size: 16px;
+  }
 }
 
 .toggleLabel {
@@ -677,6 +764,17 @@
   color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   user-select: none;
+  white-space: normal;
+  word-wrap: break-word;
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .toggleLabel {
+    font-size: 10px;
+    gap: 8px;
+  }
 }
 
 .toggleLabel input[type="checkbox"] {
@@ -722,7 +820,7 @@
 .manualInputs {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 8px;
   margin-bottom: 16px;
 }
 
@@ -737,14 +835,14 @@
 .submitSection {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 8px;
+  gap: 4px;
+  margin-top: 24px;
 }
 
 .dataRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 4px;
 }
 
 .agreeLabel {
@@ -756,6 +854,7 @@
   cursor: pointer;
   user-select: none;
   margin-bottom: 16px;
+  margin-left: 8px;
 }
 
 .agreeLabel input[type="checkbox"] {
@@ -819,7 +918,7 @@
 .dataLabel {
   font-size: 12px;
   color: rgba(255, 255, 255, 0.6);
-  font-weight: 500;
+  font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -829,6 +928,7 @@
   color: rgba(255, 255, 255, 0.9);
   word-break: break-word;
   line-height: 1.5;
+  margin-top: auto;
 }
 
 .suggestionsList {

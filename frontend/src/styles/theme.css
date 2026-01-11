@@ -5,8 +5,8 @@
   --bg-tertiary: #252528;
   
   /* Primary accent */
-  --color-primary: #ffdd00;
-  --color-primary-hover: #ffe633;
+  --color-primary: #d2b55f;
+  --color-primary-hover: #a58947;
   --color-primary-dim: rgba(255, 221, 0, 0.15);
   
   /* Text colors */
@@ -49,6 +49,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 h1 {

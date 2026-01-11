@@ -3,6 +3,8 @@ import styles from './SearchBar.module.css';
 import clsx from 'clsx';
 import TabsContent from './TabsContent/TabsContent';
 import DatePicker, { DatePickerRef } from './DatePicker/DatePicker';
+import Forecast from './Forecast/Forecast';
+import Modal from './Modal/Modal';
 
 const STEPS = [
   { id: 'question', title: 'Вопрос', fullTitle: 'Задайте ваш вопрос' },
@@ -17,7 +19,7 @@ interface OsmPlace {
   lon: string;
 }
 
-const TABS_ORDER = ['question', 'place', 'time'];
+const TABS_ORDER = ['question', 'place', 'time', 'forecast'];
 
 const SearchBar: Component = () => {
   const [isExpanded, setIsExpanded] = createSignal(false);
@@ -41,6 +43,7 @@ const SearchBar: Component = () => {
   const [manualLat, setManualLat] = createSignal('');
   const [manualLon, setManualLon] = createSignal('');
   const [agreeToSubmit, setAgreeToSubmit] = createSignal(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = createSignal(false);
   let debounceTimer: number | null = null;
 
 
@@ -567,17 +570,79 @@ const SearchBar: Component = () => {
   const currentStepIndex = createMemo(() => TABS_ORDER.indexOf(currentTab()));
 
   const handleBack = () => {
+    if (currentTab() === 'forecast') {
+      setIsConfirmModalOpen(true);
+      return;
+    }
     const currentIndex = getCurrentStepIndex();
     if (currentIndex > 0) {
       setCurrentTab(TABS_ORDER[currentIndex - 1]);
     } else {
+      resetState();
       handleClose();
     }
   };
 
+  const resetState = () => {
+    setQuestionValue('');
+    setTimeValue('');
+    setYearValue('');
+    setCurrentDate(null);
+    setPlaceValue('');
+    setSuggestions([]);
+    setSelectedCoords(null);
+    setSelectedPlace(null);
+    setIsLoadingPlaces(false);
+    setIsPlaceInputFocused(false);
+    setHasSearched(false);
+    setIsManualInput(false);
+    setManualLat('');
+    setManualLon('');
+    setAgreeToSubmit(false);
+  };
+
+  const handleNewQuestion = () => {
+    resetState();
+    setIsConfirmModalOpen(false);
+    // Если уже на табе question, сначала переключаемся на другой таб, чтобы createEffect сработал
+    if (currentTab() === 'question') {
+      setCurrentTab('place');
+      setTimeout(() => {
+        setCurrentTab('question');
+        setTimeout(() => {
+          if (textareaRef) {
+            textareaRef.style.opacity = '1';
+            textareaRef.focus();
+          }
+        }, 50);
+      }, 50);
+    } else {
+      setCurrentTab('question');
+      setTimeout(() => {
+        if (textareaRef) {
+          textareaRef.style.opacity = '1';
+          textareaRef.focus();
+        }
+      }, 100);
+    }
+  };
+
+  const handleConfirmClose = () => {
+    resetState();
+    setIsConfirmModalOpen(false);
+    handleClose();
+  };
+
   const handleNext = () => {
     const currentIndex = getCurrentStepIndex();
-    if (currentIndex < TABS_ORDER.length - 1) {
+    const currentTabValue = currentTab();
+    
+    // Если мы на шаге "Дата рождения" (time) и нажали "Отправить" с галочкой, переходим на Forecast
+    if (currentTabValue === 'time' && agreeToSubmit()) {
+      setCurrentTab('forecast');
+      console.log('Submit form');
+      // Здесь можно добавить отправку данных на сервер
+    } else if (currentIndex < TABS_ORDER.length - 1) {
       setCurrentTab(TABS_ORDER[currentIndex + 1]);
     } else {
       console.log('Submit form');
@@ -592,11 +657,14 @@ const SearchBar: Component = () => {
 
   // ScrollIntoView для активного шага
   createEffect(() => {
-    if (stepsRef && isExpanded()) {
-      const activeStep = stepsRef.querySelector(`#step-${currentTab()}`);
-      if (activeStep) {
-        activeStep.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      }
+    if (stepsRef && isExpanded() && currentTab() !== 'forecast') {
+      // Используем setTimeout для того, чтобы дождаться завершения анимации переключения табов
+      setTimeout(() => {
+        const activeStep = stepsRef?.querySelector(`#step-${currentTab()}`);
+        if (activeStep) {
+          activeStep.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+      }, 100);
     }
   });
 
@@ -647,6 +715,7 @@ const SearchBar: Component = () => {
     if (tab === 'question') return isQuestionValid();
     if (tab === 'place') return isPlaceValid();
     if (tab === 'time') return isTimeValid();
+    if (tab === 'forecast') return true; // Forecast всегда валиден
     return false;
   });
 
@@ -669,7 +738,7 @@ const SearchBar: Component = () => {
           onClick={handleNext}
           disabled={!isCurrentTabValid()}
         >
-          {currentStepIndex() === STEPS.length - 1 ? 'Отправить' : 'Далее'}
+          {currentTab() === 'time' ? 'Отправить' : 'Далее'}
         </button>
       </div>
     ),
@@ -714,21 +783,19 @@ const SearchBar: Component = () => {
             </Show>
           </div>
 
-          <button 
-            class={styles.nextButton}
-            classList={{ [styles.nextButtonDisabled]: !isCurrentTabValid() }}
-            onClick={handleNext}
-            disabled={!isCurrentTabValid()}
-          >
-            {currentStepIndex() === STEPS.length - 1 ? 'Отправить' : 'Далее'}
-          </button>
-          
            {/* Список подсказок OSM */}
              <div class={styles.suggestionsContainer}>
-               <Show when={selectedPlace()} fallback={
-                 <>
-                   <div class={styles.suggestionsHeader}>
-                     <div class={styles.suggestionsCaption}>Выберите локацию</div>
+               <div class={styles.suggestionsHeader}>
+                 <div class={styles.suggestionsHeaderRow}>
+                   <button 
+                     class={styles.nextButton}
+                     classList={{ [styles.nextButtonDisabled]: !isCurrentTabValid() }}
+                     onClick={handleNext}
+                     disabled={!isCurrentTabValid()}
+                   >
+                     {currentTab() === 'time' ? 'Отправить' : 'Далее'}
+                   </button>
+                   <Show when={!selectedPlace() || isManualInput()}>
                      <label class={styles.toggleLabel}>
                        <input
                          type="checkbox"
@@ -753,9 +820,20 @@ const SearchBar: Component = () => {
                            }
                          }}
                        />
-                       <span>Вписать координаты вручную</span>
+                       <span style="max-width: 130px;">Вписать<br />координаты</span>
                      </label>
-                   </div>
+                   </Show>
+                 </div>
+                 <div class={styles.suggestionsCaption}>
+                   <Show when={selectedPlace()} fallback={
+                     <>{isManualInput() ? 'Впишите координаты' : 'Выберите локацию'}</>
+                   }>
+                     {isManualInput() ? 'Впишите координаты' : 'Выберите локацию'}
+                   </Show>
+                 </div>
+               </div>
+               <Show when={selectedPlace()} fallback={
+                 <>
                    <Show when={isManualInput()}>
                      <div class={styles.manualInputs}>
                        <input
@@ -833,8 +911,7 @@ const SearchBar: Component = () => {
                    </Show>
                  </>
                }>
-                 <div class={styles.suggestionsCaption}>Выберите локацию</div>
-                 <div class={styles.suggestionsEmpty}>Локация выбрана!</div>
+                 <div style='margin-top: 8px;' class={styles.suggestionsEmpty}>Локация выбрана!</div>
                </Show>
              </div>
         </div>
@@ -949,12 +1026,18 @@ const SearchBar: Component = () => {
           />
         </div>
         
-          <Show when={currentStepIndex() === STEPS.length - 1}>
+          <Show when={currentTab() === 'time'}>
             <div class={styles.submitSection}>
               <div class={styles.dataRow}>
                 <div class={styles.dataCard}>
-                  <span class={styles.dataLabel}>Вопрос</span>
-                  <span class={styles.dataValue}>{questionValue() || 'Не указан'}</span>
+                <span class={styles.dataLabel}>Координаты рождения</span>
+                <span class={styles.dataValue}>
+                  {selectedPlace() 
+                    ? `${parseFloat(selectedPlace()!.lat).toFixed(6)}, ${parseFloat(selectedPlace()!.lon).toFixed(6)}`
+                    : isManualInput() && selectedCoords()
+                      ? `${selectedCoords()!.lat.toFixed(6)}, ${selectedCoords()!.lon.toFixed(6)}`
+                      : 'Не указано'}
+                </span>
                 </div>
                 <div class={styles.dataCard}>
                   <span class={styles.dataLabel}>Дата рождения</span>
@@ -966,14 +1049,8 @@ const SearchBar: Component = () => {
                 </div>
               </div>
               <div class={styles.dataCard}>
-                <span class={styles.dataLabel}>Место рождения</span>
-                <span class={styles.dataValue}>
-                  {selectedPlace() 
-                    ? `${selectedPlace()!.display_name} (Координаты: ${parseFloat(selectedPlace()!.lat).toFixed(6)}, ${parseFloat(selectedPlace()!.lon).toFixed(6)})`
-                    : isManualInput() && selectedCoords()
-                      ? `Координаты: ${selectedCoords()!.lat.toFixed(6)}, ${selectedCoords()!.lon.toFixed(6)}`
-                      : 'Не указано'}
-                </span>
+                  <span class={styles.dataLabel}>Вопрос</span>
+                  <span class={styles.dataValue}>{questionValue() || 'Не указан'}</span>
               </div>
             
             <label class={styles.agreeLabel}>
@@ -982,21 +1059,47 @@ const SearchBar: Component = () => {
                 checked={agreeToSubmit()}
                 onChange={(e) => setAgreeToSubmit(e.currentTarget.checked)}
               />
-              <span>Согласен отправить на рассчет</span>
+              <span>Данные верны, отправляю на рассчет</span>
             </label>
           </div>
         </Show>
         
         <button 
           class={styles.nextButton}
-          classList={{ [styles.nextButtonDisabled]: !isCurrentTabValid() || (currentStepIndex() === STEPS.length - 1 && !agreeToSubmit()) }}
+          classList={{ [styles.nextButtonDisabled]: !isCurrentTabValid() || (currentTab() === 'time' && !agreeToSubmit()) }}
           onClick={handleNext}
-          disabled={!isCurrentTabValid() || (currentStepIndex() === STEPS.length - 1 && !agreeToSubmit())}
+          disabled={!isCurrentTabValid() || (currentTab() === 'time' && !agreeToSubmit())}
         >
-          {currentStepIndex() === STEPS.length - 1 ? 'Отправить' : 'Далее'}
+          {currentTab() === 'time' ? 'Отправить' : 'Далее'}
         </button>
       </div>
     ),
+    forecast: () => {
+      // Формируем данные для Forecast
+      const placeData = selectedPlace() 
+        ? {
+            name: selectedPlace()!.display_name,
+            lat: parseFloat(selectedPlace()!.lat),
+            lon: parseFloat(selectedPlace()!.lon)
+          }
+        : isManualInput() && selectedCoords()
+          ? {
+              name: `Ручной ввод, Широта: ${selectedCoords()!.lat.toFixed(6)}, Долгота: ${selectedCoords()!.lon.toFixed(6)}`,
+              lat: selectedCoords()!.lat,
+              lon: selectedCoords()!.lon
+            }
+          : null;
+
+      return (
+        <div class={styles.tabPanel}>
+          <Forecast 
+            question={questionValue()}
+            date={currentDate()}
+            place={placeData}
+          />
+        </div>
+      );
+    },
   };
 
   return (
@@ -1008,38 +1111,51 @@ const SearchBar: Component = () => {
             {/* Header с кнопкой назад, названием и steps */}
             <div class={styles.formHeader}>
               <button class={styles.backButton} onClick={handleBack}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <Show when={currentTab() === 'forecast'} fallback={
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                }>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </Show>
               </button>
               {/* <span class={styles.headerTitle}>
                 {STEPS.find(s => s.id === currentTab())?.fullTitle || STEPS[0].fullTitle}
               </span> */}
-              <div class={styles.steps} ref={(el) => stepsRef = el}>
-                <For each={STEPS}>
-                  {(step, index) => (
-                    <>
-                      <div
-                        id={`step-${step.id}`} 
-                        class={clsx(
-                          styles.step,
-                          index() === currentStepIndex() && styles.stepActive,
-                          index() < currentStepIndex() && styles.stepCompleted
-                        )}
-                        onClick={() => index() < currentStepIndex() && setCurrentTab(step.id)}
-                      >
-                        <span class={styles.stepNumber}>{index() + 1}</span>
-                        <span class={styles.stepTitle}>{step.title}</span>
-                      </div>
-                      <Show when={index() < STEPS.length - 1}>
-                        <span class={clsx(
-                          styles.stepSeparator,
-                          index() < currentStepIndex() && styles.stepSeparatorActive
-                        )}>—</span>
-                      </Show>
-                    </>
-                  )}
-                </For>
+              <div class={styles.stepsWrapper}>
+                <div class={clsx(styles.steps, currentTab() === 'forecast' && styles.stepsHidden)} ref={(el) => stepsRef = el}>
+                  <For each={STEPS}>
+                    {(step, index) => (
+                      <>
+                        <div
+                          id={`step-${step.id}`} 
+                          class={clsx(
+                            styles.step,
+                            index() === currentStepIndex() && styles.stepActive,
+                            index() < currentStepIndex() && styles.stepCompleted
+                          )}
+                          onClick={() => index() < currentStepIndex() && setCurrentTab(step.id)}
+                        >
+                          <span class={styles.stepNumber}>{index() + 1}</span>
+                          <span class={styles.stepTitle}>{step.title}</span>
+                        </div>
+                        <Show when={index() < STEPS.length - 1}>
+                          <span class={clsx(
+                            styles.stepSeparator,
+                            index() < currentStepIndex() && styles.stepSeparatorActive
+                          )}>—</span>
+                        </Show>
+                      </>
+                    )}
+                  </For>
+                </div>
+                <Show when={currentTab() === 'forecast'}>
+                  <div class={styles.forecastTitle}>
+                    Ваш Вопрос
+                  </div>
+                </Show>
               </div>
             </div>
 
@@ -1101,6 +1217,41 @@ const SearchBar: Component = () => {
                 </div>
             </div>
         </div>
+        
+        <Modal isOpen={isConfirmModalOpen()} onClose={() => setIsConfirmModalOpen(false)}>
+          <div style="display: flex; flex-direction: column; gap: 8px; padding: 16px">
+            <h2 style="font-size: 1.5rem; line-height: 1.1; font-weight: 600; color: rgba(255, 255, 255, 0.95); margin: 0;">
+              Вы точно хотите закрыть вопрос?
+            </h2>
+            <p style="font-size: 1rem; color: rgba(255, 255, 255, 0.8); margin: 0; line-height: 1.6;">
+              Вы сможете вернуться к вопросу в разделе "Мои прогнозы"
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 0.5rem;">
+              <button
+                onClick={handleNewQuestion}
+                style="width: 100%; padding: 0.75rem 1.5rem; background: var(--color-primary, #ffe433); border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; color: var(--bg-primary, #1a1a1a); cursor: pointer; transition: background 0.2s ease;"
+                onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-primary-hover, #ffd700)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'var(--color-primary, #ffe433)'}
+              >
+                Задать новый вопрос
+              </button>
+              <button
+                onClick={handleConfirmClose}
+                style="width: 100%; padding: 0.75rem 1.5rem; background: rgba(255, 255, 255, 0.1); border: 2px solid rgba(255, 255, 255, 0.3); border-radius: 12px; font-size: 1rem; font-weight: 600; color: rgba(255, 255, 255, 0.9); cursor: pointer; transition: all 0.2s ease;"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                }}
+              >
+                Закрыть
+              </button>
+            </div>
+          </div>
+        </Modal>
     </div>
   );
 };
