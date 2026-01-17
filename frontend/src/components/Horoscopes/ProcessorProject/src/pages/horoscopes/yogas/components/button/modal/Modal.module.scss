@@ -1,0 +1,33 @@
+.main {
+  position: relative;
+}
+
+.header {
+  width: 147px;
+  height: 24px;
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 24px;
+  color: #292E30;
+}
+
+.text {
+  width: 315px;
+  height: 162px;
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  color: #5B6062;
+  border-radius: 5px;
+}
+
+.cross {
+  position: absolute;
+  top: 10px;
+  left: calc(100% - 40px);
+  padding: 5px;
+}

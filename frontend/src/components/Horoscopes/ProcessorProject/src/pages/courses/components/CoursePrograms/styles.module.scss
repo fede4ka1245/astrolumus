@@ -1,0 +1,40 @@
+.lesson {
+  margin-bottom: 30px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.lesson_number {
+  display: inline-block;
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 28px;
+  letter-spacing: -0.4px;
+  color: #192239;
+  background: #00EABD;
+  padding: 10px 30px;
+  margin-bottom: 20px;
+};
+
+.title {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 34px;
+  line-height: 44px;
+  letter-spacing: -0.4px;
+  color: #F9F9F9;
+};
+
+.description {
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 26px;
+  letter-spacing: 0.2px;
+  color: #F9F9F9;
+}

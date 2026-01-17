@@ -11,7 +11,7 @@ const STATIC_ASSETS_REGEX = /\.(js|css|png|jpg|jpeg|gif|svg|ico|webp|woff|woff2|
 const HTML_PLACEHOLDER = '<!--app-html-->';
 const TEMPLATE_PATH = path.resolve(__dirname, '../dist/client/index.html');
 const STATIC_PATH = path.resolve(__dirname, '../dist/client');
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 /**
  * Читает HTML шаблон
@@ -21,10 +21,36 @@ function readTemplate() {
 }
 
 /**
- * Заменяет placeholder на сгенерированный HTML
+ * Заменяет placeholder на сгенерированный HTML и добавляет preload для CSS
  */
 function replacePlaceholder(template, html) {
-  return template.replace(HTML_PLACEHOLDER, html);
+  let result = template.replace(HTML_PLACEHOLDER, html);
+  
+  try {
+    const assetsDir = path.join(STATIC_PATH, 'assets');
+    if (fs.existsSync(assetsDir)) {
+      const files = fs.readdirSync(assetsDir);
+      const cssFiles = files.filter(file => file.endsWith('.css'));
+      
+      if (cssFiles.length > 0) {
+        cssFiles.sort((a, b) => {
+          if (a.startsWith('index-')) return -1;
+          if (b.startsWith('index-')) return 1;
+          return a.localeCompare(b);
+        });
+        
+        const cssPreloads = cssFiles.map(cssFile => 
+          `    <link rel="preload" as="style" href="/assets/${cssFile}" />`
+        ).join('\n') + '\n';
+        
+        result = result.replace('</head>', cssPreloads + '  </head>');
+      }
+    }
+  } catch (error) {
+    console.warn('[SSR] Could not add CSS preload:', error);
+  }
+  
+  return result;
 }
 
 /**
@@ -39,8 +65,8 @@ function sendHTML(res, html) {
  * Обработчик SSR маршрута
  */
 async function handleSSR(req, res, next) {
-  // Пропускаем статические файлы
-  if (req.url.match(STATIC_ASSETS_REGEX)) {
+  // Пропускаем статические файлы и специальные файлы
+  if (req.url.match(STATIC_ASSETS_REGEX) || req.url === '/robots.txt' || req.url === '/sitemap.xml') {
     return next();
   }
 
@@ -75,7 +101,26 @@ async function handleSSR(req, res, next) {
   }
 }
 
-// SSR маршрут должен быть перед статическими файлами
+app.get('/robots.txt', (req, res) => {
+  const robotsPath = path.join(STATIC_PATH, 'robots.txt');
+  if (fs.existsSync(robotsPath)) {
+    res.type('text/plain');
+    res.sendFile(robotsPath);
+  } else {
+    res.status(404).send('Not found');
+  }
+});
+
+app.get('/sitemap.xml', (req, res) => {
+  const sitemapPath = path.join(STATIC_PATH, 'sitemap.xml');
+  if (fs.existsSync(sitemapPath)) {
+    res.type('application/xml');
+    res.sendFile(sitemapPath);
+  } else {
+    res.status(404).send('Not found');
+  }
+});
+
 app.get('*', handleSSR);
 
 // Статические файлы (после SSR маршрута)

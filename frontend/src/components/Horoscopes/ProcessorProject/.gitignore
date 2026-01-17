@@ -1,0 +1,41 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+#icons and splash sreens
+resources/android/icon
+resources/android/splash
+resources/ios/icon
+resources/ios/splash
+resources/
+windows/icon
+resources/windows/splash
+
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+/.idea
+
+/android/.gradle
+/android/.idea
+/android/capacitor-cordova-android-plugins
+/android/gradle
+
+/ios/capacitor-cordova-ios-plugins
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

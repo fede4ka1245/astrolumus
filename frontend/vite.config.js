@@ -7,7 +7,7 @@ export default defineConfig({
   publicDir: 'public',
   server: {
     host: '0.0.0.0',
-    port: 5173,
+    port: 8080,
   },
   build: {
     target: 'esnext',

@@ -1,0 +1,85 @@
+import { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Grid } from '@mui/material';
+
+// routes 
+import { routes } from '../routes';
+
+// components
+import UserHeader from '../../../components/userHeader/UserHeader';
+import Contact from '../../../components/Contact';
+import SectionPreview from '../../../components/sectionPreview';
+import AstroForecast from './components/AstroForecast';
+import Answer from './components/Answer';
+import PageHeader from '../../../components/pageHeader/PageHeader';
+import Background from '../../../components/background/Background';
+
+// images
+import wallet from '../../forum/assets/wallet.svg';
+import search from '../../forum/assets/search.svg'; 
+
+// styles
+import styles from './styles.module.scss';
+import { processorRoutes } from '../../astrlogicalProcessor/processorRoutes';
+import { useIsPaymentsEnabled } from '../../../hooks/useIsPaymentsEnabled';
+
+const ChatList: FC = () => {
+  const navigate = useNavigate();
+  const isPaymentsEnabled = useIsPaymentsEnabled();
+
+  const navigateToGroupChat = () => {
+    navigate(routes.GroupChat);
+  };
+
+  const onWalletClick = () => {
+    navigate(processorRoutes.rates);
+  };
+
+  const onSearchClick = () => {
+  };
+
+  return (
+    <div className={styles.container}>
+      <Background background={'#f0f0f3'} />
+      <UserHeader/>
+      <PageHeader 
+        page={'Чаты'}
+        content={(
+          <Grid display={'flex'} alignItems={'center'}>
+            {isPaymentsEnabled && <Grid item mr={3}>
+              <img src={wallet} onClick={onWalletClick} width={24} height={26}/>
+            </Grid>}
+            <Grid item mr={3}>
+              <svg width="24" height="20" viewBox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.7683 14.6667H17.9349V13C17.9349 12.4805 17.773 11.9739 17.4717 11.5506C17.1704 11.1273 16.7448 10.8084 16.2539 10.6382C15.763 10.468 15.2313 10.4549 14.7326 10.6009C14.234 10.7468 13.7932 11.0445 13.4716 11.4525M13.7683 14.6667H5.43492M13.7683 14.6667V13C13.7683 12.4534 13.6632 11.9309 13.4716 11.4525M13.4716 11.4525C13.1621 10.6792 12.628 10.0163 11.9382 9.54931C11.2484 9.08236 10.4346 8.83279 9.60158 8.83279C8.7686 8.83279 7.95472 9.08236 7.26492 9.54931C6.57512 10.0163 6.04105 10.6792 5.73158 11.4525M5.43492 14.6667H1.26825V13C1.26829 12.4805 1.4302 11.9739 1.73147 11.5506C2.03274 11.1273 2.4584 10.8084 2.94929 10.6382C3.44018 10.468 3.9719 10.4549 4.47053 10.6009C4.96917 10.7468 5.40994 11.0445 5.73158 11.4525M5.43492 14.6667V13C5.43492 12.4534 5.53992 11.9309 5.73158 11.4525M12.1016 3.83337C12.1016 4.49642 11.8382 5.1323 11.3694 5.60114C10.9005 6.06998 10.2646 6.33337 9.60158 6.33337C8.93854 6.33337 8.30266 6.06998 7.83382 5.60114C7.36497 5.1323 7.10158 4.49642 7.10158 3.83337C7.10158 3.17033 7.36497 2.53445 7.83382 2.06561C8.30266 1.59677 8.93854 1.33337 9.60158 1.33337C10.2646 1.33337 10.9005 1.59677 11.3694 2.06561C11.8382 2.53445 12.1016 3.17033 12.1016 3.83337ZM17.1016 6.33337C17.1016 6.7754 16.926 7.19932 16.6134 7.51188C16.3009 7.82445 15.8769 8.00004 15.4349 8.00004C14.9929 8.00004 14.569 7.82445 14.2564 7.51188C13.9438 7.19932 13.7683 6.7754 13.7683 6.33337C13.7683 5.89135 13.9438 5.46742 14.2564 5.15486C14.569 4.8423 14.9929 4.66671 15.4349 4.66671C15.8769 4.66671 16.3009 4.8423 16.6134 5.15486C16.926 5.46742 17.1016 5.89135 17.1016 6.33337ZM5.43492 6.33337C5.43492 6.7754 5.25932 7.19932 4.94676 7.51188C4.6342 7.82445 4.21028 8.00004 3.76825 8.00004C3.32622 8.00004 2.9023 7.82445 2.58974 7.51188C2.27718 7.19932 2.10158 6.7754 2.10158 6.33337C2.10158 5.89135 2.27718 5.46742 2.58974 5.15486C2.9023 4.8423 3.32622 4.66671 3.76825 4.66671C4.21028 4.66671 4.6342 4.8423 4.94676 5.15486C5.25932 5.46742 5.43492 5.89135 5.43492 6.33337Z" stroke="#ABB0B2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </Grid>
+            <Grid item>
+              <img src={search} onClick={onSearchClick} width={23} height={23}/>
+            </Grid>
+          </Grid>
+        )}/>
+      <div className={styles.list}>
+        <div className={styles.list_item}>
+          <Contact/>
+        </div>
+        <div className={styles.list_item} onClick={navigateToGroupChat}>
+          <SectionPreview 
+            isPinned 
+            variant={'group'} 
+            header={'Группа А555'} 
+            body={'Мощный инструмент для профессионального астролога, лёгкий в изучении и удобный в применении для начинающего астролога.'}
+          />
+        </div>
+        <div className={styles.list_item}>
+          <AstroForecast/>
+        </div>
+        <div className={styles.list_item}>
+          <Answer/>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ChatList;

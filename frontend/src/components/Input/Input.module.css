@@ -1,0 +1,87 @@
+.root {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+
+.inputContainer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.input {
+  width: 100%;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--text-primary);
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 64px;
+}
+
+.input:focus {
+  border-color: var(--color-primary);
+  padding-top: 1rem;
+}
+
+.input::placeholder {
+  color: transparent;
+  transition: color 0.3s ease;
+}
+
+.input:focus::placeholder {
+  color: var(--text-caption);
+  transition-delay: 0.2s;
+}
+
+.label {
+  position: absolute;
+  left: 1rem;
+  top: calc(50% - 0.5rem);
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--text-caption);
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: transparent;
+  z-index: 2;
+  white-space: nowrap;
+  padding: 0 0.3rem;
+}
+
+.labelFloating {
+  top: -0.45rem;
+  color: var(--color-primary);
+  font-size: 0.9rem;
+}
+
+/* Когда есть фокус - цвет primary */
+.root:has(.input:focus) > .label {
+  color: var(--color-primary);
+}
+
+/* Когда есть текст, но нет фокуса - цвет border */
+.root:has(.input:not(:placeholder-shown):not(:focus)) > .label {
+  color: var(--text-caption) !important;
+}
+
+.borderOverlay {
+  background: var(--bg-secondary);
+  color: transparent !important;
+}
+
+.borderOverlayVisible {
+  opacity: 1;
+}
+
+.inputContainer:has(.input:focus) .borderOverlay,
+.inputContainer:has(.input:not(:placeholder-shown)) .borderOverlay {
+  opacity: 1;
+}

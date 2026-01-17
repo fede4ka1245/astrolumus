@@ -1,0 +1,16 @@
+.table {
+  width: 100%;
+
+  & > * {
+    width: 100%;
+    padding: 10px 0;
+    font-family: 'Gilroy', sans-serif;
+    font-style: normal;
+    display: inline-grid;
+    grid-template-columns: 3fr 1fr 2fr 1fr;
+
+    &:nth-child(2n) {
+      background: rgba(60, 51, 108, 0.05);
+    }
+  }
+}

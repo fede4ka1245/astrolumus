@@ -1,0 +1,132 @@
+.container {
+  height: 100%;
+  background: #0C121E;
+  padding-bottom: 200px;
+}
+
+.title {
+  z-index: 1;
+  position: relative;
+  font-family: 'Oswald';
+  font-weight: 600;
+  font-size: 34px;
+  line-height: 44px;
+  color: #FFF;
+  letter-spacing: -0.4px;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  z-index: 1;
+  position: relative;
+  font-family: 'Oswald';
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 28px;
+  color: #FFF;
+  letter-spacing: -0.4px;
+}
+
+.yellow_text {
+  font-family: 'Oswald';
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 28px;
+  letter-spacing: -0.4px;
+  color: #F2D113;
+  white-space: pre-wrap;
+}
+
+.description {
+  position: relative;
+  font-family: 'Gilroy';
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 26px;
+  letter-spacing: 0.2px;
+  color: #F9F9F9;
+}
+
+.installment_plan {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #F9F9F9;
+  font-family: 'Oswald';
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 16px;
+  text-transform: uppercase;
+};
+
+.list_item {
+  position: relative;
+  display: flex;
+  font-family: 'Gilroy';
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 24px;
+  letter-spacing: 0.2px;
+  color: #F9F9F9;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin-bottom: 10px;
+  &::before {
+    flex-shrink: 0;
+    content: '';
+    display: block;
+    width: 12px;
+    height: 12px;
+    background: #00EABD;
+    border-radius: 29px;
+    margin-right: 16px;
+    margin-top: 8px;
+  }
+
+  &::last-child { 
+    margin-bottom: 0;
+  }
+};
+
+.link {
+  font-family: 'Gilroy';
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 28px;
+  letter-spacing: 0.2px;
+  text-decoration-line: underline;
+  text-transform: uppercase;
+  color: #00EABD;
+};
+
+.cyan_text {
+  color: #00EABD;
+};
+
+.button {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  background: #00EABD;
+  border-radius: 8px;
+  padding: 14px 0;
+  border: none;
+  width: 100%;
+  font-family: 'Oswald';
+  font-weight: 500;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.payment_title {
+  font-family: 'Raleway', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: 0.2px;
+  color: #F2D113;
+  position: relative;
+  text-align: center;
+}

@@ -1,0 +1,311 @@
+.zones-sudarshana {
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(240, 240, 243, 0.1);
+  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  border-radius: 50%;
+
+  .image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+  }
+
+  .section {
+    position: absolute;
+    width: 10%;
+    height: 10%;
+    font-family: 'Gilroy', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+
+    color: #292E30;
+  }
+
+  .number {
+    position: absolute;
+    font-family: 'Gilroy', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 12px;
+    text-align: center;
+    color: #456AA5;
+  }
+
+  .section-9, .section-21, .section-33 {
+    .number {
+      bottom: 1%;
+      left: 10%;
+    }
+  }
+
+  .section-8, .section-20, .section-32 {
+    .number {
+      bottom: 2%;
+      left: 30%;
+    }
+  }
+
+  .section-7, .section-19, .section-31 {
+    .number {
+      bottom: 0;
+      left: 30%;
+    }
+  }
+
+  .section-6, .section-18, .section-30 {
+    .number {
+      top: 0;
+      left: 20%;
+    }
+  }
+
+  .section-5, .section-17, .section-29 {
+    .number {
+      top: 15%;
+      left: 25%;
+    }
+  }
+
+  .section-4, .section-16, .section-28 {
+    .number {
+      top: 10%;
+      left: 10%;
+    }
+  }
+
+  .section-3, .section-15, .section-27 {
+    .number {
+      top: 10%;
+      right: 0;
+    }
+  }
+
+  .section-2, .section-14, .section-26 {
+    .number {
+      top: 15%;
+      right: 25%;
+    }
+  }
+
+  .section-1, .section-13, .section-25 {
+    .number {
+      top: 0;
+      right: 20%;
+    }
+  }
+
+  .section-12, .section-24, .section-36 {
+    .number {
+      bottom: 0;
+      right: 30%;
+    }
+  }
+
+  .section-11, .section-23, .section-35 {
+    .number {
+      bottom: 2%;
+      right: 30%;
+    }
+  }
+
+  .section-10, .section-22, .section-34 {
+    .number {
+      bottom: 1%;
+      right: 10%;
+    }
+  }
+
+  .section-33 {
+    right: 41%;
+    top: 33%;
+  }
+
+  .section-32 {
+    right: 36%;
+    top: 37%;
+  }
+
+  .section-31 {
+    right: 34%;
+    top: 41%;
+  }
+
+  .section-30 {
+    right: 33%;
+    bottom: 38%;
+  }
+
+  .section-29 {
+    right: 36%;
+    bottom: 35%;
+  }
+
+  .section-28 {
+    right: 41%;
+    bottom: 31%;
+  }
+
+  .section-27 {
+    left: 39%;
+    bottom: 31%;
+  }
+
+  .section-26 {
+    left: 35%;
+    bottom: 35%;
+  }
+
+  .section-25 {
+    left: 32%;
+    bottom: 38%;
+  }
+
+  .section-36 {
+    left: 33%;
+    top: 41%;
+  }
+
+  .section-35 {
+    left: 35%;
+    top: 37%;
+  }
+
+  .section-34 {
+    left: 40%;
+    top: 33%;
+  }
+
+  .section-21 {
+    right: 41%;
+    top: 24%;
+  }
+
+  .section-20 {
+    right: 28%;
+    top: 32%;
+  }
+
+  .section-19 {
+    right: 25%;
+    top: 41%;
+  }
+
+  .section-18 {
+    right: 24%;
+    bottom: 38%;
+  }
+
+  .section-17 {
+    right: 28%;
+    bottom: 30%;
+  }
+
+  .section-16 {
+    right: 41%;
+    bottom: 21%;
+  }
+
+  .section-15 {
+    left: 39%;
+    bottom: 21%;
+  }
+
+  .section-14 {
+    left: 27%;
+    bottom: 30%;
+  }
+
+  .section-13 {
+    left: 23%;
+    bottom: 38%;
+  }
+
+  .section-24 {
+    left: 24%;
+    top: 41%;
+  }
+
+  .section-23 {
+    left: 27%;
+    top: 32%;
+  }
+
+  .section-22 {
+    left: 40%;
+    top: 24%;
+  }
+
+  .section-9 {
+    right: 41%;
+    top: 15%;
+  }
+
+  .section-8 {
+    right: 20%;
+    top: 27%;
+  }
+
+  .section-7 {
+    right: 16%;
+    top: 41%;
+  }
+
+  .section-6 {
+    right: 15%;
+    bottom: 38%;
+  }
+
+  .section-5 {
+    right: 20%;
+    bottom: 25%;
+  }
+
+  .section-4 {
+    right: 41%;
+    bottom: 12%;
+  }
+
+  .section-3 {
+    left: 39%;
+    bottom: 12%;
+  }
+
+  .section-2 {
+    left: 19%;
+    bottom: 25%;
+  }
+
+  .section-1 {
+    left: 14%;
+    bottom: 38%;
+  }
+
+  .section-12 {
+    left: 15%;
+    top: 41%;
+  }
+
+  .section-11 {
+    left: 19%;
+    top: 27%;
+  }
+
+  .section-10 {
+    left: 40%;
+    top: 15%;
+  }
+}

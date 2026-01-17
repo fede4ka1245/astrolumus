@@ -1,0 +1,38 @@
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 30px;
+  height: 30px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+  -webkit-touch-callout: none; /* iOS Safari */
+  width: 30px;
+  height: 30px;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  border: none;
+  background: none;
+}
+
+.fill {
+  position: absolute !important;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  z-index: 100;
+
+  &:active {
+    background: rgba(172, 180, 190, 0.2);
+    border: 0.5px solid rgba(172, 180, 190, 0.4);
+  }
+}

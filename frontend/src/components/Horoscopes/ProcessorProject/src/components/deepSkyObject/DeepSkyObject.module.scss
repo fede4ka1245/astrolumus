@@ -1,0 +1,78 @@
+.toolTip {
+  background: linear-gradient(0deg, #FFFFFF, #FFFFFF), #CDCDDD;
+  box-shadow: 5px 5px 20px rgba(174, 174, 192, 0.5);
+  padding: 5px 10px;
+  border-radius: 30px;
+  pointer-events: none;
+  z-index: 100;
+  margin-bottom: 15px;
+}
+
+.text {
+  font-family: 'Gilroy', sans-serif;
+  font-size: 16px;
+  color: black;
+  word-break: keep-all;
+  white-space: nowrap;
+}
+
+.objectType {
+  font-weight: bold;
+  max-width: 100px;
+  margin-right: 8px;
+}
+
+.imageWrapper {
+  z-index: 20;
+  pointer-events: all;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1.5px;
+}
+
+.image {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  padding: 1px;
+}
+
+@media screen and (max-width: 460px) {
+  .imageWrapper {
+    width: 22px;
+    height: 24px;
+  }
+
+  .image {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+@media screen and (min-width: 460px) {
+  .imageWrapper {
+    width: 28px;
+    height: 28px;
+  }
+
+  .image {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+
+@media screen and (min-width: 500px) {
+  .imageWrapper {
+    width: 32px;
+    height: 32px;
+  }
+
+  .image {
+    width: 32px;
+    height: 32px;
+  }
+}

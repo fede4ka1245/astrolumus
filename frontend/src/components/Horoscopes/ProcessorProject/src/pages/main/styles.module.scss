@@ -1,0 +1,32 @@
+.quantity {
+  background: linear-gradient(88.23deg, #37366B 0.29%, #5C5B9F 42.18%, #59ABDA 97.3%);
+  backdrop-filter: blur(9.5px);
+  padding: 6px;
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 12px;
+  text-align: center;
+  color: #FFFFFF;
+  border-radius: 75px;
+}
+
+.title {
+  font-family: 'Gilroy';
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 14px;
+  color:#37366B;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  &::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color:#37366B    ;
+    margin-right: 14px;
+  }
+}

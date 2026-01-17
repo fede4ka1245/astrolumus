@@ -1,0 +1,71 @@
+.table {
+  width: 100%;
+
+  & > * {
+    width: 100%;
+    font-family: 'Gilroy', sans-serif;
+    font-style: normal;
+    display: inline-grid;
+    grid-template-columns: 3fr 1fr 1fr;
+    height: 32px;
+
+    &:nth-child(2n) {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+.degrees {
+  font-family: 'Gilroy', sans-serif;
+  font-style: normal;
+  font-weight: 700 !important;
+  font-size: 13px;
+  line-height: 33px;
+  color: #FFFFFF;
+}
+
+.header {
+  font-family: 'Gilroy', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #FFFFFF;
+  height: 15px;
+}
+
+.planetAdditionalInfo {
+  font-family: 'Gilroy', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 33px;
+  color: #B4B3FF;
+}
+
+.planet {
+  font-family: 'Gilroy', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 12px;
+  color: #FFFFFF;
+}
+
+.planetSign {
+  font-family: 'Gilroy', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 32px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.degrees {
+  font-family: 'Gilroy', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 33px;
+  color: #FFFFFF;
+}

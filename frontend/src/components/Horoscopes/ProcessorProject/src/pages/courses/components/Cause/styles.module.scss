@@ -1,0 +1,69 @@
+.list_container {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+};
+
+.list {
+  display: flex;
+  align-items: flex-start;
+  padding: 0 24px;
+  width: 100vw;
+  overflow: scroll;
+}
+
+.gradient {
+  position: absolute;
+  right: 0;
+  background: linear-gradient(270deg, #0C121E 0%, rgba(12, 18, 30, 0) 100%);
+  width: 90px;
+  pointer-events: none;
+  height: 100%;
+};
+
+.item_container {
+  flex-shrink: 0;
+  width: 175px;
+  margin-right: 40px;
+  overflow: hidden;
+}
+
+.item_number {
+  background: url('../../images/orbitRadial.svg') center center/cover no-repeat;
+  height: 135px;
+  width: 130px;
+  padding: 0 8px;
+  color: #F2D113;
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 100px;
+  line-height: 100px;
+  letter-spacing: -0.4px;
+  text-transform: uppercase;
+};
+
+.item_text {
+  font-family: 'Gilroy';
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 24px;
+  letter-spacing: 0.2px;
+  color: #F9F9F9;
+}
+.description {
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 24px;
+  letter-spacing: 0.2px;
+  color: #F9F9F9;
+};
+
+.wrapper {
+  position: relative;
+  padding: 0 28px;
+  background: url('../../images/purpleGradient.png') center center/cover no-repeat;
+  margin-bottom: 32px;
+}

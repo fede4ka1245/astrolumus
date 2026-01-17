@@ -1,0 +1,64 @@
+.avatar {
+  position: relative;
+  z-index: 1;
+  width: 65%;
+  margin-bottom: 23px;
+}
+
+.title {
+  margin-bottom: 20px;
+}
+
+.name {
+  font-family: 'Oswald';
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 40px;
+  letter-spacing: -0.4px;
+  color: #F2D113;
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  font-family: 'Oswald';
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: 0.2px;
+  color: #F9F9F9;
+  margin-bottom: 20px;
+}
+
+.description {
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 24px;
+  letter-spacing: 0.2px;
+  color: #F9F9F9;
+  margin-bottom: 8px;
+}
+
+.teacher_image {
+  position: relative;
+  height: 325px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url(./images/profile-main.svg) center center/contain no-repeat;
+  margin-bottom: 20px;
+}
+
+.shadow {
+  position: absolute;
+  width: 35.72px;
+  height: 173.22px;
+  background: #00EABD;
+  filter: blur(55.3556px);
+  transform: matrix(0.16, -1, 0.96, 0.23, 0, 0);
+  left: 110px;
+  top: 20px;
+}
+

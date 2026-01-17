@@ -49,6 +49,8 @@ const Forecast: Component<ForecastProps> = (props) => {
               classList={{ [styles.sectionTabActive]: activeSection() === 'answer' }}
               onClick={() => setActiveSection('answer')}
               data-section="answer"
+              aria-label="Переключить на раздел 'Ответ на вопрос'"
+              aria-pressed={activeSection() === 'answer'}
             >
               Ответ на вопрос
             </button>
@@ -57,6 +59,8 @@ const Forecast: Component<ForecastProps> = (props) => {
               classList={{ [styles.sectionTabActive]: activeSection() === 'chart' }}
               onClick={() => setActiveSection('chart')}
               data-section="chart"
+              aria-label="Переключить на раздел 'Натальная карта'"
+              aria-pressed={activeSection() === 'chart'}
             >
               Натальная карта
             </button>
@@ -79,9 +83,17 @@ const Forecast: Component<ForecastProps> = (props) => {
               </div>
             </Show>
             
-            <Show when={activeSection() === 'chart'}>
+            <Show when={activeSection() === 'chart' && props.place && props.date}>
               <div class={styles.chartSection}>
-                <p>Натальная карта будет здесь...</p>
+                {/* <Horoscope
+                  birthPlace={{
+                    name: props.place?.name || '',
+                    latitude: props.place?.lat || 0,
+                    longitude: props.place?.lon || 0
+                  }}
+                  birthDate={props.date ? props.date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '.') : ''}
+                  birthTime={props.date ? props.date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) : ''}
+                /> */}
               </div>
             </Show>
           </div>

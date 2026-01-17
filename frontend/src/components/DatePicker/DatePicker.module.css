@@ -100,6 +100,7 @@
 @media (max-width: 768px) {
   .pickerContainer {
     gap: 8px;
+    height: 150px;
   }
 }
 

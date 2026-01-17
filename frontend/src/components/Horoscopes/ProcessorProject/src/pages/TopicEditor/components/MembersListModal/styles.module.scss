@@ -1,0 +1,37 @@
+.search {
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  border: 1px solid #C3C9CD;
+
+  input {
+    background-color: transparent;
+    font-family: 'Gilroy';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    flex: 1;
+    padding: 10px 5px;
+    transition: 0.5s;
+    outline: none;
+    border: none;
+  }
+}
+
+
+.profilePhoto {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: gray;
+}
+
+.selected_users {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #5B6062;
+}

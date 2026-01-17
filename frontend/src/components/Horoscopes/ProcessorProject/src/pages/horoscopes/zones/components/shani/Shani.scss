@@ -1,0 +1,162 @@
+.zones-shani {
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  aspect-ratio: 332 / 335;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(240, 240, 243, 0.1);
+  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  border-radius: 50%;
+
+  .image {
+    width: 100%;
+    aspect-ratio: 332 / 335;
+  }
+
+  .section {
+    position: absolute;
+  }
+
+  .section-1 {
+    top: 2%;
+    left: calc(50% - 15px);
+  }
+
+  .section-1 {
+    top: 2%;
+    left: calc(50% - 15px);
+  }
+
+  .section-2 {
+    top: 15%;
+    left: calc(45% - 15px);
+  }
+
+  .section-3 {
+    top: 16%;
+    left: calc(50% - 15px);
+  }
+
+  .section-4 {
+    top: 15%;
+    left: calc(55% - 15px);
+  }
+
+  .section-5 {
+    top: 70%;
+    left: calc(50% - 15px);
+  }
+
+  .section-6 {
+    top: 75%;
+    left: calc(50% - 15px);
+  }
+
+  .section-7 {
+    top: 8%;
+    left: calc(48% - 15px);
+  }
+
+  .section-8 {
+    top: 8%;
+    left: calc(52% - 15px);
+  }
+
+  .section-9 {
+    top: 40%;
+    left: calc(40% - 15px);
+  }
+
+  .section-10 {
+    top: 35%;
+    left: calc(45% - 15px);
+  }
+
+  .section-11 {
+    top: 30%;
+    left: calc(50% - 15px);
+  }
+
+  .section-12 {
+    top: 35%;
+    right: calc(45% - 15px);
+  }
+
+  .section-13 {
+    top: 40%;
+    right: calc(40% - 15px);
+  }
+
+  .section-14 {
+    top: 35%;
+    right: calc(35% - 15px);
+  }
+
+  .section-15 {
+    top: 55%;
+    right: calc(28% - 15px);
+  }
+
+  .section-16 {
+    top: 70%;
+    right: calc(20% - 15px);
+  }
+
+  .section-17 {
+    top: 90%;
+    right: calc(5% - 15px);
+  }
+
+  .section-18 {
+    top: 90%;
+    right: calc(15% - 15px);
+  }
+
+  .section-19 {
+    top: 86%;
+    right: calc(40% - 15px);
+  }
+
+  .section-20 {
+    top: 80%;
+    right: calc(60% - 15px);
+  }
+
+  .section-21 {
+    top: 90%;
+    left: calc(15% - 15px);
+  }
+
+  .section-22 {
+    top: 86%;
+    left: calc(40% - 15px);
+  }
+
+  .section-23 {
+    top: 80%;
+    left: calc(60% - 15px);
+  }
+
+  .section-24 {
+    top: 35%;
+    left: calc(35% - 15px);
+  }
+
+  .section-25 {
+    top: 55%;
+    left: calc(28% - 15px);
+  }
+
+  .section-26 {
+    top: 70%;
+    left: calc(20% - 15px);
+  }
+
+  .section-27 {
+    top: 90%;
+    left: calc(5% - 15px);
+  }
+}

@@ -1,0 +1,25 @@
+<svg width="67" height="70" viewBox="0 0 67 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="1" y="4.00024" width="62" height="62" rx="4" stroke="white" stroke-width="2"/>
+    <path d="M2.5 5.50024L32 35.0002L2.5 64.5002" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    <path d="M1.41409 35.0001L32.4142 4H34L34 36.5L34 66.0002H32.4142L1.41409 35.0001Z" stroke="white" stroke-width="2"/>
+    <g opacity="0.8">
+        <mask id="path-4-inside-1_747_56237" fill="white">
+            <path d="M48 33H63V35H48V33Z"/>
+        </mask>
+        <path d="M48 33V31H46V33H48ZM63 33H65V31H63V33ZM63 35V37H65V35H63ZM48 35H46V37H48V35ZM48 35H63V31H48V35ZM61 33V35H65V33H61ZM63 33H48V37H63V33ZM50 35V33H46V35H50Z" fill="white" mask="url(#path-4-inside-1_747_56237)"/>
+    </g>
+    <g opacity="0.8">
+        <mask id="path-6-inside-2_747_56237" fill="white">
+            <path d="M35 18H63V20H35V18Z"/>
+        </mask>
+        <path d="M35 18V16H33V18H35ZM63 18H65V16H63V18ZM63 20V22H65V20H63ZM35 20H33V22H35V20ZM35 20H63V16H35V20ZM61 18V20H65V18H61ZM63 18H35V22H63V18ZM37 20V18H33V20H37Z" fill="white" mask="url(#path-6-inside-2_747_56237)"/>
+    </g>
+    <g opacity="0.8">
+        <mask id="path-8-inside-3_747_56237" fill="white">
+            <path d="M35 49H63V51H35V49Z"/>
+        </mask>
+        <path d="M35 49V47H33V49H35ZM63 49H65V47H63V49ZM63 51V53H65V51H63ZM35 51H33V53H35V51ZM35 51H63V47H35V51ZM61 49V51H65V49H61ZM63 49H35V53H63V49ZM37 51V49H33V51H37Z" fill="white" mask="url(#path-8-inside-3_747_56237)"/>
+    </g>
+    <rect x="32" width="3" height="70" fill="white"/>
+    <rect x="47" y="5" width="2" height="60" fill="white"/>
+</svg>

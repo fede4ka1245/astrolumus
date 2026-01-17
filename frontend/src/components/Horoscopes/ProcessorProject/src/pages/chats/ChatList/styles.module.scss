@@ -1,0 +1,12 @@
+.container {
+  min-height: 100vh;
+  background: #F0F0F3;
+  backdrop-filter: blur(13.5914px);
+}
+
+.list {
+  padding: 16px 16px 0 16px;
+  &_item {
+    margin-bottom: 10px;
+  }
+}

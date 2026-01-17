@@ -1,0 +1,16 @@
+.placemark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 100;
+}
+
+.red {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: red;
+  z-index: 1000;
+  left: calc(50% - 2px);
+  top: calc(50% - 2px);
+}

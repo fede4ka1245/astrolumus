@@ -1,0 +1,162 @@
+.zones-compass-table {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: rgba(240, 240, 243, 0.1);
+  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  border-radius: 10px;
+
+  .image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+  }
+
+  .section {
+    position: absolute;
+  }
+
+  .section-1 {
+    top: 3%;
+    left: calc(50% - 15px);
+  }
+
+  .section-2 {
+    top: 1%;
+    left: calc(66% - 15px);
+  }
+
+  .section-7 {
+    right: 1%;
+    top: calc(34% - 15px);
+  }
+
+  .section-8 {
+    right: 3%;
+    top: calc(50% - 15px);
+  }
+
+  .section-14 {
+    bottom: 1%;
+    right: calc(34% - 15px);
+  }
+
+  .section-13 {
+    bottom: 3%;
+    right: calc(50% - 15px);
+  }
+
+  .section-22 {
+    left: 3%;
+    top: calc(50% - 15px);
+  }
+
+  .section-16 {
+    bottom: 1%;
+    right: calc(66% - 15px);
+  }
+
+  .section-9 {
+    right: 1%;
+    bottom: calc(34% - 15px);
+  }
+
+  .section-21 {
+    left: 1%;
+    bottom: calc(34% - 15px);
+  }
+
+  .section-15 {
+    bottom: 3%;
+    left: calc(50% - 15px);
+  }
+
+  .section-23 {
+    left: 1%;
+    bottom: calc(66% - 15px);
+  }
+
+  .section-28 {
+    left: calc(34% - 15px);
+    top: 1%;
+  }
+
+  .section-3 {
+    top: 27%;
+    right: 38%;
+  }
+
+  .section-6 {
+    top: 38%;
+    right: 27%;
+  }
+
+  .section-13 {
+    bottom: 27%;
+    right: 38%;
+  }
+
+  .section-27 {
+    top: 27%;
+    left: 38%;
+  }
+
+  .section-24 {
+    top: 38%;
+    left: 27%;
+  }
+
+  .section-10 {
+    bottom: 38%;
+    right: 27%;
+  }
+
+  .section-20 {
+    bottom: 38%;
+    left: 27%;
+  }
+
+  .section-17 {
+    bottom: 27%;
+    left: 38%;
+  }
+
+  .section-4 {
+    top: 35%;
+    right: 41%;
+  }
+
+  .section-5 {
+    top: 41%;
+    right: 35%;
+  }
+
+  .section-11 {
+    bottom: 41%;
+    right: 35%;
+  }
+
+  .section-12 {
+    bottom: 35%;
+    right: 41%;
+  }
+
+  .section-18 {
+    bottom: 35%;
+    left: 41%;
+  }
+
+  .section-19 {
+    bottom: 41%;
+    left: 35%;
+  }
+
+  .section-25 {
+    top: 41%;
+    left: 35%;
+  }
+
+  .section-26 {
+    top: 35%;
+    left: 41%;
+  }
+}

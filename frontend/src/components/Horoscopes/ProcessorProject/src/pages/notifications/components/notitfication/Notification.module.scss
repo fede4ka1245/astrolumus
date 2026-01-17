@@ -1,0 +1,42 @@
+.main {
+  width: 100%;
+  height: 60px;
+  border-radius: 10px;
+}
+
+.more {
+  padding: 12px 8px 8px 8px;
+}
+
+.text {
+  color: #261C5C;
+  font-family: 'Gilroy', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.dark {
+  background: #2C2C2C;
+
+  .text {
+    color: #FFFFFF !important;
+  }
+}
+
+.white {
+  background: rgba(255, 255, 255);
+
+  .text {
+    color: #261C5C !important;
+  }
+}
+
+.gradient {
+  background: linear-gradient(268.23deg, #37366B 2.7%, #5C5B9F 44.59%, #59ABDA 99.71%), #C4C4C4;
+
+  .text {
+    color: #FFFFFF !important;
+  }
+}

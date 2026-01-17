@@ -1,0 +1,127 @@
+.steps {
+  padding: 35px 25px;
+  background-color: #000;
+  &_title {
+    margin-bottom: 23px;
+  }
+}
+
+.additional {
+  margin-bottom: 15px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+  &_card {
+    height: 190px;
+    background: url(./images/galaxy.png) center center/cover no-repeat;
+    border-radius: 10px;
+    position: relative;
+    margin-bottom: 8px;
+    // &::before {
+    //   content: '';
+    //   position: absolute;
+    //   height: 70px;
+    //   width: 100%;
+    //   background: linear-gradient(180deg, #000000 0%, rgba(0, 0, 0, 0) 100%);
+    //   transform: matrix(1, 0, 0, -1, 0, 0);
+    //   bottom: 0;
+    // }
+  }
+  
+  &_content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    z-index: 1;
+  }
+  
+  &_header {
+    height: 30px;
+    padding: 7px 15px;
+    box-sizing: border-box;
+    font-family: 'Gilroy';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+    color: #FFFFFF;
+    border-radius: 10px 10px 0px 0px;
+    background: linear-gradient(88.23deg, #37366B 0.29%, #5C5B9F 42.18%, #59ABDA 97.3%), #F0F0F3;
+  }
+  
+  &_footer {
+    padding: 15px 23px;
+  }
+  
+  &_title {
+    font-family: 'Gilroy';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 16px;
+    color: #FFFFFF;
+    margin-bottom: 2px;
+  }
+  
+  &_date {
+    font-family: 'Gilroy';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    color: #FFFFFF;
+    
+  }
+
+  &_info {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &_btn {
+    font-family: 'Gilroy';
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: #59ABDA;
+    text-decoration: none;
+  }
+
+  &_prices {
+    display: flex;
+  }
+
+  &_full_price {
+    font-family: 'Gilroy';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 32px;
+    color: #7EDEF5;
+    margin-right: 8px;
+  }
+
+  &_discount_price {
+    font-family: 'Gilroy';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 32px;
+    text-decoration-line: line-through;
+    color: #9EA2A8;
+    opacity: 0.6;
+  }
+
+  &_second_date {
+    font-family: 'Gilroy';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 12px;
+    color: #7EDEF5;
+  }
+}
+
+

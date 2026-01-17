@@ -1,0 +1,297 @@
+.transit-south {
+  .blur {
+    position: absolute;
+    width: calc(100% - 60px);
+    height: calc(100% - 60px);
+    border: solid 30px rgba(#000, .2);
+    z-index: 10;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .transited-sector {
+    position: absolute;
+    font-family: 'Gilroy', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 11px;
+    line-height: 15px;
+    color: #C963DA;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .transited-sector-1, .transited-sector-2, .transited-sector-3, .transited-sector-12, .transited-sector-9, .transited-sector-8, .transited-sector-7, .transited-sector-6 {
+    height: 30px;
+    width: 25%;
+  }
+
+  .transited-sector-1 {
+    left: 25%;
+    top: 0;
+  }
+
+  .transited-sector-2 {
+    left: 50%;
+    top: 0;
+  }
+
+  .transited-sector-12 {
+    left: 0;
+    top: 0;
+  }
+
+  .transited-sector-3 {
+    left: 75%;
+    top: 0;
+  }
+
+  .transited-sector-6 {
+    right: 0;
+    bottom: 0;
+  }
+
+  .transited-sector-7 {
+    right: 25%;
+    bottom: 0;
+  }
+
+  .transited-sector-8 {
+    right: 50%;
+    bottom: 0;
+  }
+
+  .transited-sector-9 {
+    left: 0;
+    bottom: 0;
+  }
+
+  .transited-sector-10, .transited-sector-11, .transited-sector-4, .transited-sector-5 {
+    height: 25%;
+    width: 30px;
+  }
+
+  .transited-sector-4 {
+    right: 0;
+    top: 25%;
+  }
+
+  .transited-sector-5 {
+    right: 0;
+    top: 50%;
+  }
+
+  .transited-sector-10 {
+    left: 0;
+    top: 50%;
+  }
+
+  .transited-sector-11 {
+    left: 0;
+    top: 25%;
+  }
+
+  .sector-12 {
+    .info {
+      width: calc(100% - 30px);
+      height: calc(100% - 30px);
+      bottom: 0;
+      left: 30px;
+      position: absolute;
+    }
+  }
+
+  .sector-2, .sector-1 {
+    .info {
+      width: 100%;
+      height: calc(100% - 30px);
+      bottom: 0;
+      right: 0;
+      position: absolute;
+    }
+  }
+
+  .sector-3 {
+    .info {
+      width: calc(100% - 30px);
+      height: calc(100% - 30px);
+      bottom: 0;
+      right: 30px;
+      position: absolute;
+    }
+  }
+
+  .sector-4, .sector-5 {
+    .info {
+      width: calc(100% - 30px);
+      height: 100%;
+      bottom: 0;
+      left: 0;
+      position: absolute;
+    }
+  }
+
+  .sector-6 {
+    .info {
+      width: calc(100% - 30px);
+      height: calc(100% - 30px);
+      top: 0;
+      left: 0;
+      position: absolute;
+    }
+  }
+
+  .sector-7, .sector-8 {
+    .info {
+      width: 100%;
+      height: calc(100% - 30px);
+      top: 0;
+      position: absolute;
+    }
+  }
+
+  .sector-9 {
+    .info {
+      width: calc(100% - 30px);
+      height: calc(100% - 30px);
+      top: 0;
+      right: 0;
+      position: absolute;
+    }
+  }
+
+  .sector-10, .sector-11 {
+    .info {
+      width: calc(100% - 30px);
+      height: 100%;
+      top: 0;
+      right: 0;
+      position: absolute;
+    }
+  }
+}
+
+.deep-sky {
+  .main-info {
+    color: white !important;
+  }
+
+  .additional-info {
+    color: white !important;
+  }
+}
+
+.astro-processor-south-map {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+
+  .highlighted {
+    transition: all 200ms ease-out;
+
+    &:active {
+      background: #5C5B9F;
+      transform: scale(0.9);
+      opacity: 0.8;
+    }
+  }
+
+  .image {
+    z-index: -1;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    height: 100%;
+  }
+
+  .sector {
+    width: 25%;
+    height: 25%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .index {
+      display: none;
+    }
+  }
+
+  .info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .highlighted {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 18;
+    border-radius: 0;
+  }
+
+  .sector-1 {
+    left: 25%;
+    top: 0;
+  }
+
+  .sector-2 {
+    left: 50%;
+    top: 0;
+  }
+
+  .sector-3 {
+    left: 75%;
+    top: 0;
+  }
+
+  .sector-4 {
+    right: 0;
+    top: 25%;
+  }
+
+  .sector-5 {
+    right: 0;
+    top: 50%;
+  }
+
+  .sector-6 {
+    right: 0;
+    top: 75%;
+  }
+
+  .sector-7 {
+    right: 25%;
+    bottom: 0;
+  }
+
+  .sector-8 {
+    right: 50%;
+    bottom: 0;
+  }
+
+  .sector-9 {
+    right: 75%;
+    bottom: 0;
+  }
+
+  .sector-10 {
+    left: 0;
+    bottom: 25%;
+  }
+
+  .sector-11 {
+    bottom: 50%;
+    left: 0;
+  }
+
+  .sector-12 {
+    bottom: 75%;
+    left: 0;
+  }
+}

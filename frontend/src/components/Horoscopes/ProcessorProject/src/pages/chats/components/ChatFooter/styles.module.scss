@@ -1,0 +1,47 @@
+.footer {
+  display: flex;
+  position: fixed;
+  z-index: 1;
+  bottom: 0;
+  height: 64px;
+  box-sizing: border-box;
+  width: 100%;
+  background: rgba(240, 240, 243, 0.8);
+  box-shadow: 5px 5px 20px rgba(174, 174, 192, 0.5);
+  backdrop-filter: blur(2.5px);
+  border-radius: 20px 20px 0px 0px;
+  padding: 7px;
+};
+
+.input {
+  flex: 1;
+  width: 100%;
+  background: #FFFFFF;
+  border-radius: 10px;
+  border: none;
+  padding-right: 40px;
+  padding-left: 20px;
+  outline: none;
+  &::placeholder {
+    font-family: 'Gilroy';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: rgba(41, 46, 48, 0.2);
+  };
+};
+
+.icon {
+  width: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.send {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}

@@ -1,0 +1,13 @@
+.option {
+  padding: 3px 16px;
+  min-height: 36px;
+  font-size: 18px;
+  font-weight: 500;
+  font-family: 'Gilroy', sans-serif;
+  border-top: rgba(184, 178, 178, 0.34) 0.5px solid;
+  color: black;
+
+  &:active {
+    background: rgba(184, 178, 178, 0.34);
+  }
+}

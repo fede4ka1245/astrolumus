@@ -1,0 +1,71 @@
+.quill-conatiner{
+  background-color: #FFF;
+  border-radius: 10px;
+  width: 100%;
+
+  .quill {
+    background-color: #FFF;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+  }
+
+  .ql-toolbar {
+    border: none;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    padding: 8px;
+    .ql-formats {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-right: 0;
+      opacity: 0.5;
+      &:after {
+        display: none;
+      }
+    }
+  }
+
+
+
+  .ql-container {
+    border: none;
+  }
+
+  .ql-editor {
+    font-family: 'Gilroy';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 17px;
+    &.ql-blank::before  {
+      color: rgba(0,0,0,0.6);
+      font-family: 'Gilroy';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 17px;
+      color: #ABB0B2;
+      content: attr(data-placeholder);
+      left: 15px;
+      pointer-events: none;
+      position: absolute;
+      right: 15px;
+    }
+  }
+
+}
+
+.quil-error-message {
+  color: rgba(220, 0, 0, 0.6);
+  font-family: "Gilroy", sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 12px;
+  text-align: right;
+  padding-top: 7px;
+  padding-right: 12px;
+}

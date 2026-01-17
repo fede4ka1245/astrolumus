@@ -1,0 +1,39 @@
+.main {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  height: 240px;
+  max-height: 400px;
+}
+
+.image {
+  object-fit: cover;
+  box-shadow: 0 10px 30px rgba(89, 171, 218, 0.4);
+  border-radius: 10px;
+  z-index: 0;
+  width: 100%;
+  position: absolute;
+  max-height: 240px;
+  min-height: 240px;
+}
+
+.timeHint {
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 12px;
+  text-align: center;
+  color: #FFFFFF;
+  border-radius: 74.5556px;
+  position: absolute;
+  left: calc(100% - 70px);
+  top: -10px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(19px);
+  padding: 6px 10px;
+}
+
+.info {
+  margin-top: auto;
+}

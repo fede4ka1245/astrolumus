@@ -1,0 +1,27 @@
+.forum-slider {
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 288px;
+    width: 288px;
+  }
+  .swiper-pagination {
+    .swiper-pagination-bullet {
+      list-style-type: none;
+      margin-right: 6px;
+      border: none;
+      width: 6px;
+      height: 6px;
+      opacity: 0.7;
+      background: #5C5B9F;
+      list-style-type: none;
+      border-radius: 50%;
+      &-active {
+        opacity: 1;
+      }
+    }
+
+  }
+}
+

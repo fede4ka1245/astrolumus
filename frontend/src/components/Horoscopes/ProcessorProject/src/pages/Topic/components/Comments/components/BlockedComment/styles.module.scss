@@ -1,0 +1,60 @@
+.main {
+  background-color: transparent;
+  width: calc(100% - 50px);
+  min-height: 70px;
+  position: relative;
+  margin-left: 15px;
+  border-radius: 10px;
+  border: 1px solid #C3C9CD;
+  filter: drop-shadow(-5px -5px 20px #FFFFFF) drop-shadow(5px 5px 20px rgba(174, 174, 192, 0.5));
+  opacity: 1;
+  margin-bottom: 16px;
+  ul {
+    margin-left: 20px;
+  }
+}
+
+.image {
+  height: 100px;
+  width: 100px;
+}
+
+.isSelf {
+  background: #D0AD7B !important;
+}
+
+.isGray {
+  background: #CDCDDD !important;
+  box-shadow: 5px 5px 20px rgba(174, 174, 192, 0.5) !important;
+}
+
+.photo_mask {
+  position: absolute;
+  top: 10px;
+  left: -12px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: #C3C9CD;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  font-family: 'Playfair Display';
+  color: #FFFFFF;
+  z-index: 1;
+}
+
+
+.photo {
+  background-color: #C3C9CD;
+  position: absolute;
+  top: 10px;
+  left: -12px;
+  width: 25px;
+  height: 25px;
+  z-index: 1;
+  object-fit: cover;
+  border-radius: 50%;
+  overflow: hidden;
+}

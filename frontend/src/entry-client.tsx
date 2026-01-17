@@ -14,6 +14,14 @@ function initClient() {
 
   root.innerHTML = '';
   
+  // Set app height CSS variable
+  const appHeight = () => {
+    const doc = document.documentElement;
+    doc.style.setProperty('--app-height', `${window.innerHeight}px`);
+  };
+  window.addEventListener('resize', appHeight);
+  appHeight();
+  
   render(
     () => (
       <App>

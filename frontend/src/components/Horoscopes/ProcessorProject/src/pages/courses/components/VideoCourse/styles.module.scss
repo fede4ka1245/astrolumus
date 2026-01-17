@@ -1,0 +1,40 @@
+.container {
+  background: url('../../images/orbitDesign.png') center center/cover no-repeat;
+  position: relative;
+}
+
+.background_img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wrapper {
+  z-index: 1;
+  position: relative;
+}
+
+.arrow {
+  position: absolute; 
+  right: -15px;
+  top: 20px;
+};
+
+.header {
+  margin-bottom: 47px;
+};
+
+.video {
+  height: 189px;
+  margin-bottom: 30px;
+}
+
+.video_player {
+  border-radius: 15px;
+  overflow: hidden;
+}

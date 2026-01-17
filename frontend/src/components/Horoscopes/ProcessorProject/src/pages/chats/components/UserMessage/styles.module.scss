@@ -1,0 +1,32 @@
+.container {
+  width: 80%;
+  background: #E6DCCF;
+  box-shadow: -5px -5px 20px #FFFFFF, 5px 5px 20px rgba(174, 174, 192, 0.5);
+  border-radius: 10px;
+  padding: 9px 14px;
+  align-self: flex-end;
+  margin-bottom: 20px;
+}
+
+.text {
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  display: flex;
+  align-items: flex-end;
+  color: #292E30;
+}
+
+.time {
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 8px;
+  line-height: 10px;
+  align-self: flex-end;
+  color: #37366B;
+  opacity: 0.7;
+  text-align: right;
+}

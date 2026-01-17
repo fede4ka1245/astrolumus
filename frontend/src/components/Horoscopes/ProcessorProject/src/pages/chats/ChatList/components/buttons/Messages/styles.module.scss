@@ -1,0 +1,15 @@
+.container {
+  background: linear-gradient(88.23deg, rgba(55, 54, 107, 0.3) 0.29%, rgba(92, 91, 159, 0.3) 42.18%, rgba(89, 171, 218, 0.3) 97.3%);
+  height: 22px;
+  width: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(9.5px);
+  border-radius: 50%;
+  font-family: 'Gilroy';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 12px;
+  color: #FFFFFF;
+}

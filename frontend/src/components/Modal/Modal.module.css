@@ -39,7 +39,7 @@
   position: relative;
   width: 100%;
   max-width: 720px;
-  max-height: 90vh;
+  max-height: calc(var(--app-height, 100vh) * 0.9);
   background: var(--bg-primary, #1a1a1a);
   border-radius: 16px 16px 0 0;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);

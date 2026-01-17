@@ -1,7 +1,6 @@
 .tabContent {
   position: relative;
   flex: 1;
-  overflow: hidden;
   min-height: 180px;
   height: 100%;
 }

@@ -1,0 +1,33 @@
+.item_continer {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0;
+  border-bottom: 1px solid #6B6E75;
+  &:last-child {
+    border-bottom: none;
+  }
+};
+
+.text {
+  font-family: 'Gilroy', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: 0.2px;
+  color: #F9F9F9;
+};
+
+.description {
+  font-family: 'Gilroy', sans-serif;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 24px;
+  letter-spacing: 0.185801px;
+  color: #F9F9F9;
+  margin-bottom: 10px;
+};
+
+.image {
+  width: 97%;
+  z-index: 0;
+}

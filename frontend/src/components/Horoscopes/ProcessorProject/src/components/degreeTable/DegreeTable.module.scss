@@ -1,0 +1,145 @@
+.table {
+  width: 100%;
+}
+
+.row {
+  width: 100%;
+  font-family: 'Gilroy', sans-serif;
+  font-style: normal;
+  display: inline-grid;
+  grid-template-columns: 2.2fr 0.6fr 0.7fr 1.1fr 2fr;
+  height: 38px;
+
+  & > div {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  &:nth-child(2n) {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.header {
+  height: 20px;
+  font-family: 'Gilroy', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 14px;
+  text-align: start;
+  color: #FFFFFF;
+  padding-bottom: 8px;
+}
+
+.degrees {
+  font-family: 'Gilroy', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: #FFFFFF;
+}
+
+.naksatra {
+  font-family: 'Gilroy', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 14px;
+  color: #FFFFFF;
+}
+
+.planetAdditionalInfo {
+  font-family: 'Gilroy', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 17px;
+  color: #B4B3FF;
+  margin-left: 4px;
+}
+
+.planet {
+  font-family: 'Gilroy', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 17px;
+  color: #FFFFFF;
+  overflow: hidden;
+  margin-left: 6px;
+}
+
+.planetSign {
+  font-family: 'Gilroy', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 17px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-left: 4px;
+}
+
+.isDeepSky {
+  * {
+    background: white !important;
+    color: black !important;
+  }
+
+  background: white !important;
+  color: black !important;
+}
+
+@media screen and (max-width: 430px) {
+  .header {
+    font-size: 10px;
+    font-size: 4vw;
+    line-height: 10px;
+    line-height: 4vw;
+  }
+
+  .planetSign {
+    font-weight: 600;
+    font-size: 14px;
+    font-size: 5vw;
+    line-height: 14px;
+    line-height: 5vw;
+  }
+
+  .planet {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 13px;
+    font-size: 5vw;
+    line-height: 13px;
+    line-height: 5vw;
+  }
+
+  .planetAdditionalInfo {
+    font-weight: 600;
+    font-size: 14px;
+    font-size: 5vw;
+    line-height: 14px;
+    line-height: 5vw;
+  }
+
+  .degrees {
+    font-size: 10px;
+    font-weight: 700;
+    font-size: 4vw;
+    line-height: 10px;
+    line-height: 4vw;
+  }
+
+  .signIcon {
+    height: 21px;
+  }
+
+  .naksatra {
+    font-size: 10px;
+    line-height: 10px;
+    color: #FFFFFF;
+    font-size: 4vw;
+    line-height: 10px;
+    line-height: 4vw;
+  }
+}

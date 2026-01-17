@@ -1,0 +1,101 @@
+.container {
+  margin-top: 100px;
+  background: #283658;
+  border-radius: 10px;
+  position: relative;
+  padding: 45px 20px 20px 20px;
+  &::before {
+    content: '';
+    background: url('../../../images/payment/rocket.png') center center/contain no-repeat;
+    transform: rotate(30deg);
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    top: -165px;
+    left: 0;
+  }
+};
+
+.wrapper {
+  position: relative;
+}
+
+.title {
+  font-family: 'Oswald';
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 40px;
+  text-align: center;
+  letter-spacing: -0.4px;
+  color: #F9F9F9;
+  margin-bottom: 30px;
+};
+
+.subtitle {
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 23px;
+  text-align: center;
+  letter-spacing: 0.2px;
+  color: #00EABD;
+};
+
+.subtitles {
+  margin-bottom: 20px;
+};
+
+.discription {
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 24px;
+  text-align: center;
+  letter-spacing: 0.185801px;
+  color: #F9F9F9;
+  margin-bottom: 30px;
+};
+
+.price {
+  text-align: center;
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 42px;
+  letter-spacing: -0.4px;
+  color: #F2D113;
+  margin-bottom: 50px;
+};
+
+.button {
+  background: #00EABD;
+  border-radius: 8px;
+  padding: 14px 0;
+  font-family: 'Gilroy';
+  font-weight: 700;
+  font-size: 14px;
+  text-align: center;
+  line-height: 28px;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  color: #0C121E;
+  margin-bottom: 10px;
+  &_transparent {
+    background: transparent;
+    border-radius: 8px;
+    padding: 14px 0;
+    font-family: 'Gilroy';
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+    line-height: 28px;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    color: #00EABD;
+    border: 2px solid #00EABD;
+    box-sizing: border-box;
+  }
+}

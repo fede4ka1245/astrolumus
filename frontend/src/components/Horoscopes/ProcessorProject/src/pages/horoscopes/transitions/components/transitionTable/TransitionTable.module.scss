@@ -1,0 +1,43 @@
+.main {
+  width: 100%;
+  margin-bottom: 40px;
+
+  & > * {
+    width: 100%;
+    font-family: 'Gilroy', sans-serif;
+    font-style: normal;
+    display: inline-grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 33px;
+    color: #FFFFFF;
+    align-items: center;
+    height: 40px;
+
+    &:nth-child(2n) {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+.header {
+  padding: 3px 0;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 14px;
+}
+
+.planet {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 14px;
+  background: rgba(240, 240, 243, 0.2);
+  border-radius: 7px;
+  width: calc(50% - 8px);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 2px;
+}

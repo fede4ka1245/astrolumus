@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  height: 360px;
+  padding-top: 100px;
+  box-sizing: border-box;
+  &::before {    
+    content: "";
+    background: url('../../images/galaxy.png') center center/cover no-repeat;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    opacity: 0.75;
+  }
+};
+
+.title {
+  font-family: 'Oswald';
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 40px;
+  text-align: center;
+  letter-spacing: -0.4px;
+  color: #F9F9F9;
+  margin-bottom: 50px;
+}

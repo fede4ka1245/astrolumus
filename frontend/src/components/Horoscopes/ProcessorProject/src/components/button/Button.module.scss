@@ -1,0 +1,38 @@
+.button {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  padding: 12px 0;
+  width: 100%;
+}
+
+.gradientButton {
+  background: linear-gradient(90deg, #37366B 0.29%, #5C5B9F 42.18%, #59ABDA 97.3%);
+  color: white;
+}
+
+.outlineButton {
+  box-shadow: 0 0 0 2px #99DAEA inset;
+  border-radius: 10px;
+  color: #99DAEA !important;
+}
+
+.blur {
+  position: absolute;
+  height: 40px;
+  left: 14px;
+  right: 15px;
+  bottom: 4px;
+  background: linear-gradient(268.23deg, #37366B 2.7%, #5C5B9F 44.59%, #59ABDA 99.71%);
+  filter: blur(40px);
+  border-radius: 1000px;
+  z-index: -1;
+}
+
+.isDisabled {
+  background: #C3C9CD !important;
+}

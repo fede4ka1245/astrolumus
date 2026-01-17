@@ -1,0 +1,44 @@
+.main {
+  background: white;
+  width: 100%;
+  height: 60px;
+  border-radius: 8px;
+  color: #ABB0B2;
+  position: relative;
+}
+
+.additionalInfo {
+  background: #261C5C;
+  backdrop-filter: blur(9.5px);
+  padding: 2px 6px;
+  border-radius: 7px;
+  position: absolute;
+  color: #FFFFFF;
+  bottom: 5px;
+  left: 5px;
+
+  font-family: 'Gilroy', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.gold {
+  background: #CFAF75 !important;
+  color: white !important;
+
+  .additionalInfo {
+    background: white !important;
+    color: #261C5C !important;
+  }
+}
+
+.purple {
+  background: #261C5C !important;
+
+  .additionalInfo {
+    background: white !important;
+    color: #261C5C !important;
+  }
+}

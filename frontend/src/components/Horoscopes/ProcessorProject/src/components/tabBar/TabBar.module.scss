@@ -1,0 +1,35 @@
+.tabBar {
+  position: fixed;
+  width: 100%;
+  height: 75px;
+  left: 0;
+  bottom: 0;
+  background: #F3F3F5;
+  box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.1), inset 2px 2px 4px #FFFFFF;
+  filter: drop-shadow(-5px -5px 10px #FFFFFF) drop-shadow(5px 5px 10px rgba(174, 174, 192, 0.3));
+  border-radius: 20px 20px 0 0;
+  z-index: 10;
+  padding-bottom: var(--safe-area-inset-bottom, 0px);
+}
+
+.active {
+  circle {
+    stroke: url(#gradient) !important;
+  }
+
+  .fill {
+    path {
+      fill: url(#gradient);
+    }
+  }
+
+  .stroke {
+    path {
+      stroke: url(#gradient) !important;
+    }
+  }
+
+  rect {
+    stroke: url(#gradient) !important;
+  }
+}

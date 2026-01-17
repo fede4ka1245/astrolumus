@@ -1,0 +1,45 @@
+.container {
+  padding: 0 16px;
+  margin-bottom: 20px;
+}
+
+.main {
+  background: url(../../assets/background.png) top center/contain no-repeat #f0f0f3;
+}
+
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #DEDEE5;
+  padding-bottom: 12px;
+}
+
+.input {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  flex: 1;
+  margin: 0 15px;
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #000;
+  &::placeholder {
+    font-family: 'Gilroy';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #ABB0B2;
+  }
+}
+
+.icon {
+  margin-right: 10px;
+  &:last-child {
+    margin-right: 0;
+  }
+}

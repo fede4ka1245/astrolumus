@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="initial-scale=1,user-scalable=no, width=device-width, height=device-height, viewport-fit=cover">
+    <meta name="description" content="Astrolumus - бесплатный AI-ассистент для астрологии. Получите ответы на вопросы о натальной карте, совместимости и картах Таро. Задайте вопрос и получите персональный астрологический прогноз." />
     <title>Astrolumus: AI Astrology Assistant</title>
     
     <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico" />
@@ -35,9 +37,19 @@
     
     <link rel="manifest" href="/assets/icons/manifest.json" />
     <meta name="theme-color" content="#ffffff" />
+    
+    <!-- Preload LCP image -->
+    <link rel="preload" as="image" href="/assets/images/selection.webp" fetchpriority="high" />
+    <!-- CSS will be preloaded by Vite automatically -->
   </head>
   <body>
     <div id="app"><!--app-html--></div>
+    <textarea 
+      id="fake-textarea-focus-helper" 
+      style="position: absolute; top: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none;"
+      tabindex="-1"
+      aria-hidden="true"
+    ></textarea>
     <script type="module" src="/src/entry-client.tsx"></script>
   </body>
 </html>

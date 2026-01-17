@@ -1,0 +1,50 @@
+.quantity {
+  background: linear-gradient(88.23deg, #37366B 0.29%, #5C5B9F 42.18%, #59ABDA 97.3%);
+  backdrop-filter: blur(9.5px);
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 12px;
+  text-align: center;
+  color: #FFFFFF;
+  border-radius: 75px;
+}
+
+.title {
+  font-family: 'Gilroy';
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 14px;
+  color:#37366B;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  border: 1px solid #C3C9CD;
+}
+
+.input {
+  background-color: transparent;
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  color: #ABB0B2;
+  line-height: 16px;
+  flex: 1;
+  padding: 10px 5px;
+  transition: 0.5s;
+  outline: none;
+  border: none;
+}

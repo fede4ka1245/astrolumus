@@ -1,0 +1,48 @@
+.container {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    background: url('../../images/astronaut2.png') no-repeat;
+    left: 10px;
+    right: 0;
+    top: 180px;
+    bottom: -180px;
+  }
+}
+
+.subtitle {
+  font-family: 'Oswald';
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 28px;
+  letter-spacing: -0.4px;
+  color: #F2D113;
+  white-space: pre-wrap;
+  text-align: center;
+}
+
+.wrapper {
+  position: relative;
+}
+
+.description {
+  text-align: center;
+}
+
+.title {
+  text-align: center;
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 40px;
+  letter-spacing: -0.4px;
+  color: #F9F9F9;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

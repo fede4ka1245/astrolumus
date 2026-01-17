@@ -1,0 +1,10 @@
+.container {
+  background: #C3C9CD;
+  height: 22px;
+  width: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(9.5px);
+  border-radius: 50%;
+}

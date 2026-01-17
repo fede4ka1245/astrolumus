@@ -1,0 +1,72 @@
+.savatobhadra-table {
+  border-radius: 10px;
+  width: 100%;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 1px;
+  overflow: hidden;
+  background: #dfdfdf;
+
+  .section {
+    aspect-ratio: 1;
+    background: #ffffff;
+    overflow: hidden;
+    font-size: 10px;
+    font-family: 'Gilroy', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    font-weight: 400;
+    flex-direction: column;
+    color: rgba(41, 46, 48, 0.6);
+  }
+
+  .active {
+    background: #D3EBFF !important;
+  }
+
+  .highlighted {
+    background: #F9F7D8;
+  }
+
+  .header, .c4, .c5, .c6, .d3, .e3, .f3, .g4, .g5, .g6, .d7, .e7, .f7, {
+    color: #292E30;
+    font-weight: 500;
+    font-size: 12px;
+  }
+
+  .e4, .e5, .e6, .f5, .d5 {
+    color: #5C5B9F;
+    font-weight: 500;
+    font-size: 12px;
+  }
+
+  .a1, .a9, .i1, .i9 {
+    color: #292E30;
+    font-weight: bold;
+    font-size: 12px;
+  }
+
+  .a {
+    color: #292E30;
+    font-weight: bold;
+    font-size: 12px;
+  }
+
+  .a1 {
+    border-top-left-radius: 10px;
+  }
+
+  .a9 {
+    border-top-right-radius: 10px;
+  }
+
+  .i1 {
+    border-bottom-left-radius: 10px;
+  }
+
+  .i9 {
+    border-bottom-right-radius: 10px;
+  }
+}

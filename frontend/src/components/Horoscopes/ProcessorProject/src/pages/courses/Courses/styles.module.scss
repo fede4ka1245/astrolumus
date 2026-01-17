@@ -1,0 +1,64 @@
+
+.header {
+  margin-bottom: 20px;
+}
+
+.title {
+  font-family: 'Gilroy';
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 14px;
+  color: #F0F0F3;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  &::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #C3C9CD;
+    margin-right: 14px;
+  }
+}
+
+.title_purple {
+  font-family: 'Gilroy';
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 14px;
+  color: #37366B;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  &::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #37366B;
+    margin-right: 14px;
+  }
+}
+
+.carousel {
+  position: relative;
+  margin-bottom: 30px;
+  &::before {
+    content: '';
+    border-radius: 50%;
+    position: absolute;
+    background: linear-gradient(268.23deg, #37366B 2.7%, #5C5B9F 44.59%, #59ABDA 99.71%), #C4C4C4;
+    opacity: 0.2;
+    filter: blur(20px);
+    width: 230px;
+    height: 230px;
+    bottom: -180px;
+    left: -125px;
+    z-index: -1;
+  }
+}
+
+.dark_bg {
+  background-color: #000;
+}

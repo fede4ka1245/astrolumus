@@ -1,0 +1,45 @@
+.main {
+  width: 100%;
+  background: #FFFFFF;
+  box-shadow: -5px -5px 20px #FFFFFF, 5px 5px 20px rgba(174, 174, 192, 0.5);
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 5px 10px;
+}
+
+.profilePhoto {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: gray;
+}
+
+.contant {
+  flex: 1;
+  overflow: hidden;
+}
+
+.topic_name {
+  width: 100%;
+  word-break: break-word;
+}
+
+.button {
+  display: flex;
+  flex: 1;
+  margin-right: 20px;
+  background: url('../../images/bg.png') center center/cover no-repeat #37366B;
+  align-items: center;
+  border-radius: 10px;
+  color: #FFF;
+  padding: 5px 19px;
+  font-family: 'Gilroy';
+  font-weight: 400;
+  font-size: 15px;
+  svg {
+    margin-right: 10px;
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+}

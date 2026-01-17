@@ -16,7 +16,10 @@
   max-width: 720px;
   display: flex;
   align-items: center;
-  padding: var(--space-md);
+
+  @media screen and (max-width: 768px) {
+    padding: var(--space-md);
+  }
 }
 
 .logoIcon {

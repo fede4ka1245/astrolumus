@@ -1,0 +1,25 @@
+.main {
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+}
+
+.main > * {
+  padding: 10px 16px;
+  height: 20px;
+  font-size: 18px;
+  font-weight: 500;
+  font-family: 'Gilroy', sans-serif;
+
+  &:active {
+    background: rgba(184, 178, 178, 0.34);
+  }
+}
+
+.dark > * {
+  color: white;
+  border-bottom: rgba(255, 255, 255, 0.2) 0.5px solid;
+}

@@ -1,0 +1,92 @@
+.root {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+
+.textareaContainer {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  position: relative;
+  width: 100%;
+  min-height: 160px;
+  max-height: 160px;
+  overflow: hidden;
+}
+
+.textarea {
+  width: 100%;
+  min-height: inherit;
+  background: inherit;
+  height: inherit;
+  padding: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--text-primary);
+  resize: none;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  line-height: 1.5;
+}
+
+.textarea:focus {
+  border-color: var(--color-primary);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.textarea::placeholder {
+  color: transparent;
+  transition: color 0.3s ease;
+}
+
+.textarea:focus::placeholder {
+  color: var(--text-caption);
+  transition-delay: 0.2s;
+}
+
+.label {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: var(--text-caption);
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: transparent;
+  z-index: 2;
+  white-space: nowrap;
+  padding: 0 0.3rem;
+}
+
+.labelFloating {
+  top: -0.55rem;
+  color: var(--color-primary);
+  font-size: 0.9rem;
+}
+
+.root:has(.textarea:focus) > .label {
+  color: var(--color-primary);
+}
+
+.root:has(.textarea:not(:placeholder-shown):not(:focus)) > .label {
+  color: var(--text-caption) !important;
+}
+
+.borderOverlay {
+  background: var(--bg-secondary);
+  color: transparent !important;
+}
+
+.borderOverlayVisible {
+  opacity: 1;
+}
+
+.textareaContainer:has(.textarea:focus) .borderOverlay,
+.textareaContainer:has(.textarea:not(:placeholder-shown)) .borderOverlay {
+  opacity: 1;
+}

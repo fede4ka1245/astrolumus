@@ -1,0 +1,16 @@
+.main {
+  background-image: url("./images/auth.png");
+  background-attachment: fixed;
+  background-size: 150% auto;
+  background-position: center top;
+  width: 100vw;
+  height: 100vh;
+}
+
+.button {
+  text-decoration: underline;
+  transition: all ease-out 0.1s;
+  &:active {
+    opacity: 0.6;
+  }
+}

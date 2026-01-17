@@ -1,0 +1,191 @@
+.main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  & > .birthRow {
+    font-family: 'Gilroy', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    background: linear-gradient(0deg, #3C336C, #3C336C), #FFFFFF !important;
+    color: white !important;
+  }
+}
+
+.row {
+  background: rgba(193, 255, 255, 0.6);
+  font-family: 'Gilroy', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  color: #5B6062;
+  height: 38px;
+  display: inline-grid;
+  grid-template-columns: 3fr 1fr 1fr;
+  width: 100%;
+  overflow: hidden;
+}
+
+.rowItem {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap !important;
+  transition: all ease-out 300ms;
+}
+
+.birthRow {
+  background: rgba(193, 255, 255, 0.6);
+  font-family: 'Gilroy', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  color: #5B6062;
+  height: 38px;
+  display: inline-grid;
+  overflow: hidden;
+  grid-template-columns: 2fr 1fr 1fr 0.5fr;
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  background: white;
+  flex-direction: column;
+}
+
+.outlined {
+  border: 1px solid #59ABDA;
+}
+
+.isOpen {
+  font-family: 'Gilroy', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  background: linear-gradient(0deg, #3C336C, #3C336C), #FFFFFF !important;
+  color: white !important;
+
+  svg {
+    path {
+      stroke: white !important;
+      fill: transparent !important;
+    }
+  }
+}
+
+.isMain {
+  font-family: 'Gilroy', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  background: linear-gradient(0deg, #3C336C, #3C336C), #FFFFFF !important;
+  color: white !important;
+  svg {
+    path {
+      stroke: white !important;
+      fill: transparent !important;
+    }
+  }
+}
+
+.isCurrent {
+  background: rgb(37, 28, 92) !important;
+  color: white !important;
+  svg {
+    path {
+      stroke: white !important;
+      fill: transparent !important;
+    }
+  }
+}
+
+.birth {
+  font-family: 'Gilroy', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+}
+
+@media screen and (min-width: 200px) {
+  .row {
+    font-size: 11px !important;
+    line-height: 11px !important;
+  }
+
+  .birthRow {
+    font-size: 11px !important;
+    line-height: 11px !important;
+  }
+}
+
+@media screen and (min-width: 380px) {
+  .row {
+    font-size: 14px !important;
+    line-height: 14px !important;
+  }
+
+  .birth {
+    font-family: 'Gilroy', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+  }
+
+  .birthRow {
+    font-size: 14px !important;
+    line-height: 14px !important;
+  }
+}
+
+@media screen and (min-width: 450px) {
+  .row {
+    font-size: 16px !important;
+    line-height: 16px !important;
+  }
+
+  .birth {
+    font-family: 'Gilroy', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+  }
+
+  .birthRow {
+    font-size: 16px !important;
+    line-height: 16px !important;
+  }
+}
+
+@media screen and (min-width: 500px) {
+  .row {
+    font-size: 18px !important;
+    line-height: 18px !important;
+  }
+
+  .birth {
+    font-family: 'Gilroy', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+  }
+
+  .birthRow {
+    font-size: 18px !important;
+    line-height: 18px !important;
+  }
+}
+
+@media screen and (max-width: 280px) {
+  .row {
+    font-size: 7px !important;
+    line-height: 7px !important;
+  }
+
+  .birth {
+    font-family: 'Gilroy', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 7px;
+  }
+
+  .birthRow {
+    font-size: 7px !important;
+    line-height: 7px !important;
+  }
+}

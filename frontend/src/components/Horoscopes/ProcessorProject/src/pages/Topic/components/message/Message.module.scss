@@ -1,0 +1,28 @@
+.main {
+  background: #F0F0F3;
+  box-shadow: -5px -5px 20px #FFFFFF, 5px 5px 20px rgba(174, 174, 192, 0.5);
+  width: calc(100% - 30px);
+  min-height: 70px;
+  border-radius: 10px;
+  position: relative;
+  margin-left: 30px;
+  opacity: 1;
+}
+
+.isSelf {
+  background: #D0AD7B !important;
+}
+
+.isGray {
+  background: #CDCDDD !important;
+  box-shadow: 5px 5px 20px rgba(174, 174, 192, 0.5) !important;
+}
+
+.photo {
+  position: absolute;
+  top: 10px;
+  left: -12px;
+  width: 40px;
+  height: 40px;
+  z-index: 4;
+}

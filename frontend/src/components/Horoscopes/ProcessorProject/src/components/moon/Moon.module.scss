@@ -1,0 +1,10 @@
+.moon {
+    position: relative;
+    z-index: -1;
+}
+
+@media screen and (min-width: 768px) {
+    .moon img {
+        filter: blur(1.5rem);
+    }
+}

@@ -1,0 +1,41 @@
+.option {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  height: 28px;
+  border-radius: 10px;
+}
+
+.filled {
+  background: #37366B;
+  color: #C3C9CD;
+  outline: none;
+}
+
+.outlined {
+  color: #ABB0B2;
+  background: transparent;
+  border: solid 1px #ABB0B2;
+}
+
+.targetOutlined {
+  background: #37366B !important;
+  color: white !important;
+  border: solid 1px #37366B;
+}
+
+.scrollable {
+  max-width: 100%;
+  overflow-x: scroll;
+  height: 40px;
+}
+
+.scrollable::-webkit-scrollbar {
+  display: none;
+}
+
+.target {
+  background: #C1FFFF !important;
+  color: black !important;
+}

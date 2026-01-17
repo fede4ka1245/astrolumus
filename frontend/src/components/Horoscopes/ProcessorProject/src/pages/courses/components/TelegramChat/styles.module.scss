@@ -1,0 +1,100 @@
+.container {
+};
+
+.title {
+  position: relative;
+  margin-bottom: 14px;
+  &::after {
+    content: '';
+    position: absolute;
+    left: 4.4em;
+    bottom: 0.2em;
+    background: url('../../images/icons/telegram-icon.svg') center center no-repeat;
+    width: 36px;
+    height: 36px;
+  }
+};
+
+.image {
+  margin-bottom: 28px;
+  width: 100%;
+  object-fit: cover;
+};
+
+.telegram_info {
+  display: flex;
+  justify-content: space-between;
+  height: 200px;
+  margin-bottom: 23px;
+};
+
+.block {
+  width: 120px;
+  position: relative;
+  align-self: flex-start;
+  &::before {
+    content: '';
+    top:0;
+    left: 0;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    background: url('./images/orbit.svg') center center no-repeat;
+  }
+  &_title {
+    position: relative;
+    font-family: 'Oswald';
+    font-weight: 700;
+    font-size: 35.3021px;
+    line-height: 51px;
+    letter-spacing: 0.185801px;
+    color: #F2D113;
+    margin-bottom: 8px;
+  };
+
+  &_descr {
+    position: relative;
+    font-family: 'Oswald';
+    font-weight: 700;
+    font-size: 12.077px;
+    line-height: 15px;
+    letter-spacing: 0.185801px;
+    color: #F9F9F9;
+    text-transform: uppercase;
+  }
+}
+
+.description {
+  font-family: 'Gilroy';
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 24px;
+  letter-spacing: 0.185801px;
+  color: #F9F9F9;
+};
+
+.rotate_90 {
+  &::before {
+    content: '';
+    top:0;
+    left: 0;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    transform: rotate(90deg);
+    background: url('./images/orbit.svg') center center no-repeat;
+  }
+};
+
+.rotate_180 {
+  &::before {
+    content: '';
+    position: absolute;
+    top:0;
+    left: 0;
+    height: 100px;
+    width: 100px;
+    transform: rotate(180deg);
+    background: url('./images/orbit.svg') center center no-repeat;
+  }
+}

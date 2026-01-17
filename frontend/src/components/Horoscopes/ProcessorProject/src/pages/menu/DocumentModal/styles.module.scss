@@ -1,0 +1,63 @@
+.cross {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.title {
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  color: #37366B;
+  margin-bottom: 10px;
+}
+
+.rule {
+  margin-bottom: 10px;
+  &:last-child {
+    flex: 1;
+    margin-bottom: 0;
+  }
+}
+
+.rule_title {
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 33px;
+  color: #292E30;
+}
+
+.rule_text {
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  display: flex;
+  align-items: flex-end;
+  color: #292E30;
+}
+
+.button {
+  text-align: center;
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 33px;
+  border: none;
+  padding: 10px 10px;
+  color: #FFFFFF;
+  background: linear-gradient(88.23deg, #37366B 0.29%, #5C5B9F 42.18%, #59ABDA 97.3%), #F0F0F3;
+  border-radius: 10px;
+  transition: height 0.4s, padding 0.4s ;
+}
+
+.hidden_button {
+  height: 0;
+  padding: 0;
+}

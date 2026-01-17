@@ -1,0 +1,45 @@
+.header {
+  font-size: 32px;
+  font-family: Gilroy, sans-serif;
+  color: black;
+  font-weight: bold;
+}
+
+.planet {
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translate3d(15%, -18%, 0);
+  z-index: -1;
+  overflow: clip;
+}
+
+.planetHeader {
+  color: white;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -2;
+    background: linear-gradient(rgb(37, 28, 92), transparent);
+  }
+}
+
+.desc {
+  line-height: 1.3;
+  font-family: Gilroy, sans-serif;
+  color: black;
+  font-weight: 400;
+  padding-bottom: 15px;
+  max-width: 100vw;
+  overflow-x: hidden;
+
+  p {
+    margin-bottom: 8px;
+  }
+}

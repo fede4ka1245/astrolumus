@@ -5,6 +5,8 @@ import TabsContent from './TabsContent/TabsContent';
 import DatePicker, { DatePickerRef } from './DatePicker/DatePicker';
 import Forecast from './Forecast/Forecast';
 import Modal from './Modal/Modal';
+import Input from './Input/Input';
+import Textarea from './Textarea/Textarea';
 
 const STEPS = [
   { id: 'question', title: 'Вопрос', fullTitle: 'Задайте ваш вопрос' },
@@ -143,10 +145,14 @@ const SearchBar: Component = () => {
     setIsManualInput(false);
     setManualLat('');
     setManualLon('');
-    // Фокусируемся на input после очистки
+    const fakeTextarea = getFakeTextarea();
+    if (fakeTextarea) {
+      fakeTextarea.focus();
+    }
+
     setTimeout(() => {
       placeInputRef?.focus();
-    }, 0);
+    }, 100);
   };
 
   // Format date input: dd.mm.yyyy
@@ -366,6 +372,7 @@ const SearchBar: Component = () => {
 
   
   let textareaRef: HTMLTextAreaElement | undefined;
+  let textareaParentRef: HTMLDivElement | undefined;
   let wrapperRef: HTMLDivElement | undefined;
   let searchInputRef: HTMLDivElement | undefined;
   let containerRef: HTMLDivElement | undefined;
@@ -373,8 +380,31 @@ const SearchBar: Component = () => {
   let stepsRef: HTMLDivElement | undefined;
   let placeInputRef: HTMLInputElement | undefined;
 
+  const FAKE_TEXTAREA_ID = 'fake-textarea-focus-helper';
+
+  /**
+   * Проверяет, является ли устройство iOS
+   */
+  const isIOS = (): boolean => {
+    if (typeof window === 'undefined' || typeof navigator === 'undefined') return false;
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+           (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  };
+
+  /**
+   * Получает фейковый textarea для workaround фокуса на iOS
+   * Элемент должен быть добавлен в index.html
+   */
+  const getFakeTextarea = (): HTMLTextAreaElement | null => {
+    if (typeof document === 'undefined') return null;
+    if (!isIOS()) return null;
+    
+    // Получаем элемент по id (элемент должен быть в index.html)
+    return document.getElementById(FAKE_TEXTAREA_ID) as HTMLTextAreaElement | null;
+  };
+
   const applyFormPosition = () => {
-    if (wrapperRef && textareaRef && searchInputRef) {
+    if (wrapperRef && textareaRef && textareaParentRef && searchInputRef) {
       setIsAnimating(true);
       
       // Получаем текущую позицию wrapper и searchInput
@@ -383,7 +413,18 @@ const SearchBar: Component = () => {
       
       // Получаем реальные размеры и позицию textarea из формы
       const textareaRect = textareaRef.getBoundingClientRect();
-      textareaRef.style.opacity = '1';
+      
+      // Устанавливаем начальную opacity родителя textarea в 0 и настраиваем transition для появления в конце
+      if (textareaParentRef) {
+        // Сначала устанавливаем transition: none, чтобы избежать анимации при установке начального значения
+        textareaParentRef.style.transition = 'none';
+        textareaParentRef.style.opacity = '0';
+        // Force reflow для применения начального значения
+        textareaParentRef.offsetHeight;
+        // Теперь устанавливаем transition с задержкой
+        textareaParentRef.style.transition = 'opacity 0.18s ease-out 0.25s';
+      }
+      textareaRef.style.pointerEvents = 'auto';
       
       // Устанавливаем начальную позицию wrapper (текущая позиция)
       wrapperRef.style.transition = 'none';
@@ -409,7 +450,8 @@ const SearchBar: Component = () => {
       searchInputRef.offsetHeight;
       
       // Анимируем wrapper к той же позиции что и textarea (ниже по z-index)
-      wrapperRef.style.transition = 'all 0.5s ease';
+      // border-radius меняется быстро (почти сразу), opacity меняется в конце
+      wrapperRef.style.transition = 'top 0.4s ease, left 0.4s ease, width 0.4s ease, height 0.4s ease, border-radius 0.12s ease-out, opacity 0.25s ease-in 0.2s';
       wrapperRef.style.top = `${textareaRect.top}px`;
       wrapperRef.style.left = `${textareaRect.left}px`;
       wrapperRef.style.width = `${textareaRect.width}px`;
@@ -419,35 +461,42 @@ const SearchBar: Component = () => {
       wrapperRef.style.pointerEvents = 'none';
       
       // Анимируем searchInput к размерам и закруглениям textarea
-      searchInputRef.style.transition = 'all 0.5s ease';
+      // border-radius меняется быстро (почти сразу)
+      searchInputRef.style.transition = 'width 0.4s ease, height 0.4s ease, border-radius 0.12s ease-out';
       searchInputRef.style.width = `${textareaRect.width}px`;
       searchInputRef.style.height = `${textareaRect.height}px`;
       searchInputRef.style.borderRadius = 'var(--radius-lg)';
       
+      // Устанавливаем opacity родителя textarea в 1 с задержкой (появляется в конце, быстро)
+      setTimeout(() => {
+        if (textareaParentRef) {
+          textareaParentRef.style.opacity = '1';
+        }
+      }, 10);
+      
       // После завершения анимации просто завершаем анимацию
       setTimeout(() => {
         setIsAnimating(false);
-      }, 500);
+      }, 400);
     }
   };
 
   const resetFormPosition = () => {
     if (wrapperRef && containerRef && textareaRef && searchInputRef) {
-      // Скрываем форму сразу
-      setIsExpanded(false);
-      setCurrentTab('question');
+      // Блюрим textarea при закрытии формы
+      textareaRef.blur();
       
       setIsAnimating(true);
       
-      // Получаем реальные размеры и позицию textarea из формы
+      // Получаем реальные размеры и позицию textarea из формы ДО скрытия формы
       const textareaRect = textareaRef.getBoundingClientRect();
-      const containerRect = containerRef.getBoundingClientRect();
       
-      // Получаем размеры searchInput из textarea (для начала анимации)
-      const searchInputInitialWidth = textareaRect.width;
-      const searchInputInitialHeight = textareaRect.height;
-
-      textareaRef.style.opacity = '0';
+      // Устанавливаем opacity родителя textarea в 0 сразу при закрытии (быстро исчезает)
+      if (textareaParentRef) {
+        textareaParentRef.style.transition = 'opacity 0.15s ease-out';
+        textareaParentRef.style.opacity = '0';
+      }
+      textareaRef.style.pointerEvents = 'none';
       
       // Устанавливаем начальную позицию wrapper (позиция textarea)
       wrapperRef.style.transition = 'none';
@@ -465,30 +514,48 @@ const SearchBar: Component = () => {
       
       // Устанавливаем начальные размеры searchInput (размеры textarea)
       searchInputRef.style.transition = 'none';
-      searchInputRef.style.width = `${searchInputInitialWidth}px`;
-      searchInputRef.style.height = `${searchInputInitialHeight}px`;
+      searchInputRef.style.width = `${textareaRect.width}px`;
+      searchInputRef.style.height = `${textareaRect.height}px`;
       searchInputRef.style.borderRadius = 'var(--radius-lg)';
       
-      // Force reflow
+      // Получаем координаты контейнера ДО скрытия формы (чтобы получить правильную ширину)
+      const containerRect = containerRef.getBoundingClientRect();
+      
+      // Скрываем форму после получения координат
+      setIsExpanded(false);
+      setCurrentTab('question');
+      
+      // Force reflow для применения начальных значений
       wrapperRef.offsetHeight;
       searchInputRef.offsetHeight;
       
       // Анимируем wrapper обратно к оригинальной позиции
-      wrapperRef.style.transition = 'all 0.5s ease';
-      wrapperRef.style.top = `${containerRect.top}px`;
-      wrapperRef.style.left = `${containerRect.left}px`;
-      wrapperRef.style.transform = 'none';
-      wrapperRef.style.width = `${containerRect.width}px`;
-      wrapperRef.style.height = `${containerRect.height}px`;
-      wrapperRef.style.borderRadius = 'var(--radius-full)';
-      wrapperRef.style.opacity = '1';
-      wrapperRef.style.pointerEvents = '';
+      // При возвращении: opacity появляется почти сразу, размеры и border-radius меняются быстрее
+      // Используем двойной requestAnimationFrame для гарантии синхронизации
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (wrapperRef && searchInputRef && containerRef) {
+            // Получаем актуальные координаты контейнера еще раз для точности
+            const finalContainerRect = containerRef.getBoundingClientRect();
+            
+            wrapperRef.style.transition = 'top 0.32s ease, left 0.32s ease, width 0.32s ease, height 0.32s ease, opacity 0.18s ease-out, border-radius 0.22s ease-out';
+            wrapperRef.style.top = `${finalContainerRect.top}px`;
+            wrapperRef.style.left = `${finalContainerRect.left}px`;
+            wrapperRef.style.transform = 'none';
+            wrapperRef.style.width = `${finalContainerRect.width}px`;
+            wrapperRef.style.height = `${finalContainerRect.height + 4}px`;
+            wrapperRef.style.opacity = '1';
+            wrapperRef.style.pointerEvents = '';
+            wrapperRef.style.borderRadius = 'var(--radius-full)';
 
-      // Анимируем searchInput обратно к оригинальным размерам и закруглениям
-      searchInputRef.style.transition = 'all 0.5s ease';
-      searchInputRef.style.width = `${containerRect.width}px`;
-      searchInputRef.style.height = `${containerRect.height}px`;
-      searchInputRef.style.borderRadius = 'var(--radius-full)';
+            // Анимируем searchInput обратно к оригинальным размерам и закруглениям
+            searchInputRef.style.transition = 'width 0.32s ease, height 0.32s ease, border-radius 0.22s ease-out';
+            searchInputRef.style.width = `${finalContainerRect.width - 4}px`;
+            searchInputRef.style.height = `${finalContainerRect.height - 4}px`;
+            searchInputRef.style.borderRadius = 'var(--radius-full)';
+          }
+        });
+      });
       
       setTimeout(() => {
         if (wrapperRef) {
@@ -515,14 +582,23 @@ const SearchBar: Component = () => {
           searchInputRef.style.borderRadius = '';
           searchInputRef.style.opacity = '';
         }
+        // Разблокируем скролл после завершения анимации закрытия
+        if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+          document.body.style.overflow = '';
+        }
         setIsAnimating(false);
-      }, 500);
+      }, 350);
     }
   };
 
   const handleInputClick = () => {
     setIsExpanded(true);
     setCurrentTab('question');
+    
+    // Блокируем скролл при открытии формы
+    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+      document.body.style.overflow = 'hidden';
+    }
     
     // Ждем рендеринга формы и textarea, затем запускаем анимацию
     // Используем несколько requestAnimationFrame для гарантии готовности DOM после гидратации
@@ -532,12 +608,12 @@ const SearchBar: Component = () => {
           // Дополнительная задержка для гарантии рендеринга textarea и инициализации refs
           setTimeout(() => {
             // Проверяем что все refs готовы перед запуском анимации
-            if (wrapperRef && textareaRef && searchInputRef) {
+            if (wrapperRef && textareaRef && textareaParentRef && searchInputRef) {
               applyFormPosition();
             } else {
               // Если refs еще не готовы, ждем еще немного
               setTimeout(() => {
-                if (wrapperRef && textareaRef && searchInputRef) {
+                if (wrapperRef && textareaRef && textareaParentRef && searchInputRef) {
                   applyFormPosition();
                 }
               }, 100);
@@ -548,7 +624,7 @@ const SearchBar: Component = () => {
     } else {
       // Fallback для случаев без requestAnimationFrame
       setTimeout(() => {
-        if (wrapperRef && textareaRef && searchInputRef) {
+        if (wrapperRef && textareaRef && textareaParentRef && searchInputRef) {
           applyFormPosition();
         }
       }, 150);
@@ -556,6 +632,15 @@ const SearchBar: Component = () => {
   };
 
   const handleClose = () => {
+    if (textareaRef) {
+      textareaRef.blur();
+    }
+    
+    // Разблокируем скролл при закрытии формы
+    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+      document.body.style.overflow = '';
+    }
+    
     resetFormPosition();
   };
 
@@ -606,8 +691,21 @@ const SearchBar: Component = () => {
     }
     const currentIndex = getCurrentStepIndex();
     if (currentIndex > 0) {
-      setCurrentTab(TABS_ORDER[currentIndex - 1]);
+      const previousTab = TABS_ORDER[currentIndex - 1];
+      setCurrentTab(previousTab);
+      // Если возвращаемся на таб question, устанавливаем opacity в 1
+      if (previousTab === 'question' && textareaParentRef) {
+        setTimeout(() => {
+          if (textareaParentRef) {
+            textareaParentRef.style.opacity = '1';
+          }
+        }, 10);
+      }
     } else {
+      // Блюрим textarea при закрытии формы через кнопку "назад" на первом табе
+      if (textareaRef) {
+        textareaRef.blur();
+      }
       resetState();
       handleClose();
     }
@@ -636,22 +734,38 @@ const SearchBar: Component = () => {
     setIsConfirmModalOpen(false);
     // Если уже на табе question, сначала переключаемся на другой таб, чтобы createEffect сработал
     if (currentTab() === 'question') {
+      const fakeTextarea = getFakeTextarea();
+      if (fakeTextarea) {
+        fakeTextarea.focus();
+      }
+
       setCurrentTab('place');
       setTimeout(() => {
         setCurrentTab('question');
         setTimeout(() => {
-          if (textareaRef) {
-            textareaRef.style.opacity = '1';
+          if (textareaRef && textareaParentRef) {
+            textareaParentRef.style.opacity = '1';
+            textareaRef.style.pointerEvents = 'auto';
             textareaRef.focus();
+          } else {
+            fakeTextarea?.blur();
           }
         }, 50);
       }, 50);
     } else {
+      const fakeTextarea = getFakeTextarea();
+      if (fakeTextarea) {
+        fakeTextarea.focus();
+      }
+
       setCurrentTab('question');
       setTimeout(() => {
-        if (textareaRef) {
-          textareaRef.style.opacity = '1';
+        if (textareaRef && textareaParentRef) {
+          textareaParentRef.style.opacity = '1';
+          textareaRef.style.pointerEvents = 'auto';
           textareaRef.focus();
+        } else {
+          fakeTextarea?.blur();
         }
       }, 100);
     }
@@ -667,20 +781,29 @@ const SearchBar: Component = () => {
     const currentIndex = getCurrentStepIndex();
     const currentTabValue = currentTab();
     
-    // Если мы на шаге "Дата рождения" (time) и нажали "Отправить" с галочкой, переходим на Forecast
-    if (currentTabValue === 'time' && agreeToSubmit()) {
+    // Если мы на шаге "Дата рождения" (time) и нажали "Отправить", переходим на Forecast
+    if (currentTabValue === 'time') {
       setCurrentTab('forecast');
       console.log('Submit form');
       // Здесь можно добавить отправку данных на сервер
     } else if (currentIndex < TABS_ORDER.length - 1) {
-      setCurrentTab(TABS_ORDER[currentIndex + 1]);
+      const nextTab = TABS_ORDER[currentIndex + 1];
+      setCurrentTab(nextTab);
+      // Если переходим на таб question, устанавливаем opacity в 1
+      if (nextTab === 'question' && textareaParentRef) {
+        setTimeout(() => {
+          if (textareaParentRef) {
+            textareaParentRef.style.opacity = '1';
+          }
+        }, 10);
+      }
     } else {
       console.log('Submit form');
     }
   };
 
   createEffect(() => {
-    if (isExpanded() && textareaRef && currentTab() === 'question' && !isAnimating()) {
+    if (isExpanded() && textareaRef && currentTab() === 'question') {
       textareaRef.focus();
     }
   });
@@ -697,30 +820,6 @@ const SearchBar: Component = () => {
       }, 100);
     }
   });
-
-  // Автофокус на place input при открытии таба
-  let previousTab = currentTab();
-  createEffect(() => {
-    const currentTabValue = currentTab();
-    // Отслеживаем когда открылся новый таб 'place'
-    if (currentTabValue === 'place' && previousTab !== 'place') {
-      setTimeout(() => {
-        // Проверяем условия перед установкой фокуса
-        if (placeInputRef && !selectedPlace() && currentTab() === 'place') {
-          placeInputRef.focus();
-        }
-      }, 300);
-    }
-    previousTab = currentTabValue;
-  });
-
-  createEffect(() => {
-    if (currentTab() !== 'question' || !textareaRef) {
-      return;
-    }
-
-    textareaRef.style.opacity = '1';
-  }, [currentTab()]);
 
   // Валидация полей
   const isQuestionValid = createMemo(() => {
@@ -751,15 +850,36 @@ const SearchBar: Component = () => {
 
   const tabs = {
     question: () => (
-      <div class={styles.tabPanel}>
+      <div class={clsx(styles.tabPanel, styles.questionTabPanel)}>
         <Show when={currentTab() === 'question'}>
-          <textarea 
-            id='questionTextarea' 
-            class={styles.questionTextarea}
-            placeholder="Напишите ваш вопрос здесь..." 
+          <Textarea
+            id='questionTextarea'
+            label="Напишите ваш вопрос здесь..."
+            parentRef={(el) => textareaParentRef = el}
             ref={(el) => textareaRef = el}
+            class={styles.questionTextarea}
             value={questionValue()}
             onInput={(e) => setQuestionValue(e.currentTarget.value)}
+            onBlur={(e) => {
+              const fakeTextarea = getFakeTextarea();
+              if (fakeTextarea) {
+                fakeTextarea.focus();
+
+                setTimeout(() => {
+                  if (currentTab() === 'place' && placeInputRef && !selectedPlace() && !isManualInput()) {
+                    placeInputRef.focus();
+                  } else {
+                    fakeTextarea.blur();
+                  }
+                }, 300);
+              } else {
+                setTimeout(() => {
+                  if (currentTab() === 'place' && placeInputRef && !selectedPlace() && !isManualInput()) {
+                    placeInputRef.focus();
+                  }
+                }, 300);
+              }
+            }}
           />
         </Show>
         <button 
@@ -767,6 +887,7 @@ const SearchBar: Component = () => {
           classList={{ [styles.nextButtonDisabled]: !isCurrentTabValid() }}
           onClick={handleNext}
           disabled={!isCurrentTabValid()}
+          aria-label={currentTab() === 'time' ? 'Отправить форму' : 'Перейти к следующему шагу'}
         >
           {currentTab() === 'time' ? 'Отправить' : 'Далее'}
         </button>
@@ -775,60 +896,73 @@ const SearchBar: Component = () => {
     place: () => (
       <div class={styles.tabPanel}>
         <div class={styles.inputWrapper}>
-          <div class={styles.inputWrapperInner}>
-            <input 
-              ref={placeInputRef}
-              type="text" 
-              class={styles.formInput}
-              placeholder="Напишите город (например: Москва)"
-              value={isManualInput() && selectedCoords() 
-                ? `Ручной ввод, Широта: ${selectedCoords()!.lat.toFixed(6)}, Долгота: ${selectedCoords()!.lon.toFixed(6)}`
-                : placeValue()}
-              disabled={selectedPlace() !== null || isManualInput()}
-              onInput={handlePlaceInput}
-              onFocus={() => {
-                setIsPlaceInputFocused(true);
-                // Очищаем input и сбрасываем выбор при фокусе только если нет выбранного места и не ручной ввод
-                if (!selectedPlace() && !isManualInput()) {
-                  setPlaceValue('');
-                  setSelectedCoords(null);
-                  setSelectedPlace(null);
-                  setSuggestions([]);
-                  setHasSearched(false);
-                }
-              }}
-              onBlur={() => setIsPlaceInputFocused(false)}
-            />
-            <Show when={selectedPlace() !== null && !isManualInput()}>
-              <button
-                class={styles.clearButton}
-                onClick={handleClearPlace}
-                type="button"
-              >
-                ✕
-              </button>
-            </Show>
-            <Show when={isLoadingPlaces() && selectedPlace() === null}>
-              <div class={styles.loadingSpinner}></div>
+          <div class={styles.inputWrapperOuter}>
+            <div class={styles.inputWrapperInner}>
+              <Input
+                ref={placeInputRef}
+                type="text"
+                label="Место рождения"
+                class={styles.placeInput}
+                value={isManualInput() && selectedCoords() 
+                  ? `Ручной ввод, Широта: ${selectedCoords()!.lat.toFixed(6)}, Долгота: ${selectedCoords()!.lon.toFixed(6)}`
+                  : placeValue()}
+                disabled={selectedPlace() !== null || isManualInput()}
+                onInput={handlePlaceInput}
+                onFocus={(e) => {
+                  setIsPlaceInputFocused(true);
+                  // Очищаем input и сбрасываем выбор при фокусе только если нет выбранного места и не ручной ввод
+                  if (!selectedPlace() && !isManualInput()) {
+                    setPlaceValue('');
+                    setSelectedCoords(null);
+                    setSelectedPlace(null);
+                    setSuggestions([]);
+                    setHasSearched(false);
+                  }
+                }}
+                onBlur={() => setIsPlaceInputFocused(false)}
+              />
+              <Show when={selectedPlace() !== null && !isManualInput()}>
+                <button
+                  class={styles.clearButton}
+                  onClick={handleClearPlace}
+                  type="button"
+                  aria-label="Очистить поле ввода"
+                >
+                  <span aria-hidden="true">✕</span>
+                </button>
+              </Show>
+              <Show when={isLoadingPlaces() && selectedPlace() === null}>
+                <div class={styles.loadingSpinner}></div>
+              </Show>
+            </div>
+            <button 
+              class={styles.nextButton}
+              classList={{ [styles.nextButtonDisabled]: !isCurrentTabValid() }}
+              onClick={handleNext}
+              disabled={!isCurrentTabValid()}
+              aria-label={currentTab() === 'time' ? 'Отправить форму' : 'Перейти к следующему шагу'}
+            >
+              <svg class={styles.nextButtonArrow} width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M5 12H19M19 12L12 19M19 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+          <div class={styles.suggestionsCaption}>
+            <Show when={selectedPlace()} fallback={
+              <>{isManualInput() ? 'Впишите координаты' : 'Выберите локацию'}</>
+            }>
+              {isManualInput() ? 'Впишите координаты' : 'Выберите локацию'}
             </Show>
           </div>
-
            {/* Список подсказок OSM */}
              <div class={styles.suggestionsContainer}>
-               <div class={styles.suggestionsHeader}>
-                 <div class={styles.suggestionsHeaderRow}>
-                   <button 
-                     class={styles.nextButton}
-                     classList={{ [styles.nextButtonDisabled]: !isCurrentTabValid() }}
-                     onClick={handleNext}
-                     disabled={!isCurrentTabValid()}
-                   >
-                     {currentTab() === 'time' ? 'Отправить' : 'Далее'}
-                   </button>
-                   <Show when={!selectedPlace() || isManualInput()}>
-                     <label class={styles.toggleLabel}>
+              <Show when={!selectedPlace() || isManualInput()}>
+                <div class={styles.suggestionsHeader}>
+                   <label class={styles.switchLabel}>
+                     <span class={styles.switchWrapper}>
                        <input
                          type="checkbox"
+                         class={styles.switchInput}
                          checked={isManualInput()}
                          onChange={(e) => {
                            setIsManualInput(e.currentTarget.checked);
@@ -850,26 +984,21 @@ const SearchBar: Component = () => {
                            }
                          }}
                        />
-                       <span style="max-width: 130px;">Вписать<br />координаты</span>
-                     </label>
-                   </Show>
-                 </div>
-                 <div class={styles.suggestionsCaption}>
-                   <Show when={selectedPlace()} fallback={
-                     <>{isManualInput() ? 'Впишите координаты' : 'Выберите локацию'}</>
-                   }>
-                     {isManualInput() ? 'Впишите координаты' : 'Выберите локацию'}
-                   </Show>
-                 </div>
-               </div>
+                       <span class={styles.switchSlider}></span>
+                     </span>
+                     <span class={styles.switchText}>Вписать координаты</span>
+                   </label>
+                </div>
+              </Show>
                <Show when={selectedPlace()} fallback={
                  <>
                    <Show when={isManualInput()}>
                      <div class={styles.manualInputs}>
-                       <input
+                       <Input
                          type="text"
+                         inputMode="decimal"
                          class={styles.formInput}
-                         placeholder="Широта (-90 до 90)"
+                         label="Широта (-90 до 90)"
                          value={manualLat()}
                          onInput={(e) => {
                            const previousValue = manualLat();
@@ -884,10 +1013,11 @@ const SearchBar: Component = () => {
                            }
                          }}
                        />
-                       <input
+                       <Input
                          type="text"
+                         inputMode="decimal"
                          class={styles.formInput}
-                         placeholder="Долгота (-180 до 180)"
+                         label="Долгота (-180 до 180)"
                          value={manualLon()}
                          onInput={(e) => {
                            const previousValue = manualLon();
@@ -941,7 +1071,7 @@ const SearchBar: Component = () => {
                    </Show>
                  </>
                }>
-                 <div style='margin-top: 8px;' class={styles.suggestionsEmpty}>Локация выбрана!</div>
+                 <div class={styles.suggestionsEmpty}>Локация выбрана!</div>
                </Show>
              </div>
         </div>
@@ -950,10 +1080,11 @@ const SearchBar: Component = () => {
     time: () => (
       <div class={styles.tabPanel}>
         <div class={styles.inputsRow}>
-          <input 
-            type="text" 
+          <Input
+            type="text"
+            inputMode="numeric"
             class={styles.formInput}
-            placeholder="Дата (dd.mm.yyyy)"
+            label="Дата"
             value={yearValue()}
             onInput={(e) => {
               if (isUpdatingFromPicker()) return;
@@ -1002,10 +1133,11 @@ const SearchBar: Component = () => {
             }}
             maxLength={10}
           />
-          <input 
-            type="text" 
+          <Input 
+            type="text"
+            inputMode="numeric"
             class={styles.formInput}
-            placeholder="Время (hh:mm:ss)"
+            label="Время"
             value={timeValue()}
             onInput={(e) => {
               if (isUpdatingFromPicker()) return;
@@ -1056,18 +1188,31 @@ const SearchBar: Component = () => {
           />
         </div>
         
+        <button
+          style="margin-top: 8px;" 
+          class={styles.nextButton}
+          classList={{ 
+            [styles.nextButtonDisabled]: !isCurrentTabValid()
+          }}
+          onClick={handleNext}
+          disabled={!isCurrentTabValid()}
+          aria-label={currentTab() === 'time' ? 'Отправить форму' : 'Перейти к следующему шагу'}
+        >
+          {currentTab() === 'time' ? 'Отправить' : 'Далее'}
+        </button>
+        
           <Show when={currentTab() === 'time'}>
             <div class={styles.submitSection}>
               <div class={styles.dataRow}>
                 <div class={styles.dataCard}>
-                <span class={styles.dataLabel}>Координаты рождения</span>
-                <span class={styles.dataValue}>
-                  {selectedPlace() 
-                    ? `${parseFloat(selectedPlace()!.lat).toFixed(6)}, ${parseFloat(selectedPlace()!.lon).toFixed(6)}`
-                    : isManualInput() && selectedCoords()
-                      ? `${selectedCoords()!.lat.toFixed(6)}, ${selectedCoords()!.lon.toFixed(6)}`
-                      : 'Не указано'}
-                </span>
+                  <span class={styles.dataLabel}>Место рождения</span>
+                  <span class={styles.dataValue}>
+                    {selectedPlace() 
+                      ? `${selectedPlace()!.display_name} (${parseFloat(selectedPlace()!.lat).toFixed(6)}, ${parseFloat(selectedPlace()!.lon).toFixed(6)})`
+                      : isManualInput() && selectedCoords()
+                        ? `Ручной ввод (${selectedCoords()!.lat.toFixed(6)}, ${selectedCoords()!.lon.toFixed(6)})`
+                        : 'Не указано'}
+                  </span>
                 </div>
                 <div class={styles.dataCard}>
                   <span class={styles.dataLabel}>Дата рождения</span>
@@ -1077,31 +1222,14 @@ const SearchBar: Component = () => {
                       : 'Не указана'}
                   </span>
                 </div>
-              </div>
-              <div class={styles.dataCard}>
+                <div class={styles.dataCard}>
                   <span class={styles.dataLabel}>Вопрос</span>
                   <span class={styles.dataValue}>{questionValue() || 'Не указан'}</span>
+                </div>
               </div>
             
-            <label class={styles.agreeLabel}>
-              <input
-                type="checkbox"
-                checked={agreeToSubmit()}
-                onChange={(e) => setAgreeToSubmit(e.currentTarget.checked)}
-              />
-              <span>Данные верны, отправляю на рассчет</span>
-            </label>
           </div>
         </Show>
-        
-        <button 
-          class={styles.nextButton}
-          classList={{ [styles.nextButtonDisabled]: !isCurrentTabValid() || (currentTab() === 'time' && !agreeToSubmit()) }}
-          onClick={handleNext}
-          disabled={!isCurrentTabValid() || (currentTab() === 'time' && !agreeToSubmit())}
-        >
-          {currentTab() === 'time' ? 'Отправить' : 'Далее'}
-        </button>
       </div>
     ),
     forecast: () => {
@@ -1140,14 +1268,18 @@ const SearchBar: Component = () => {
           <div class={styles.overlayContent} ref={(el) => overlayContentRef = el}>
             {/* Header с кнопкой назад, названием и steps */}
             <div class={styles.formHeader}>
-              <button class={styles.backButton} onClick={handleBack}>
-                <Show when={currentTab() === 'forecast'} fallback={
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <button 
+                class={styles.backButton} 
+                onClick={handleBack}
+                aria-label={currentTab() === 'time' || currentTab() === 'place' ? 'Назад' : 'Закрыть'}
+              >
+                <Show when={currentTab() === 'time' || currentTab() === 'place'} fallback={
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 }>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </Show>
               </button>
@@ -1166,7 +1298,19 @@ const SearchBar: Component = () => {
                             index() === currentStepIndex() && styles.stepActive,
                             index() < currentStepIndex() && styles.stepCompleted
                           )}
-                          onClick={() => index() < currentStepIndex() && setCurrentTab(step.id)}
+                          onClick={() => {
+                            if (index() < currentStepIndex()) {
+                              setCurrentTab(step.id);
+                              // Если переключаемся на таб question, устанавливаем opacity в 1
+                              if (step.id === 'question' && textareaParentRef) {
+                                setTimeout(() => {
+                                  if (textareaParentRef) {
+                                    textareaParentRef.style.opacity = '1';
+                                  }
+                                }, 10);
+                              }
+                            }
+                          }}
                         >
                           <span class={styles.stepNumber}>{index() + 1}</span>
                           <span class={styles.stepTitle}>{step.title}</span>
@@ -1204,26 +1348,40 @@ const SearchBar: Component = () => {
             <div class={styles.grid}>
                 <div class={clsx(styles.gridItem, styles.firstItem)}>
                     <div class={styles.cube}>
-                        <img src="/assets/images/selection.webp" alt="Подбор астролога" class={styles.cubeImage} />
+                        <img 
+                            src="/assets/images/selection.webp" 
+                            alt="Подбор астролога" 
+                            class={styles.cubeImage}
+                            fetchpriority="high"
+                        />
                     </div>
                     <a class={styles.itemLabel}><span>Подбор астролога</span></a>
                 </div>
                 <div class={clsx(styles.gridItem, styles.secondItem)}>
-                    <div class={styles.cube}>
-                        <img src="/assets/images/connection.png" alt="Подбор астролога" class={styles.cubeImage} />
-                    </div>
+                    <div 
+                        class={styles.cube}
+                        style={{ 'background-image': 'url(/assets/images/connection.webp)' }}
+                        role="img"
+                        aria-label="Совместимость"
+                    />
                     <a class={styles.itemLabel}><span>Совместимость</span></a>
                 </div>
                 <div class={clsx(styles.gridItem, styles.thirdItem)}>
-                    <div class={styles.cube}>
-                        <img src="/assets/images/taro.webp" alt="Карты Таро" class={styles.cubeImage} />
-                    </div>
+                    <div 
+                        class={styles.cube}
+                        style={{ 'background-image': 'url(/assets/images/taro.webp)' }}
+                        role="img"
+                        aria-label="Карты Таро"
+                    />
                     <a class={styles.itemLabel}><span>Расклад Таро</span></a>
                 </div>
                 <div class={clsx(styles.gridItem, styles.fourthItem)}>
-                    <div class={styles.cube}>
-                        <img src="/assets/images/forum.webp" alt="Форум" class={styles.cubeImage} />
-                    </div>
+                    <div 
+                        class={styles.cube}
+                        style={{ 'background-image': 'url(/assets/images/forum.webp)' }}
+                        role="img"
+                        aria-label="Форум"
+                    />
                     <a class={styles.itemLabel}>
                         <span>Форум</span>
                     </a>
@@ -1231,19 +1389,19 @@ const SearchBar: Component = () => {
             </div>
             <div class={styles.searchInputContainer} ref={(el) => containerRef = el}>
                 <div 
-                  class={styles.searchInputWrapper}
-                  onClick={!isAnimating() ? handleInputClick : undefined}
-                  ref={(el) => wrapperRef = el}
+                    class={styles.searchInputWrapper}
+                    onClick={!isAnimating() ? handleInputClick : undefined}
+                    ref={(el) => wrapperRef = el}
                 >
-                    <div class={styles.searchInput} ref={(el) => searchInputRef = el}>
-                        <svg class={styles.chatIcon} width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21 6C21 4.34 19.66 3 18 3H6C4.34 3 3 4.34 3 6V14C3 15.66 4.34 17 6 17H7L7 21L11 17H18C19.66 17 21 15.66 21 14V6Z" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="8.5" cy="10" r="0.8" fill="rgba(255,255,255,0.35)"/>
-                            <circle cx="12" cy="10" r="0.8" fill="rgba(255,255,255,0.35)"/>
-                            <circle cx="15.5" cy="10" r="0.8" fill="rgba(255,255,255,0.35)"/>
-                        </svg>
-                        <h1>Бесплатный вопрос натальной карте</h1>
-                    </div>
+                  <div class={styles.searchInput} ref={(el) => searchInputRef = el}>
+                      <svg class={styles.chatIcon} width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M21 6C21 4.34 19.66 3 18 3H6C4.34 3 3 4.34 3 6V14C3 15.66 4.34 17 6 17H7L7 21L11 17H18C19.66 17 21 15.66 21 14V6Z" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          <circle cx="8.5" cy="10" r="0.8" fill="rgba(255,255,255,0.35)"/>
+                          <circle cx="12" cy="10" r="0.8" fill="rgba(255,255,255,0.35)"/>
+                          <circle cx="15.5" cy="10" r="0.8" fill="rgba(255,255,255,0.35)"/>
+                      </svg>
+                      <h1>Бесплатный вопрос натальной карте</h1>
+                  </div>
                 </div>
             </div>
         </div>
@@ -1259,6 +1417,7 @@ const SearchBar: Component = () => {
             <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 0.5rem;">
               <button
                 onClick={handleNewQuestion}
+                aria-label="Задать новый вопрос"
                 style="width: 100%; padding: 0.75rem 1.5rem; background: var(--color-primary, #ffe433); border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; color: var(--bg-primary, #1a1a1a); cursor: pointer; transition: background 0.2s ease;"
                 onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-primary-hover, #ffd700)'}
                 onMouseLeave={(e) => e.currentTarget.style.background = 'var(--color-primary, #ffe433)'}
@@ -1267,6 +1426,7 @@ const SearchBar: Component = () => {
               </button>
               <button
                 onClick={handleConfirmClose}
+                aria-label="Закрыть модальное окно"
                 style="width: 100%; padding: 0.75rem 1.5rem; background: rgba(255, 255, 255, 0.1); border: none; outline: none; border-radius: 12px; font-size: 1rem; font-weight: 600; color: rgba(255, 255, 255, 0.9); cursor: pointer; transition: all 0.2s ease;"
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';

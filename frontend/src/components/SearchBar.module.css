@@ -70,9 +70,16 @@
     flex-shrink: 0;
 }
 
-.backButton:hover {
-    color: var(--color-primary);
-    background: var(--bg-tertiary);
+@media (hover: hover) and (pointer: fine) {
+    .backButton:hover {
+        color: var(--color-primary);
+        background: var(--bg-tertiary);
+    }
+}
+
+.backButton:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
 }
 
 .backButton svg {
@@ -215,9 +222,13 @@
 
 /* Tab container - Telegram style */
 .tabContainer {
-    position: relative;
-    overflow: hidden;
-    flex: 1;
+  position: relative;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  max-height: calc(var(--app-height, 100vh) - 90px);
 }
 
 .forecastTitle {
@@ -279,6 +290,10 @@
     pointer-events: none;
 }
 
+.questionTabPanel {
+  gap: 8px;
+}
+
 .tabContentEnterLeft.tabContentActive {
     transform: translateX(0);
     opacity: 1;
@@ -305,38 +320,12 @@
     flex-direction: column;
 }
 
-.questionTextarea {
-    width: 100%;
-    height: 120px;
-    padding: clamp(0.75rem, 2vw, 1rem);
-    background: var(--bg-secondary);
-    border: 2px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    font-family: inherit;
-    font-size: clamp(0.875rem, 2.5vw, 1rem);
-    color: var(--text-primary);
-    resize: none;
-    outline: none;
-    box-sizing: border-box;
-    transition: border-color 0.2s ease;
-    opacity: 0;
-    z-index: 102;
-    transition: all 0.6s ease;
-}
-
-.questionTextarea::placeholder {
-    color: var(--text-caption);
-}
-
-.questionTextarea:focus {
-    border-color: var(--color-primary);
-}
-
 .inputsRow {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
     width: 100%;
+    margin-top: 0.5rem;
 }
 
 @media (max-width: 768px) {
@@ -350,24 +339,15 @@
 }
 
 .formInput {
-    width: 100%;
-    padding: clamp(0.75rem, 2vw, 1rem);
-    background: var(--bg-secondary);
-    border: 2px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    font-family: inherit;
-    font-size: clamp(0.875rem, 2.5vw, 1rem);
-    color: var(--text-primary);
-    outline: none;
-    box-sizing: border-box;
-    transition: border-color 0.2s ease;
+  width: 100%;
 }
 
 .formInput::placeholder {
     color: var(--text-caption);
 }
 
-.formInput:focus {
+.formInput:focus,
+.formInput.has-focus {
     border-color: var(--color-primary);
 }
 
@@ -394,15 +374,22 @@
     cursor: pointer;
     transition: transform 0.3s ease, opacity 0.3s ease, background 0.2s ease, box-shadow 0.2s ease;
     margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
-.nextButton:hover {
-    background: var(--color-primary-hover);
-    transform: translateY(-2px);
+@media (hover: hover) and (pointer: fine) {
+    .nextButton:hover {
+        background: var(--color-primary-hover);
+        transform: translateY(-2px);
+    }
 }
 
 .nextButton:active {
-    transform: translateY(0);
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
 }
 
 .nextButton:disabled,
@@ -412,10 +399,12 @@
     pointer-events: none;
 }
 
-.nextButtonDisabled:hover {
-    background: var(--color-primary);
-    transform: none;
-    box-shadow: none;
+@media (hover: hover) and (pointer: fine) {
+    .nextButtonDisabled:hover {
+        background: var(--color-primary);
+        transform: none;
+        box-shadow: none;
+    }
 }
 
 .nextButtonEnterRight {
@@ -428,11 +417,16 @@
     opacity: 0;
 }
 
+.nextButtonArrow {
+    flex-shrink: 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+
 .searchContainer {
   display: flex;
   flex-direction: column;
   gap: clamp(0.75rem, 2vw, 1.5rem);
-  padding: clamp(0.5rem, 2vw, 1rem);
 }
 
 .grid {
@@ -455,7 +449,10 @@
   position: relative;
   width: 100%;
   flex: 1;
-  background: var(--border-color);
+  background-color: var(--border-color);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   border-radius: clamp(8px, 2vw, 16px);
   transition: all var(--transition-normal);
   overflow: hidden;
@@ -474,24 +471,33 @@
   border-radius: inherit;
 }
 
-.gridItem:hover .cube {
-  background: var(--bg-tertiary);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+@media (hover: hover) and (pointer: fine) {
+    .gridItem:hover .cube {
+        background: var(--bg-tertiary);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+}
+
+.gridItem:active .cube {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
 }
 
 .itemLabel {
   font-size: clamp(0.625rem, 2vw, 0.875rem);
   font-weight: 500;
-  color: var(--text-caption);
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
   text-align: center;
   transition: color var(--transition-fast);
   line-height: 1.3;
 }
 
-.gridItem:hover .itemLabel {
-  color: var(--color-primary);
+@media (hover: hover) and (pointer: fine) {
+    .gridItem:hover .itemLabel {
+        color: var(--color-primary);
+    }
 }
 
 /* 1) Квадрат слева, занимает 2 ряда */
@@ -537,32 +543,9 @@
   z-index: 101;
 }
 
-.searchInputWrapper.wrapperAnimating::before {
-  display: none;
-}
-
-.searchInputWrapper.wrapperForm .questionTextarea {
-  width: 100%;
-  height: 120px;
-  padding: clamp(0.75rem, 2vw, 1rem);
-  background: var(--bg-secondary);
-  border: 2px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  font-family: inherit;
-  font-size: clamp(0.875rem, 2.5vw, 1rem);
-  color: var(--text-primary);
-  resize: none;
-  outline: none;
-  box-sizing: border-box;
-  transition: border-color 0.2s ease;
-}
-
-.searchInputWrapper.wrapperForm .questionTextarea::placeholder {
-  color: var(--text-caption);
-}
-
-.searchInputWrapper.wrapperForm .questionTextarea:focus {
-  border-color: var(--color-primary);
+.questionTextarea {
+  margin-top: 0.5rem;
+  opacity: 0;
 }
 
 .searchInputWrapper::before {
@@ -638,7 +621,6 @@
   height: 100%;
   border-radius: var(--radius-lg);
   align-items: flex-start;
-  padding-top: clamp(0.75rem, 2vw, 1rem);
   opacity: 0;
 }
 
@@ -647,7 +629,7 @@
 }
 
 .inputWrapper {
-  position: relative;
+  position: absolute;
   width: 100%;
 }
 
@@ -656,10 +638,21 @@
   width: 100%;
 }
 
+.inputWrapperOuter {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  height: 64px;
+  margin-top: 0.5rem;
+}
+
 .clearButton {
   position: absolute;
   right: clamp(0.75rem, 2vw, 1rem);
-  top: calc(50% - 12px);
+  top: calc(50% - 20px);
   background: transparent;
   border: none;
   color: rgba(255, 255, 255, 0.6);
@@ -672,12 +665,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
+  backdrop-filter: blur(4px);
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
 }
 
-.clearButton:hover {
-  color: rgba(255, 255, 255, 0.9);
+@media (hover: hover) and (pointer: fine) {
+    .clearButton:hover {
+        color: rgba(255, 255, 255, 0.9);
+    }
+}
+
+.clearButton:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
 }
 
 .formInput:disabled {
@@ -691,7 +694,6 @@
   top: 100%;
   left: 0;
   width: 100%;
-  margin-top: 8px;
   z-index: 100;
 }
 
@@ -699,6 +701,7 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 8px;
+  margin-top: 8px;
   gap: 8px;
 }
 
@@ -709,31 +712,89 @@
   gap: 8px;
 }
 
-.suggestionsHeaderRow .nextButton {
+.nextButton {
   flex: 1;
   min-width: 0;
-  width: 100%;
   padding: 1rem 2rem;
   margin-top: 0;
   font-size: 1.125rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
-.suggestionsHeaderRow .toggleLabel {
+.switchLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  user-select: none;
   flex: 0 0 auto;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: var(--radius-lg, 8px);
-  padding: 0.5rem 0.75rem;
-  transition: border-color 0.2s ease;
-  line-height: 1;
-  height: 53px;
 }
 
-.suggestionsHeaderRow .toggleLabel:hover {
-  border-color: rgba(255, 255, 255, 0.5);
+.switchText {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
 }
 
-.suggestionsHeaderRow .toggleLabel:has(input[type="checkbox"]:checked) {
-  border-color: var(--color-primary, #ffe433);
+.switchWrapper {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.switchInput {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.switchSlider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: background-color 0.3s ease;
+  border-radius: 24px;
+}
+
+.switchSlider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: rgba(255, 255, 255, 0.9);
+  transition: transform 0.3s ease;
+  border-radius: 50%;
+}
+
+.switchInput:checked + .switchSlider {
+  background-color: var(--color-primary, #ffe433);
+}
+
+.switchInput:checked + .switchSlider:before {
+  transform: translateX(20px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .switchLabel:hover .switchSlider {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  .switchLabel:hover .switchInput:checked + .switchSlider {
+    background-color: var(--color-primary-hover, #ffd700);
+  }
 }
 
 @media (max-width: 768px) {
@@ -743,11 +804,10 @@
 }
 
 .suggestionsCaption {
+  margin-top: 16px;
   font-weight: bold;
-  font-size: 18px;
-  color: rgba(255, 255, 255, 0.5);
-  flex: 1;
-  min-width: 0;
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 @media (max-width: 768px) {
@@ -758,6 +818,7 @@
 
 .toggleLabel {
   display: flex;
+  position: relative;
   align-items: center;
   gap: 10px;
   font-size: 14px;
@@ -796,32 +857,42 @@
   border-color: var(--color-primary);
 }
 
-.toggleLabel input[type="checkbox"]:checked::after {
-  content: '✓';
+.checkboxWrapper {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.toggleLabel .checkboxIcon,
+.agreeLabel .checkboxIcon {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
   color: var(--bg-primary);
-  font-size: 14px;
-  font-weight: bold;
-  line-height: 1;
+  pointer-events: none;
+  z-index: 1;
 }
 
-.toggleLabel input[type="checkbox"]:hover {
-  border-color: var(--color-primary);
+@media (hover: hover) and (pointer: fine) {
+    .toggleLabel input[type="checkbox"]:hover {
+        border-color: var(--color-primary);
+    }
 }
 
 .toggleLabel input[type="checkbox"]:focus {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+  outline: none;
 }
 
 .manualInputs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-top: 16px;
 }
 
 .mapContainer {
@@ -840,13 +911,14 @@
 }
 
 .dataRow {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 4px;
 }
 
 .agreeLabel {
   display: flex;
+  position: relative;
   align-items: center;
   gap: 10px;
   font-size: 14px;
@@ -876,25 +948,15 @@
   border-color: var(--color-primary);
 }
 
-.agreeLabel input[type="checkbox"]:checked::after {
-  content: '✓';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: var(--bg-primary);
-  font-size: 14px;
-  font-weight: bold;
-  line-height: 1;
-}
 
-.agreeLabel input[type="checkbox"]:hover {
-  border-color: var(--color-primary);
+@media (hover: hover) and (pointer: fine) {
+    .agreeLabel input[type="checkbox"]:hover {
+        border-color: var(--color-primary);
+    }
 }
 
 .agreeLabel input[type="checkbox"]:focus {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+  outline: none;
 }
 
 .submitData {
@@ -909,18 +971,16 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 16px;
+  padding: 12px;
   background: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
 }
 
 .dataLabel {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.75);
   font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  line-height: 1.1;
 }
 
 .dataValue {
@@ -935,25 +995,72 @@
   overflow-y: auto;
   padding: 0;
   list-style: none;
+  margin-bottom: 500px;
 }
 
 .suggestionsEmpty {
   padding: 28px 12px;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.75);
   font-size: 14px;
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
+  margin-top: 16px;
 }
 
 .suggestionItem {
   padding: 12px 16px 12px 4px;
   color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: transform 0.2s ease, color 0.2s ease;
   font-size: 14px;
   line-height: 1.4;
   text-align: left;
+  border-radius: var(--radius-md, 6px);
+}
+
+/* Hover эффект только на ПК */
+@media (hover: hover) and (pointer: fine) {
+  .suggestionItem:hover {
+    transform: scale(0.995);
+    color: var(--color-primary, #ffe433);
+  }
+  
+  .suggestionItem:hover .suggestionName,
+  .suggestionItem:hover .suggestionCoords {
+    color: var(--color-primary, #ffe433);
+  }
+}
+
+/* Active эффект для всех устройств */
+.suggestionItem:active {
+  transform: scale(0.99);
+  color: var(--color-primary, #ffe433);
+}
+
+.suggestionItem:active .suggestionName,
+.suggestionItem:active .suggestionCoords {
+  color: var(--color-primary, #ffe433);
+}
+
+.suggestionItemSelected {
+  color: var(--color-primary, #ffe433);
+}
+
+.suggestionItemSelected .suggestionName,
+.suggestionItemSelected .suggestionCoords {
+  color: var(--color-primary, #ffe433);
+}
+
+.suggestionItemSelected:active {
+  transform: scale(0.99);
+}
+
+/* Hover для выбранного элемента на ПК */
+@media (hover: hover) and (pointer: fine) {
+  .suggestionItemSelected:hover {
+    transform: scale(0.995);
+  }
 }
 
 .suggestionName {
@@ -963,7 +1070,7 @@
 
 .suggestionCoords {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .inputIcon {
@@ -972,7 +1079,7 @@
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .loadingSpinner {

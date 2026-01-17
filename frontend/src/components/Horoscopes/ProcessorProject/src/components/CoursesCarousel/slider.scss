@@ -1,0 +1,41 @@
+.courses {
+  &-slider-wrapper {
+    .slick-track {
+      display: flex;
+    }
+    
+    .slick-list {
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .courses-slider_dots {
+      position: absolute;
+      display: flex !important;
+      bottom: 15px;
+      left: 16px;
+      li {
+        list-style-type: none;
+        margin-right: 6px;
+        border: none;
+        font-size: 0;
+        width: 6px;
+        transition: width 0.4s;
+        height: 6px;
+        background: #FFFFFF;
+        list-style-type: none;
+        border-radius: 50%;
+        &:last-child {
+          margin-right: 0;
+        }
+        &.slick-active {
+          width: 25px;
+          border-radius: 7px;
+        }
+        button {
+          display: none;
+        }
+      }
+  
+    }
+  }
+}
