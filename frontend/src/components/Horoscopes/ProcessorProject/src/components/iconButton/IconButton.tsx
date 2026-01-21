@@ -1,6 +1,5 @@
 import React, { CSSProperties, MouseEventHandler } from 'react';
 import styles from './IconButtom.module.scss';
-import Ripples from 'react-ripples';
 
 export interface IconButtonProps {
   children: React.ReactNode [] | React.ReactNode;
@@ -12,9 +11,7 @@ export interface IconButtonProps {
 const IconButton = ({ children, onClick, style }: IconButtonProps) => {
   return (
     <div className={styles.main} style={style}>
-      <Ripples className={styles.fill} onClick={onClick}>
-      </Ripples>
-      <button className={styles.container}>
+      <button className={styles.container} onClick={onClick} type="button">
         { children }
       </button>
     </div>

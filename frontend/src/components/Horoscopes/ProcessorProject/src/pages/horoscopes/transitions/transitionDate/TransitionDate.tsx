@@ -27,6 +27,7 @@ import DegreeTable from '../../../../components/degreeTable/DegreeTable';
 import HoroscopesLoader from '../../components/horoscopeLoader/HoroscopesLoader';
 import { DegreeTableParts } from '../../../../models/types/DegreeTable';
 import { countHoroscope } from '../../../../api/countHoroscope';
+import Header from '../../../../components/header/Header';
 import moment from 'moment';
 
 const TransitionDate = () => {
@@ -160,7 +161,14 @@ const TransitionDate = () => {
       </Grid>
       {!!transitionMaps.length && (
         <>
-          {!isDegreeTableLoading && degreeTable && <DegreeTable table={table} />}
+          {!isDegreeTableLoading && degreeTable && (
+            <>
+              <Grid pl={2} pt={2} pb={2}>
+                <Header header={'Дробная таблица'} isIconActive={false} isPlain />
+              </Grid>
+              <DegreeTable table={table} />
+            </>
+          )}
           {isDegreeTableLoading && <HoroscopesLoader />}
           <MainDashiTable />
         </>

@@ -228,7 +228,16 @@
   overflow-x: hidden;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
-  max-height: calc(var(--app-height, 100vh) - 90px);
+  max-height: calc(var(--app-height, 100vh) - 72px);
+  transition: all 0.3s ease;
+}
+
+.tabContainerForecast {
+  margin-left: -16px;
+  margin-right: -16px;
+  border-radius: 16px 16px 0 0;
+  margin-top: 16px;
+  max-height: calc(var(--app-height, 100vh) - 72px - 16px);
 }
 
 .forecastTitle {

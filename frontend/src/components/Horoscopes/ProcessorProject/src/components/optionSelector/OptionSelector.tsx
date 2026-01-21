@@ -2,15 +2,19 @@ import React, { useEffect, useRef } from 'react';
 import { Option } from '../../models/types/Option';
 import { IosSelector } from './IosSelector';
 import styles from './OptionSelector.module.css';
+import classNames from 'classnames';
 
 interface OptionSelectorProps {
   options: Option[];
   value?: any;
   onChange?: (option: Option) => void;
   placeholder?: string;
+  placeholderShort?: string;
   disabled?: boolean;
   type?: 'infinite' | 'normal';
   itemHeight?: number;
+  compact?: boolean;
+  centered?: boolean;
 }
 
 export const OptionSelector: React.FC<OptionSelectorProps> = ({
@@ -18,9 +22,12 @@ export const OptionSelector: React.FC<OptionSelectorProps> = ({
   value,
   onChange,
   placeholder = '',
+  placeholderShort,
   disabled = false,
   type = 'infinite',
-  itemHeight
+  itemHeight,
+  compact = false,
+  centered = false
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const selectorRef = useRef<IosSelector | null>(null);
@@ -187,10 +194,68 @@ export const OptionSelector: React.FC<OptionSelectorProps> = ({
     );
   }
 
+  const stepBy = (delta: number) => {
+    const selector = selectorRef.current;
+    if (!selector) {
+      return;
+    }
+
+    const source = selector.source || [];
+    if (!source.length) {
+      return;
+    }
+
+    let nextScroll = selector.scroll + delta;
+    const max = source.length;
+    let attempts = 0;
+
+    while (attempts < max) {
+      const idx = selector.type === 'infinite'
+        ? ((nextScroll % max) + max) % max
+        : Math.max(0, Math.min(max - 1, nextScroll));
+
+      if (!source[idx]?.disabled) {
+        nextScroll = idx;
+        break;
+      }
+
+      nextScroll += delta;
+      attempts += 1;
+    }
+
+    // Animate a single-step scroll and then finalize selection.
+    (selector as any)
+      ._animateToScroll(selector.scroll, nextScroll, 0.12, 'easeOutQuart')
+      .then(() => {
+        (selector as any)._selectByScroll(nextScroll);
+      });
+  };
+
   return (
-    <div className={styles.container}>
-      {placeholder && <div className={styles.placeholder}>{placeholder}</div>}
+    <div className={classNames(styles.container, { [styles.compact]: compact, [styles.centered]: centered })}>
+      {placeholder && (
+        <div className={styles.placeholder}>
+          {placeholderShort ? (
+            <>
+              <span className={styles.placeholderLong}>{placeholder}</span>
+              <span className={styles.placeholderShort}>{placeholderShort}</span>
+            </>
+          ) : (
+            placeholder
+          )}
+        </div>
+      )}
       <div ref={containerRef} className={styles.selectorWrapper}></div>
+      <button className={`${styles.arrow} ${styles.arrowUp}`} type="button" onClick={() => stepBy(-1)}>
+        <svg width="14" height="14" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M1 6.5L5.18338 1.50905C5.36756 1.32662 5.63244 1.32662 5.81662 1.50905L10 6.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
+        </svg>
+      </button>
+      <button className={`${styles.arrow} ${styles.arrowDown}`} type="button" onClick={() => stepBy(1)}>
+        <svg width="14" height="14" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M1 1.5L5.18338 6.49095C5.36756 6.67338 5.63244 6.67338 5.81662 6.49095L10 1.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
+        </svg>
+      </button>
     </div>
   );
 };

@@ -8,6 +8,13 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 8080,
+    proxy: {
+      '/api/nominatim': {
+        target: 'https://nominatim.openstreetmap.org',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/nominatim/, '')
+      }
+    }
   },
   build: {
     target: 'esnext',

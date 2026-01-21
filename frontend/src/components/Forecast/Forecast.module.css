@@ -5,6 +5,7 @@
   width: 100%;
   overflow: hidden;
   box-sizing: border-box;
+  border-radius: 16px 16px 0 0;
 }
 
 .loaderContainer {

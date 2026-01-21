@@ -1,8 +1,7 @@
 import React, { memo, startTransition, useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import { useNavigate, useLocation, useOutletContext } from '../../contexts/NavigationContext';
-import { Grid, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import Map from '../../components/map/Map';
-import Buttons from './components/buttons/Buttons';
 import Input from '../../components/input/Input';
 import { Option } from '../../models/types/Option';
 import { InputType } from '../../components/input/InputType';
@@ -49,6 +48,7 @@ import Transitions from './transitions/Transitions';
 import Yogas from './yogas/Yogas';
 import Rectification from './rectification/Rectification';
 import Varshapkhala from './varshapkhala/Varshapkhala';
+import Settings from '../settings/index/Index';
 
 const MemoizedObjectDescription = memo(ObjectDescription);
 
@@ -66,6 +66,8 @@ const Index: React.FC<HoroscopesProps> = ({ childComponent }) => {
   const horoscopeUserInfo = useGetHoroscopeUserInfo();
   const mapsRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [fixedTop, setFixedTop] = React.useState<number>(0);
   const varshpahalaMaps = useGetVarshpahalaMaps();
   const isYearPickerActive = useGetIsYearPickerActive();
   const isTransitionMapsActive = useGetIsTransitionMapsActive();
@@ -303,9 +305,24 @@ const Index: React.FC<HoroscopesProps> = ({ childComponent }) => {
     }
   }, [targetProcessorObject]);
 
+  // Установка фиксированной позиции относительно верха контейнера
+  useEffect(() => {
+    if (containerRef.current) {
+      const containerRect = containerRef.current.getBoundingClientRect();
+      setFixedTop(containerRect.top);
+    }
+  }, []);
+
   return (
     <>
-      <Grid height={'100%'} minHeight={'100vh'} overflow={'scroll'} zIndex={10} sx={{ backgroundColor: 'rgb(23, 23, 25)' }}>
+      <Grid 
+        ref={containerRef}
+        height={'100%'} 
+        minHeight={'100vh'} 
+        overflow={'scroll'} 
+        zIndex={10} 
+        sx={{ backgroundColor: 'rgb(23, 23, 25)' }}
+      >
         <Grid 
           ref={contentRef} 
           container 
@@ -313,18 +330,19 @@ const Index: React.FC<HoroscopesProps> = ({ childComponent }) => {
           justifyContent={'center'} 
           zIndex={10}
           sx={{
-            position: 'absolute',
-            top: 0,
+            position: 'fixed',
             left: 0,
+            right: 0,
             backgroundColor: 'rgb(30, 30, 33)',
-            width: '100%',
-            zIndex: 1000
+            width: 'calc(100% + 32px)',
+            margin: '-16px -16px 0 -16px',
+            zIndex: 1000,
+            borderRadius: '16px 16px 0 0'
           }}
         >
           <Grid item container direction={'row'} justifyContent={'space-between'} gap={1}>
             <Grid item width={'70%'}>
               <OptionSelector
-                placeholder={'Раздел'}
                 options={processorRoutesOptions}
                 value={targetRoute?.value}
                 onChange={(option: Option) => dispatch(setProcessorTargetRoute(option))}
@@ -334,7 +352,6 @@ const Index: React.FC<HoroscopesProps> = ({ childComponent }) => {
             </Grid>
             <Grid item flex={1}>
               <OptionSelector
-                placeholder={'Дробные карты'}
                 disabled={isMapSelectDisabled}
                 options={currentMaps}
                 value={targetMapValue}
@@ -370,96 +387,104 @@ const Index: React.FC<HoroscopesProps> = ({ childComponent }) => {
             }} />
           </Grid>
         </Grid>
-        <Grid ref={mapsRef} item pt={'96px'} pb={2}>
-          <Swiper
-            slidesPerView="auto"
-            slidesPerGroup={1}
-            className={'maps'}
-            initialSlide={0}
-            centeredSlides
-            spaceBetween={5}
-            onSwiper={(_swiper) => {
-              swiper.current = _swiper;
-              // Используем requestAnimationFrame для гарантии полной инициализации
-              requestAnimationFrame(() => {
-                setTimeout(() => {
-                  if (swiper.current && typeof swiper.current.slideTo === 'function') {
-                    // Проверяем, что swiper полностью инициализирован
-                    if (swiper.current.params && swiper.current.slides && swiper.current.slides.length > 0) {
-                      // Убеждаемся, что params.speed существует
-                      if (!swiper.current.params.speed) {
-                        swiper.current.params.speed = 300;
-                      }
-                      try {
-                        swiper.current.slideTo(0);
-                        dispatch(setTargetMapValue('D-1'));
-                      } catch (error) {
-                        console.warn('Swiper slideTo error:', error);
-                      }
-                    }
-                  }
-                }, 100);
-              });
-            }}
-            onSlideChange={onSwipe}
-          >
-            {currentMaps.map((map) => (
-              <SwiperSlide key={map.value}>
-                <Map
-                  mapType={mapType}
-                  aspectType={aspectType}
-                  mapSections={map.mapSections}
-                  mapTransitSections={isTransitionMapsActive ? mapTransitSections('D-1') : mapTransitSections(map.value)}
-                  isTransit={isTransitionMapsActive}
-                  mapName={map.value}
-                  targetMapValue={targetMapValue}
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </Grid>
-        <Grid item pl={2} pr={2} pt={2}>
-          <Buttons />
-        </Grid>
-        <Grid item pl={2} pr={2} pt={1} display={'flex'} justifyContent={'center'}>
-          <Typography fontFamily={'Gilroy'} fontWeight={500} fontSize={'14px'} color={'#C3C9CD'} textAlign={'center'}>
-            {horoscopeInfo}
-          </Typography>
-        </Grid>
         {(() => {
           const normalizedRoute = location.pathname.split('?')[0].replace(/\/$/, '');
+          const isSettingsRoute = normalizedRoute.includes('/settings') || normalizedRoute.endsWith('/settings');
           
-          // Определяем, какой компонент показывать на основе текущего роута
-          if (normalizedRoute.includes('/ashtakavarga') || normalizedRoute.endsWith('/ashtakavarga')) {
-            return <Ashtakavarga />;
+          if (isSettingsRoute) {
+            return <Settings />;
           }
           
-          if (normalizedRoute.includes('/dashi') || normalizedRoute.endsWith('/dashi')) {
-            return <Dashi />;
-          }
-          
-          if (normalizedRoute.includes('/zones') || normalizedRoute.endsWith('/zones')) {
-            return <Zones />;
-          }
-          
-          if (normalizedRoute.includes('/transitions') || normalizedRoute.endsWith('/transitions')) {
-            return <Transitions />;
-          }
-          
-          if (normalizedRoute.includes('/yogas') || normalizedRoute.endsWith('/yogas')) {
-            return <Yogas />;
-          }
-          
-          if (normalizedRoute.includes('/rectification') || normalizedRoute.endsWith('/rectification')) {
-            return <Rectification />;
-          }
-          
-          if (normalizedRoute.includes('/varshapkhala') || normalizedRoute.endsWith('/varshapkhala')) {
-            return <Varshapkhala />;
-          }
-          
-          // По умолчанию показываем NatMap
-          return <NatMap />;
+          return (
+            <>
+              <Grid ref={mapsRef} item pt={'80px'}>
+                <Swiper
+                  slidesPerView="auto"
+                  slidesPerGroup={1}
+                  className={'maps'}
+                  initialSlide={0}
+                  centeredSlides
+                  spaceBetween={5}
+                  onSwiper={(_swiper) => {
+                    swiper.current = _swiper;
+                    // Используем requestAnimationFrame для гарантии полной инициализации
+                    requestAnimationFrame(() => {
+                      setTimeout(() => {
+                        if (swiper.current && typeof swiper.current.slideTo === 'function') {
+                          // Проверяем, что swiper полностью инициализирован
+                          if (swiper.current.params && swiper.current.slides && swiper.current.slides.length > 0) {
+                            // Убеждаемся, что params.speed существует
+                            if (!swiper.current.params.speed) {
+                              swiper.current.params.speed = 300;
+                            }
+                            try {
+                              swiper.current.slideTo(0);
+                              dispatch(setTargetMapValue('D-1'));
+                            } catch (error) {
+                              console.warn('Swiper slideTo error:', error);
+                            }
+                          }
+                        }
+                      }, 100);
+                    });
+                  }}
+                  onSlideChange={onSwipe}
+                >
+                  {currentMaps.map((map) => (
+                    <SwiperSlide key={map.value}>
+                      <Map
+                        mapType={mapType}
+                        aspectType={aspectType}
+                        mapSections={map.mapSections}
+                        mapTransitSections={isTransitionMapsActive ? mapTransitSections('D-1') : mapTransitSections(map.value)}
+                        isTransit={isTransitionMapsActive}
+                        mapName={map.value}
+                        targetMapValue={targetMapValue}
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </Grid>
+              <Grid item pl={2} pr={2} pt={1} display={'flex'} justifyContent={'center'}>
+                <div className="horoscopeInfoCard">
+                  <span className="horoscopeInfoValue">{horoscopeInfo}</span>
+                </div>
+              </Grid>
+              {(() => {
+                // Определяем, какой компонент показывать на основе текущего роута
+                if (normalizedRoute.includes('/ashtakavarga') || normalizedRoute.endsWith('/ashtakavarga')) {
+                  return <Ashtakavarga />;
+                }
+                
+                if (normalizedRoute.includes('/dashi') || normalizedRoute.endsWith('/dashi')) {
+                  return <Dashi />;
+                }
+                
+                if (normalizedRoute.includes('/zones') || normalizedRoute.endsWith('/zones')) {
+                  return <Zones />;
+                }
+                
+                if (normalizedRoute.includes('/transitions') || normalizedRoute.endsWith('/transitions')) {
+                  return <Transitions />;
+                }
+                
+                if (normalizedRoute.includes('/yogas') || normalizedRoute.endsWith('/yogas')) {
+                  return <Yogas />;
+                }
+                
+                if (normalizedRoute.includes('/rectification') || normalizedRoute.endsWith('/rectification')) {
+                  return <Rectification />;
+                }
+                
+                if (normalizedRoute.includes('/varshapkhala') || normalizedRoute.endsWith('/varshapkhala')) {
+                  return <Varshapkhala />;
+                }
+                
+                // По умолчанию показываем NatMap
+                return <NatMap />;
+              })()}
+            </>
+          );
         })()}
         <MemoizedObjectDescription />
       </Grid>

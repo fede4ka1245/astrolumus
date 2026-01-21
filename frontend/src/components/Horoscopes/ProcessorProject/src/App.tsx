@@ -60,18 +60,38 @@ function App () {
     loadHoroscopes({
       address: mockAddress,
       userInfo: mockUserInfo,
-      activateLoader: true,
+      activateLoader: false,
       isCaching: false,
       resetHoroscopeData: true
-    }).catch((error) => {
-      console.error('Ошибка при построении гороскопа:', error);
-    });
+    })
+      .then(() => {
+        console.log('loadHoroscopes success');
+        // Вызываем callback после завершения загрузки с небольшой задержкой для гарантии рендера
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            if (typeof window !== 'undefined' && window.ProcessorProject?.finishLoading) {
+              window.ProcessorProject.finishLoading();
+            }
+          }, 100);
+        });
+      })
+      .catch((error) => {
+        console.error('Ошибка при построении гороскопа:', error);
+        // Вызываем callback даже при ошибке, чтобы скрыть loader
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            if (typeof window !== 'undefined' && window.ProcessorProject?.finishLoading) {
+              window.ProcessorProject.finishLoading();
+            }
+          }, 100);
+        });
+      });
   }, [loadHoroscopes]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentRoute]);
-
+  
   // Определяем, какой компонент рендерить на основе текущего роута
   const ChildComponent = useMemo(() => {
     // Нормализуем currentRoute (убираем trailing slash и query params)

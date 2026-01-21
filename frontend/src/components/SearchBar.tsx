@@ -46,6 +46,7 @@ const SearchBar: Component = () => {
   const [manualLon, setManualLon] = createSignal('');
   const [agreeToSubmit, setAgreeToSubmit] = createSignal(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = createSignal(false);
+  const [isProcessorProjectLoaded, setIsProcessorProjectLoaded] = createSignal(false);
   let debounceTimer: number | null = null;
 
 
@@ -61,7 +62,7 @@ const SearchBar: Component = () => {
     try {
       // Используем Nominatim API для поиска
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&limit=5&accept-language=ru`
+        `/api/nominatim/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&limit=5&accept-language=ru`
       );
       
       if (response.ok) {
@@ -667,6 +668,7 @@ const SearchBar: Component = () => {
     setTimeValue(formatTimeToString(now));
   });
 
+
   onCleanup(() => {
     if (typeof window !== 'undefined') {
       window.removeEventListener('resize', handleResize);
@@ -1205,26 +1207,19 @@ const SearchBar: Component = () => {
             <div class={styles.submitSection}>
               <div class={styles.dataRow}>
                 <div class={styles.dataCard}>
-                  <span class={styles.dataLabel}>Место рождения</span>
                   <span class={styles.dataValue}>
-                    {selectedPlace() 
-                      ? `${selectedPlace()!.display_name} (${parseFloat(selectedPlace()!.lat).toFixed(6)}, ${parseFloat(selectedPlace()!.lon).toFixed(6)})`
-                      : isManualInput() && selectedCoords()
-                        ? `Ручной ввод (${selectedCoords()!.lat.toFixed(6)}, ${selectedCoords()!.lon.toFixed(6)})`
-                        : 'Не указано'}
+                    {[
+                      selectedPlace() 
+                        ? `${selectedPlace()!.display_name} (${parseFloat(selectedPlace()!.lat).toFixed(6)}, ${parseFloat(selectedPlace()!.lon).toFixed(6)})`
+                        : isManualInput() && selectedCoords()
+                          ? `Ручной ввод (${selectedCoords()!.lat.toFixed(6)}, ${selectedCoords()!.lon.toFixed(6)})`
+                          : 'Не указано',
+                      currentDate() 
+                        ? `${currentDate()!.getDate().toString().padStart(2, '0')}.${(currentDate()!.getMonth() + 1).toString().padStart(2, '0')}.${currentDate()!.getFullYear()} ${currentDate()!.getHours().toString().padStart(2, '0')}:${currentDate()!.getMinutes().toString().padStart(2, '0')}:${currentDate()!.getSeconds().toString().padStart(2, '0')}`
+                        : 'Не указана',
+                      questionValue() || 'Не указан'
+                    ].join('; ')}
                   </span>
-                </div>
-                <div class={styles.dataCard}>
-                  <span class={styles.dataLabel}>Дата рождения</span>
-                  <span class={styles.dataValue}>
-                    {currentDate() 
-                      ? `${currentDate()!.getDate().toString().padStart(2, '0')}.${(currentDate()!.getMonth() + 1).toString().padStart(2, '0')}.${currentDate()!.getFullYear()} ${currentDate()!.getHours().toString().padStart(2, '0')}:${currentDate()!.getMinutes().toString().padStart(2, '0')}:${currentDate()!.getSeconds().toString().padStart(2, '0')}`
-                      : 'Не указана'}
-                  </span>
-                </div>
-                <div class={styles.dataCard}>
-                  <span class={styles.dataLabel}>Вопрос</span>
-                  <span class={styles.dataValue}>{questionValue() || 'Не указан'}</span>
                 </div>
               </div>
             
@@ -1254,6 +1249,7 @@ const SearchBar: Component = () => {
             question={questionValue()}
             date={currentDate()}
             place={placeData}
+            onLoadComplete={() => setIsProcessorProjectLoaded(true)}
           />
         </div>
       );
@@ -1334,7 +1330,7 @@ const SearchBar: Component = () => {
             </div>
 
             {/* Tab content с анимацией перелистывания */}
-            <div class={styles.tabContainer}>
+            <div class={styles.tabContainer} classList={{ [styles.tabContainerForecast]: currentTab() === 'forecast' && isProcessorProjectLoaded() }}>
               <TabsContent
                 tabs={tabs}
                 currentTab={currentTab}

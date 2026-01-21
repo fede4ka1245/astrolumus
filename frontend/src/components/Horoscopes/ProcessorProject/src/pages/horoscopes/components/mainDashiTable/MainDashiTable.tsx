@@ -11,13 +11,14 @@ import {
   setIsChrDashiLoading,
   setIsDashiChrPeriodLoading
 } from '../../../../store/reducers/horoscopesReducer';
-import { CardActionArea, Grid, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import HoroscopesLoader from '../horoscopeLoader/HoroscopesLoader';
 import Header from '../../../../components/header/Header';
 import Options from '../../../../components/options/Options';
 import DashiTable from '../../../../components/dashiTable/DashiTable';
 import Loader from '../../../../components/loader/Loader';
 import { getCharaDashi } from '../../../../api/getCharaDashi';
+import Button from '../../../../components/button/Button';
 
 const dashiOptions = [
   {
@@ -25,7 +26,7 @@ const dashiOptions = [
     value: 'vim'
   },
   {
-    label: 'Чара Даша К.Н. Рао',
+    label: 'Чара Даша',
     value: 'chr'
   }
 ];
@@ -84,10 +85,10 @@ const MainDashiTable = () => {
   return (
     <Grid container pt={2} direction={'column'} rowSpacing={2}>
       <Grid item pl={2}>
-        <Header header={'Периоды (ДАШИ)'} isIconActive={false} />
+        <Header header={'Периоды Даши'} isIconActive={false} isPlain />
       </Grid>
-      <Grid pl={2} pt={2}>
-        <Options options={dashiOptions} setValue={setDashi} value={dashi.value} />
+      <Grid item pl={2} pt={2} sx={{ minWidth: 0, width: '100%' }}>
+        <Options options={dashiOptions} setValue={setDashi} value={dashi.value} isScrollable />
       </Grid>
       {dashi.value === 'vim' && <Grid item pt={2}>
         {isDashiVimLoading && <HoroscopesLoader />}
@@ -96,13 +97,11 @@ const MainDashiTable = () => {
       {dashi.value === 'chr' && <Grid item pt={2}>
         {isDashiChrLoading && <HoroscopesLoader />}
         {!isDashiChrLoading && <DashiTable rows={dashiChr?.table} type={'chara'} />}
-        {!isDashiChrPeriodLoading && <Grid>
-          <CardActionArea onClick={onLoadNextPeriod}>
-            <Typography fontFamily={'Gilroy'} fontWeight={500} fontSize={'16px'} color={'white'} textAlign={'center'} m={2}>
-              Рассчитать следующий цикл
-            </Typography>
-          </CardActionArea>
-        </Grid>}
+        {!isDashiChrPeriodLoading && (
+          <Grid item pt={2} px={2} pb={2}>
+            <Button text="Рассчитать следующий цикл" onClick={onLoadNextPeriod} />
+          </Grid>
+        )}
         {isDashiChrPeriodLoading && <Grid width={'100%'} height={'160px'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
           <Loader />
         </Grid>}

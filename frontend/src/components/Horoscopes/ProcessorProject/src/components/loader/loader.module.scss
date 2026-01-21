@@ -1,24 +1,95 @@
 .main {
-  width: 50px;
-  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.image {
-  animation-duration: 1.2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-  animation-name: loading;
+.container {
+  position: relative;
+  width: 120px;
+  height: 120px;
 }
 
-@keyframes loading {
-  from {
-    transform: rotate(0deg);
-  }
+.centerCircle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  background: var(--color-primary, #ffe433);
+  border-radius: 50%;
+  z-index: 3;
+  mask: radial-gradient(circle at 70% 30%, transparent 12px, black 12px, black 100%);
+  -webkit-mask: radial-gradient(circle at 70% 30%, transparent 12px, black 12px, black 100%);
+  animation: rotate-ring 3s linear infinite reverse;
+}
 
+.middleRing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70px;
+  height: 70px;
+  border: 3px solid var(--color-primary, #ffe433);
+  border-radius: 50%;
+  background: transparent;
+  z-index: 2;
+  animation: rotate-ring 2s linear infinite;
+}
+
+.middleRing .ringDot {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: var(--color-primary, #ffe433);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow:
+    0 0 6px var(--color-primary, #ffe433),
+    0 0 12px var(--color-primary, #ffe433),
+    0 0 18px var(--color-primary, #ffe433);
+  filter: drop-shadow(0 0 4px var(--color-primary, #ffe433));
+}
+
+.outerRing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  border: 3px solid var(--color-primary, #ffe433);
+  border-radius: 50%;
+  background: transparent;
+  z-index: 1;
+  animation: rotate-ring 3s linear infinite reverse;
+}
+
+.outerRing .ringDot {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: var(--color-primary, #ffe433);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow:
+    0 0 8px var(--color-primary, #ffe433),
+    0 0 16px var(--color-primary, #ffe433),
+    0 0 24px var(--color-primary, #ffe433);
+  filter: drop-shadow(0 0 6px var(--color-primary, #ffe433));
+}
+
+@keyframes rotate-ring {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
   to {
-    transform: rotate(360deg);
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }

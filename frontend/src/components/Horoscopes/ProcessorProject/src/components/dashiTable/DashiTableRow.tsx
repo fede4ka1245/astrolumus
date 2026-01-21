@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { Grid } from '@mui/material';
+import { ButtonBase, Grid } from '@mui/material';
 import IconButton from '../iconButton/IconButton';
 import styles from './DashiTable.module.scss';
 import { DashiTableRow as IDashiTableRow } from '../../models/types/DashiTableRow';
@@ -19,8 +19,8 @@ interface PlanetsTableRowProps {
 }
 
 const getIsCurrentDates = (dateStart: string, dateEnd: string) => {
-  const [dayStart, monthStart, yearStart] = dateStart.split('.').map(Number);
-  const [dayEnd, monthEnd, yearEnd] = dateEnd.split('.').map(Number);
+  const [dayStart, monthStart, yearStart] = dateStart.split(' ')[0].split('.').map(Number);
+  const [dayEnd, monthEnd, yearEnd] = dateEnd.split(' ')[0].split('.').map(Number);
 
   return new Date(yearStart, monthStart - 1, dayStart).getTime() < new Date().getTime() && new Date().getTime() < new Date(yearEnd, monthEnd - 1, dayEnd).getTime();
 };
@@ -39,11 +39,15 @@ const DashiTableRow = ({ row, type, isAgesDisabled, maxPlanets }: PlanetsTableRo
   const language = useGetLanguage();
   const userInfo = useGetHoroscopeUserInfo();
 
-  const toggleIsOpen = useCallback(() => {
-    setIsOpen(!isOpen);
-  }, [isOpen]);
-
   const planetsRowItem = useMemo(() => {
+    const planetsCount = row.planets?.length ?? 0;
+
+    if (planetsCount + 1 >= 3) {
+      return `... / ${type === 'chara'
+        ? translateZodiacSign(row.planet, language)
+        : translatePlanetName(row.planet, language)}`;
+    }
+
     if (type === 'chara') {
       return row.planets?.length ? `${[...row.planets.map((planet) => translateZodiacSign(planet, language))].join(' / ')} / ${translateZodiacSign(row.planet, language)}` : translateZodiacSign(row.planet, language);
     }
@@ -79,27 +83,49 @@ const DashiTableRow = ({ row, type, isAgesDisabled, maxPlanets }: PlanetsTableRo
     };
   }, [row.planets.length, setMaxPlanets]);
 
-  const birthInfo = useMemo(() => {
-    const birthday = moment(userInfo.date, 'DD.MM.YYYY');
-    const currentDate = moment(row.dateStart, 'DD.MM.YYYY');
-
-    if (currentDate.diff(birthday, 'day') < 0) {
-      return '-';
-    }
-
-    return `${currentDate.diff(birthday, 'years')} лет \n ${currentDate.diff(birthday, 'month') % 12} мес`;
-  }, [userInfo.date, row.dateStart]);
-
   const isBirthRow = useMemo(() => {
     return row.planets.length >= 0 && row.planets.length <= 1 && !isAgesDisabled;
   }, [row.planets.length, isAgesDisabled]);
 
+  const birthAge = useMemo(() => {
+    if (!isBirthRow || !userInfo?.date) {
+      return '';
+    }
+
+    const birthday = moment(userInfo.date, 'DD.MM.YYYY');
+    const currentDate = moment(row.dateStart, 'DD.MM.YYYY');
+    const monthsDiff = currentDate.diff(birthday, 'months');
+
+    if (monthsDiff < 0) {
+      return '';
+    }
+
+    const years = (monthsDiff / 12).toFixed(1);
+
+    return `(${years} лет)`;
+  }, [isBirthRow, userInfo?.date, row.dateStart]);
+
+  const handleRowClick = useCallback(() => {
+    if (isSubTableAvailable) {
+      setIsOpen(!isOpen);
+    }
+  }, [isOpen, isSubTableAvailable]);
+
   return (
     <>
-      <Grid className={classNames({ [styles.birthRow]: isBirthRow, [styles.row]: !isBirthRow })}>
+      <ButtonBase
+        className={classNames(
+          { [styles.birthRow]: isBirthRow, [styles.row]: !isBirthRow },
+          { [styles.clickable]: isSubTableAvailable },
+          { [styles.currentRow]: isCurrentDates }
+        )}
+        onClick={handleRowClick}
+        disabled={!isSubTableAvailable}
+        component="div"
+      >
         <Grid container className={classNames(styles.rowItem, { [styles.isOpen]: isOpen, [styles.isMain]: isMainRow, [styles.isCurrent]: isCurrentDates })}>
           <Grid item display={'flex'} alignItems={'center'} justifyContent={'center'}>
-            {isSubTableAvailable && <IconButton onClick={toggleIsOpen} fillStyle={{ width: '25px', height: '25px' }}>
+            {isSubTableAvailable && <IconButton fillStyle={{ width: '25px', height: '25px' }}>
               {!isOpen && <svg width="14" height="14" viewBox="0 0 7 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 1.5L5.24095 6.68338C5.39164 6.86756 5.39164 7.13244 5.24095 7.31662L1 12.5" stroke="#C3C9CD" strokeWidth="2" strokeLinecap="round"/>
               </svg>}
@@ -114,16 +140,13 @@ const DashiTableRow = ({ row, type, isAgesDisabled, maxPlanets }: PlanetsTableRo
         </Grid>
         <Grid className={classNames(styles.rowItem, { [styles.isOpen]: isOpen, [styles.isMain]: isMainRow, [styles.isCurrent]: isCurrentDates })}>
           <Grid item>
-            {row.dateStart}
+            {row.dateStart} {birthAge && <span className={styles.age}>{birthAge}</span>}
           </Grid>
         </Grid>
         <Grid className={classNames(styles.rowItem, { [styles.isOpen]: isOpen, [styles.isMain]: isMainRow, [styles.isCurrent]: isCurrentDates })}>
           {row.dateEnd}
         </Grid>
-        {isBirthRow && <Grid className={classNames(styles.birth, styles.rowItem, { [styles.isOpen]: isOpen, [styles.isMain]: isMainRow, [styles.isCurrent]: isCurrentDates })}>
-          {birthInfo}
-        </Grid>}
-      </Grid>
+      </ButtonBase>
       <Collapse in={isOpen} timeout="auto" unmountOnExit>
         <div className={classNames(styles.container, { [styles.outlined]: isMainRow })}>
           {row.subTable?.map((row, index) => (

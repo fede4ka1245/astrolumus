@@ -1,6 +1,6 @@
 import { DashiReturnType } from '../models/types/GetDashi';
 import { CountHoroscopeProps } from '../models/types/CountHoroscopeProps';
-import processorRequest, { getProcessorProxyUrl } from './processorRequest';
+import { j108Request } from './authRequest';
 import { getTimeZoneOffsetFromGreenwichData } from '../helpers/getTimeZoneOffsetFromGreenwichData';
 import { getFormattedDashi } from '../helpers/getFormattedDashi';
 
@@ -9,7 +9,7 @@ export interface GetCharaDashi extends CountHoroscopeProps {
 }
 
 export const getCharaDashi = async ({ address, userInfo, dateStart }: GetCharaDashi): Promise<DashiReturnType> => {
-  const { data } = await processorRequest.get(`${getProcessorProxyUrl()}/jataka`, {
+  const { data } = await j108Request.get('/jataka', {
     params: {
       lat: address.coordinates.latitude,
       lon: address.coordinates.longitude,

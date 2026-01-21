@@ -1,5 +1,6 @@
 .table {
   width: 100%;
+  padding: 6px 0;
 }
 
 .row {
@@ -7,8 +8,8 @@
   font-family: 'Gilroy', sans-serif;
   font-style: normal;
   display: inline-grid;
-  grid-template-columns: 2.2fr 0.6fr 0.7fr 1.1fr 2fr;
-  height: 38px;
+  grid-template-columns: 2.2fr 2.4fr 1.2fr;
+  height: 48px;
 
   & > div {
     height: 100%;
@@ -22,12 +23,12 @@
 }
 
 .header {
-  height: 20px;
+  height: 26px;
   font-family: 'Gilroy', sans-serif;
   font-style: normal;
   font-weight: 600;
-  font-size: 12px;
-  line-height: 14px;
+  font-size: 14px;
+  line-height: 16px;
   text-align: start;
   color: #FFFFFF;
   padding-bottom: 8px;
@@ -36,8 +37,23 @@
 .degrees {
   font-family: 'Gilroy', sans-serif;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 18px;
   color: #FFFFFF;
+}
+
+.signIcon {
+  gap: 6px;
+}
+
+.signIcon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.deepSkyToggle {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
 }
 
 .naksatra {
@@ -46,6 +62,16 @@
   font-size: 14px;
   line-height: 14px;
   color: #FFFFFF;
+}
+
+.signName {
+  font-family: 'Gilroy', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 18px;
+  color: #FFFFFF;
+  margin-left: 8px;
+  white-space: nowrap;
 }
 
 .planetAdditionalInfo {
@@ -61,9 +87,9 @@
 .planet {
   font-family: 'Gilroy', sans-serif;
   font-style: normal;
-  font-weight: 500;
-  font-size: 17px;
-  line-height: 17px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 18px;
   color: #FFFFFF;
   overflow: hidden;
   margin-left: 6px;
@@ -73,10 +99,14 @@
   font-family: 'Gilroy', sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 17px;
-  line-height: 17px;
+  font-size: 18px;
+  line-height: 1;
   color: rgba(255, 255, 255, 0.5);
   margin-left: 4px;
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  margin-bottom: -2%;
 }
 
 .isDeepSky {
@@ -99,39 +129,47 @@
 
   .planetSign {
     font-weight: 600;
-    font-size: 14px;
-    font-size: 5vw;
-    line-height: 14px;
-    line-height: 5vw;
+    font-size: 16px;
+    font-size: 5.5vw;
+    line-height: 16px;
+    line-height: 5.5vw;
   }
 
   .planet {
     font-weight: 400;
-    font-size: 13px;
-    line-height: 13px;
-    font-size: 5vw;
-    line-height: 13px;
-    line-height: 5vw;
+    font-size: 15px;
+    line-height: 15px;
+    font-size: 5.5vw;
+    line-height: 15px;
+    line-height: 5.5vw;
   }
 
   .planetAdditionalInfo {
     font-weight: 600;
-    font-size: 14px;
-    font-size: 5vw;
-    line-height: 14px;
-    line-height: 5vw;
+    font-size: 16px;
+    font-size: 5.5vw;
+    line-height: 16px;
+    line-height: 5.5vw;
   }
 
   .degrees {
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 700;
-    font-size: 4vw;
-    line-height: 10px;
-    line-height: 4vw;
+    font-size: 4.5vw;
+    line-height: 12px;
+    line-height: 4.5vw;
   }
 
   .signIcon {
     height: 21px;
+  }
+
+  .signName {
+    font-size: 12px;
+    font-size: 4.5vw;
+    line-height: 12px;
+    line-height: 4.5vw;
+    margin-left: 6px;
   }
 
   .naksatra {
@@ -141,5 +179,46 @@
     font-size: 4vw;
     line-height: 10px;
     line-height: 4vw;
+  }
+}
+
+@media screen and (min-width: 500px) {
+  .row {
+    height: 64px;
+  }
+
+  .header {
+    font-size: 24px;
+    line-height: 26px;
+  }
+
+  .planet {
+    font-size: 34px;
+    line-height: 34px;
+  }
+
+  .planetSign {
+    font-size: 34px;
+    line-height: 1;
+  }
+
+  .degrees {
+    font-size: 32px;
+  }
+
+  .signName {
+    font-size: 28px;
+    line-height: 30px;
+  }
+
+  .signIcon svg {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media screen and (max-width: 340px) {
+  .signIcon {
+    display: none;
   }
 }

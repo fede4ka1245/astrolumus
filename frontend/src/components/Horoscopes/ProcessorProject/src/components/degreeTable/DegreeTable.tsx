@@ -32,12 +32,9 @@ const DegreeTable = ({ table, isDeepSkyActive }: DegreeTableProps) => {
 
   return (
     <div className={styles.table}>
-      <section className={styles.row} style={{ height: '20px' }}>
+      <section className={styles.row} style={{ height: '26px' }}>
         <Grid pl={1} className={styles.header}>
           Планета
-        </Grid>
-        <Grid className={styles.header}>
-
         </Grid>
         <Grid className={styles.header}>
           Знак
@@ -45,9 +42,9 @@ const DegreeTable = ({ table, isDeepSkyActive }: DegreeTableProps) => {
         <Grid className={styles.header}>
           Градусы
         </Grid>
-        <Grid className={styles.header}>
+        {/* <Grid className={styles.header}>
           Накшатра
-        </Grid>
+        </Grid> */}
       </section>
       {table?.primaryData?.map((degreeItem: IDegreeTableRow, index) => (
         <DegreeTableRow degreeTableRow={degreeItem} key={index} isDeepSkyActive={isDeepSkyActive} />

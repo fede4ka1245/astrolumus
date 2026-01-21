@@ -43,14 +43,29 @@ const Options = ({ options, value, setValue, isScrollable, isOutlined, limit }: 
   useEffect(() => {
     const target = document.getElementById(`${id}-${value}`);
 
-    if (target?.scrollIntoView && isScrollable) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    if (target && isScrollable) {
+      const container = target.closest(`.${styles.scrollable}`) as HTMLElement | null;
+      if (!container) {
+        return;
+      }
+
+      const containerRect = container.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      const currentScrollLeft = container.scrollLeft;
+      const targetCenter = targetRect.left - containerRect.left + currentScrollLeft + targetRect.width / 2;
+      const nextScrollLeft = Math.max(0, targetCenter - containerRect.width / 2);
+
+      container.scrollTo({ left: nextScrollLeft, behavior: 'smooth' });
     }
   }, [value, isScrollable]);
 
   return (
-    <div className={classNames({ [styles.scrollable]: isScrollable })}>
-      <Grid container wrap={classNames({ nowrap: isScrollable, wrap: !isScrollable }) as GridWrap}>
+    <div className={classNames(styles.root, { [styles.scrollable]: isScrollable })}>
+      <Grid
+        container
+        wrap={classNames({ nowrap: isScrollable, wrap: !isScrollable }) as GridWrap}
+        className={classNames({ [styles.scrollableInner]: isScrollable })}
+      >
         {options?.map((item: Option) => (
           <Grid
             key={item.value}
@@ -64,13 +79,12 @@ const Options = ({ options, value, setValue, isScrollable, isOutlined, limit }: 
               })
             }
             mr={1}
-            mt={1}
             id={`${id}-${item.value}`}
             onClick={() => {
               onSetValueClick(item);
             }}
           >
-            <Typography whiteSpace={'nowrap'} lineHeight={'16px'} fontWeight={300} fontFamily={'Gilroy'} fontStyle={'normal'} fontSize={'16px'}>
+            <Typography className={styles.label} whiteSpace={'nowrap'} fontFamily={'Gilroy'} fontStyle={'normal'}>
               {item.label}
             </Typography>
           </Grid>

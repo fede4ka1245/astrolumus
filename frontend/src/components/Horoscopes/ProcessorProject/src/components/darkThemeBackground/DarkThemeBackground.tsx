@@ -9,18 +9,6 @@ export interface DarkThemeBackgroundProps {
 }
 
 const DarkThemeBackground = ({ children, fillBody, backgroundVariant = 'planet' }: DarkThemeBackgroundProps) => {
-  useEffect(() => {
-    if (fillBody) {
-      document.body.style.background = backgroundVariant === 'planet' ? '#271C5C' : '#261B5C';
-    }
-
-    return () => {
-      if (fillBody) {
-        document.body.style.background = '';
-      }
-    };
-  }, [fillBody, backgroundVariant]);
-
   return (
     <div className={classNames({ [styles.planet]: backgroundVariant === 'planet', [styles.galaxy]: backgroundVariant === 'galaxy' })}>
       <div

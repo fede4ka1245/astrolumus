@@ -29,7 +29,7 @@ const Row = ({ textColor }: any) => {
           <Typography fontFamily={'Gilroy'} fontWeight={500} color={fontColor} fontSize={'15px'} pr={1}>
             Асцендент
           </Typography>
-          <Typography fontFamily={'Gilroy'} fontWeight={400} color={fontColor} fontSize={'15px'} pr={1}>
+          <Typography fontFamily={'Gilroy'} mb={'-2%'} fontWeight={400} color={fontColor} fontSize={'15px'} pr={1}>
             (R)
           </Typography>
         </div>

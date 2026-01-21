@@ -22,10 +22,6 @@ html, body {
     padding: 0;
 }
 
-li {
-    margin-left: 16px;
-}
-
 img, svg {
     user-drag: none;
     -webkit-user-drag: none;

@@ -11,7 +11,18 @@ const STATIC_ASSETS_REGEX = /\.(js|css|png|jpg|jpeg|gif|svg|ico|webp|woff|woff2|
 const HTML_PLACEHOLDER = '<!--app-html-->';
 const TEMPLATE_PATH = path.resolve(__dirname, '../dist/client/index.html');
 const STATIC_PATH = path.resolve(__dirname, '../dist/client');
+const HOROSCOPES_BUILD_PATH = path.resolve(
+  __dirname,
+  '../src/components/Horoscopes/ProcessorProject/build'
+);
 const PORT = process.env.PORT || 8080;
+const NOMINATIM_BASE_URL = 'https://nominatim.openstreetmap.org';
+const NOMINATIM_USER_AGENT = process.env.NOMINATIM_USER_AGENT || 'AstrolumusFront/1.0 (contact: bragin.fedor96@gmai.com)';
+const NOMINATIM_REFERER = process.env.NOMINATIM_REFERER || 'https://astrolumus.com';
+const NOMINATIM_RATE_LIMIT_MS = Number(process.env.NOMINATIM_RATE_LIMIT_MS || 1100);
+const NOMINATIM_CACHE_TTL_MS = Number(process.env.NOMINATIM_CACHE_TTL_MS || 60 * 60 * 1000);
+let nominatimNextAllowedAt = 0;
+const nominatimCache = new Map();
 
 /**
  * Читает HTML шаблон
@@ -100,6 +111,55 @@ async function handleSSR(req, res, next) {
     }
   }
 }
+
+app.use('/horoscopes-build', express.static(HOROSCOPES_BUILD_PATH));
+
+app.get('/api/nominatim/*', async (req, res) => {
+  try {
+    const upstreamPath = req.originalUrl.replace('/api/nominatim', '');
+    const upstreamUrl = `${NOMINATIM_BASE_URL}${upstreamPath}`;
+    const cacheKey = upstreamUrl;
+    const cached = nominatimCache.get(cacheKey);
+    if (cached && cached.expiresAt > Date.now()) {
+      res.status(cached.status);
+      if (cached.contentType) {
+        res.setHeader('Content-Type', cached.contentType);
+      }
+      return res.send(cached.body);
+    }
+
+    const now = Date.now();
+    if (now < nominatimNextAllowedAt) {
+      res.setHeader('Retry-After', String(Math.ceil((nominatimNextAllowedAt - now) / 1000)));
+      return res.status(429).json({ error: 'Rate limited' });
+    }
+    nominatimNextAllowedAt = now + NOMINATIM_RATE_LIMIT_MS;
+
+    const response = await fetch(upstreamUrl, {
+      headers: {
+        'User-Agent': NOMINATIM_USER_AGENT,
+        ...(NOMINATIM_REFERER ? { Referer: NOMINATIM_REFERER } : {})
+      }
+    });
+    const body = await response.text();
+
+    res.status(response.status);
+    const contentType = response.headers.get('content-type');
+    if (contentType) {
+      res.setHeader('Content-Type', contentType);
+    }
+    nominatimCache.set(cacheKey, {
+      status: response.status,
+      contentType,
+      body,
+      expiresAt: Date.now() + NOMINATIM_CACHE_TTL_MS
+    });
+    res.send(body);
+  } catch (error) {
+    console.error('[BFF] Nominatim proxy error:', error);
+    res.status(502).json({ error: 'Nominatim proxy failed' });
+  }
+});
 
 app.get('/robots.txt', (req, res) => {
   const robotsPath = path.join(STATIC_PATH, 'robots.txt');

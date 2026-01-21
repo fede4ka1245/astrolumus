@@ -1,0 +1,39 @@
+.container,
+.container * {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+.container,
+.container * {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+}
+
+.container::-webkit-scrollbar,
+.container *::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari, Opera */
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+.container::-webkit-scrollbar-track,
+.container *::-webkit-scrollbar-track {
+  display: none !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.container::-webkit-scrollbar-thumb,
+.container *::-webkit-scrollbar-thumb {
+  display: none !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.container::-webkit-scrollbar-corner,
+.container *::-webkit-scrollbar-corner {
+  display: none !important;
+  background: transparent !important;
+}

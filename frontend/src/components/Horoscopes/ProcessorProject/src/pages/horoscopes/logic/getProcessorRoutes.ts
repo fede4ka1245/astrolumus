@@ -25,6 +25,10 @@ export const getProcessorRoutes = (route: string = '') => {
     {
       label: 'Ректификация',
       value: route + processorRoutes.rectification
+    },
+    {
+      label: 'Настройки',
+      value: route + processorRoutes.settings
     }
   ];
 };

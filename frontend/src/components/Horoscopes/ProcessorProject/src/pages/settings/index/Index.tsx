@@ -8,6 +8,7 @@ import { useHideNavbar } from '../../../hooks/useHideNavbar';
 import DarkThemeBackground from '../../../components/darkThemeBackground/DarkThemeBackground';
 import { routes } from '../../../models/enums/routes';
 import { ProcessorContext } from '../../../models/interfaces/processorContext';
+import Buttons from '../../horoscopes/components/buttons/Buttons';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -43,6 +44,12 @@ const Index = () => {
                   />
                 </Grid>
               ))}
+            </Grid>
+            <Grid item pt={4}>
+              <Typography fontFamily={'Playfair Display'} fontWeight={'bold'} fontSize={20} color={'white'} textAlign={'center'} pb={2}>
+                Действия
+              </Typography>
+              <Buttons />
             </Grid>
           </Grid>
         </Grid>

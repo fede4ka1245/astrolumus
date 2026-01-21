@@ -16,7 +16,7 @@ const Button: FC<ButtonProps> = ({ text, onClick, type, isDisabled, width, heigh
   }, [isDisabled, onClick]);
 
   return (
-    <CardActionArea sx={{ borderRadius: '10px' }} disabled={isDisabled}>
+    <CardActionArea sx={{ borderRadius: 'var(--radius-lg)' }} disabled={isDisabled} disableRipple>
       <div
         style={{ width, height }}
         className={
@@ -29,10 +29,15 @@ const Button: FC<ButtonProps> = ({ text, onClick, type, isDisabled, width, heigh
         }
         onClick={onButtonClick}
       >
-        <Typography fontFamily={'Gilroy, sans-serif'} fontSize={'18px'} color={'#FFF'} textAlign={'center'}>
+        <Typography
+          fontFamily={'Gilroy, sans-serif'}
+          fontSize={'clamp(0.875rem, 2.5vw, 1.125rem)'}
+          fontWeight={600}
+          color={'var(--bg-primary)'}
+          textAlign={'center'}
+        >
           {text}
         </Typography>
-        {ButtonType.outline !== type && !isDisabled && <div className={styles.blur}/>}
       </div>
     </CardActionArea>
   );

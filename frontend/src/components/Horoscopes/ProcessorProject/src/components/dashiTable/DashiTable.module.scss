@@ -2,27 +2,35 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  background: rgb(30, 30, 33);
 
   & > .birthRow {
     font-family: 'Gilroy', sans-serif;
     font-style: normal;
     font-weight: 700;
-    background: linear-gradient(0deg, #3C336C, #3C336C), #FFFFFF !important;
-    color: white !important;
+    background: var(--color-primary) !important;
+    color: #000000 !important;
   }
 }
 
 .row {
-  background: rgba(193, 255, 255, 0.6);
+  background: var(--color-primary) !important;
   font-family: 'Gilroy', sans-serif;
   font-style: normal;
-  font-weight: 500;
-  color: #5B6062;
-  height: 38px;
-  display: inline-grid;
-  grid-template-columns: 3fr 1fr 1fr;
+  font-weight: 700;
+  color: #000000;
+  min-height: clamp(52px, 8vw, 76px);
+  height: clamp(52px, 8vw, 76px);
+  display: grid !important;
+  grid-template-columns: 3fr 0.9fr 0.9fr;
+  column-gap: 0;
+  row-gap: 0;
   width: 100%;
   overflow: hidden;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  position: relative;
+  text-align: left;
 }
 
 .rowItem {
@@ -30,162 +38,124 @@
   align-items: center;
   flex-wrap: nowrap !important;
   transition: all ease-out 300ms;
+  padding: 0 clamp(6px, 1.5vw, 12px);
+  color: #000000;
+
+  svg {
+    path {
+      stroke: currentColor;
+      fill: transparent;
+    }
+  }
 }
 
 .birthRow {
-  background: rgba(193, 255, 255, 0.6);
+  background: var(--color-primary) !important;
   font-family: 'Gilroy', sans-serif;
   font-style: normal;
-  font-weight: 500;
-  color: #5B6062;
-  height: 38px;
-  display: inline-grid;
+  font-weight: 700;
+  color: #000000;
+  min-height: clamp(52px, 8vw, 76px);
+  height: clamp(52px, 8vw, 76px);
+  display: grid !important;
   overflow: hidden;
-  grid-template-columns: 2fr 1fr 1fr 0.5fr;
+  grid-template-columns: 3fr 0.9fr 0.9fr;
+  column-gap: 0;
+  row-gap: 0;
   width: 100%;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  position: relative;
+  text-align: left;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.row :global(.MuiTouchRipple-root),
+.birthRow :global(.MuiTouchRipple-root) {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.row :global(.MuiTouchRipple-child),
+.birthRow :global(.MuiTouchRipple-child) {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+@media screen and (min-width: 500px) {
+  .row,
+  .birthRow {
+    font-size: 1.35rem;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .row,
+  .birthRow {
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .row,
+  .birthRow {
+    font-size: 0.8rem;
+  }
 }
 
 .container {
   display: flex;
-  background: white;
+  background: rgb(30, 30, 33);
   flex-direction: column;
+  margin-left: clamp(12px, 3vw, 20px);
+  margin-top: clamp(12px, 3vw, 20px);
+  margin-bottom: clamp(12px, 3vw, 20px);
+  border-top-left-radius: clamp(10px, 2.5vw, 16px);
+  border-bottom-left-radius: clamp(10px, 2.5vw, 16px);
+  overflow: hidden;
 }
 
 .outlined {
-  border: 1px solid #59ABDA;
+  border: 1px solid var(--color-primary);
+  border-top-left-radius: clamp(10px, 2.5vw, 16px);
+  border-bottom-left-radius: clamp(10px, 2.5vw, 16px);
 }
 
 .isOpen {
   font-family: 'Gilroy', sans-serif;
   font-style: normal;
   font-weight: 700;
-  background: linear-gradient(0deg, #3C336C, #3C336C), #FFFFFF !important;
-  color: white !important;
-
-  svg {
-    path {
-      stroke: white !important;
-      fill: transparent !important;
-    }
-  }
+  background: transparent !important;
+  color: #000000 !important;
 }
 
 .isMain {
   font-family: 'Gilroy', sans-serif;
   font-style: normal;
   font-weight: 700;
-  background: linear-gradient(0deg, #3C336C, #3C336C), #FFFFFF !important;
-  color: white !important;
-  svg {
-    path {
-      stroke: white !important;
-      fill: transparent !important;
-    }
-  }
+  background: transparent !important;
+  color: #000000 !important;
 }
 
 .isCurrent {
-  background: rgb(37, 28, 92) !important;
-  color: white !important;
-  svg {
-    path {
-      stroke: white !important;
-      fill: transparent !important;
-    }
-  }
+  color: #000000 !important;
 }
 
-.birth {
-  font-family: 'Gilroy', sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 10px;
+.row.currentRow,
+.birthRow.currentRow {
+  background: #c9ad00 !important;
+  background-color: #c9ad00 !important;
 }
 
-@media screen and (min-width: 200px) {
-  .row {
-    font-size: 11px !important;
-    line-height: 11px !important;
-  }
-
-  .birthRow {
-    font-size: 11px !important;
-    line-height: 11px !important;
-  }
+.age {
+  margin-left: 4px;
+  white-space: nowrap;
 }
 
-@media screen and (min-width: 380px) {
-  .row {
-    font-size: 14px !important;
-    line-height: 14px !important;
-  }
-
-  .birth {
-    font-family: 'Gilroy', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-  }
-
-  .birthRow {
-    font-size: 14px !important;
-    line-height: 14px !important;
-  }
-}
-
-@media screen and (min-width: 450px) {
-  .row {
-    font-size: 16px !important;
-    line-height: 16px !important;
-  }
-
-  .birth {
-    font-family: 'Gilroy', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-  }
-
-  .birthRow {
-    font-size: 16px !important;
-    line-height: 16px !important;
-  }
-}
-
-@media screen and (min-width: 500px) {
-  .row {
-    font-size: 18px !important;
-    line-height: 18px !important;
-  }
-
-  .birth {
-    font-family: 'Gilroy', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-  }
-
-  .birthRow {
-    font-size: 18px !important;
-    line-height: 18px !important;
-  }
-}
-
-@media screen and (max-width: 280px) {
-  .row {
-    font-size: 7px !important;
-    line-height: 7px !important;
-  }
-
-  .birth {
-    font-family: 'Gilroy', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 7px;
-  }
-
-  .birthRow {
-    font-size: 7px !important;
-    line-height: 7px !important;
+@media screen and (max-width: 400px) {
+  .age {
+    display: block;
+    margin-left: 0;
   }
 }

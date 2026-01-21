@@ -1,6 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import northMap from './assets/northMap.svg';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import northMap from './assets/northMap.png';
 import southMap from './assets/southMap.svg';
+import deepSkyNorthMap from './assets/deepSkyNorthMap.png';
+import deepSkySouthMap from './assets/deepSkySouthMap.png';
 import { MapSection } from '../../models/types/MapSection';
 import classNames from 'classnames';
 import MapSector from './mapSector/MapSector';
@@ -61,7 +63,7 @@ const Map = ({ mapSections, isTransit, mapTransitSections, targetMapValue, mapNa
   }, []);
 
   const [mapValue, setMapValue] = useState<MapContextValue>({
-    isDeepSkyActive: false,
+    isDeepSkyActive: true, // Включаем темный режим по умолчанию
     isTransit: Boolean(isTransit),
     mapName: mapName || 'D-1',
     aspectsType: aspectType,
@@ -126,17 +128,30 @@ const Map = ({ mapSections, isTransit, mapTransitSections, targetMapValue, mapNa
       <section
         ref={ref}
         className={classNames('map', {
-          'transit-north': isTransit && mapType === MapTypeEnum.North,
-          'transit-south': isTransit && mapType !== MapTypeEnum.North,
-          'astro-processor-north-map': mapType === MapTypeEnum.North,
-          'astro-processor-south-map': mapType !== MapTypeEnum.North
+          'deep-sky': mapValue.isDeepSkyActive,
+          'transit-north': isTransit && mapValue.mapType === MapTypeEnum.North,
+          'transit-south': isTransit && mapValue.mapType !== MapTypeEnum.North,
+          'astro-processor-north-map': mapValue.mapType === MapTypeEnum.North,
+          'astro-processor-south-map': mapValue.mapType !== MapTypeEnum.North
         })}
       >
         <div className={'blur'}/>
         <div>
-          <AspectRatio ratio={1}>
-            { mapType !== MapTypeEnum.North && <img src={southMap} className={'image'}/> }
-            { mapType === MapTypeEnum.North && <img src={northMap} className={'image'}/> }
+          <AspectRatio ratio={1} sx={{ background: 'none' }} className={'aspect-ratio-map-image'}>
+            { mapValue.mapType !== MapTypeEnum.North && (
+              <img 
+                src={southMap} 
+                alt="South Map" 
+                className={'image'}
+              />
+            ) }
+            { mapValue.mapType === MapTypeEnum.North && (
+              <img 
+                src={northMap} 
+                alt="North Map" 
+                className={'image'}
+              />
+            ) }
           </AspectRatio>
         </div>
         {inView && <>

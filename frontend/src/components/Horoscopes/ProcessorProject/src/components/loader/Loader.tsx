@@ -1,11 +1,18 @@
 import React from 'react';
 import styles from './loader.module.scss';
-import loader from './assets/loader.png';
 
 const Loader = () => {
   return (
     <div className={styles.main}>
-      <img src={loader} width={'70px'} height={'70px'} className={styles.image}/>
+      <div className={styles.container}>
+        <div className={styles.centerCircle}></div>
+        <div className={styles.middleRing}>
+          <div className={styles.ringDot}></div>
+        </div>
+        <div className={styles.outerRing}>
+          <div className={styles.ringDot}></div>
+        </div>
+      </div>
     </div>
   );
 };

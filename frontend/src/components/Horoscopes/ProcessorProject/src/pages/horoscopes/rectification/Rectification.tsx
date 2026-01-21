@@ -22,6 +22,7 @@ import {
 import DegreeTable from '../../../components/degreeTable/DegreeTable';
 import { DegreeTableParts } from '../../../models/types/DegreeTable';
 import RectificationDashiTable from './components/rectificationDashiTable/RectificationDashiTable';
+import Header from '../../../components/header/Header';
 import { setIsAppLoading } from '../../../store/reducers/preferencesReducer';
 import { countHoroscope } from '../../../api/countHoroscope';
 import {
@@ -35,6 +36,7 @@ import { useOutletContext } from '../../../contexts/NavigationContext';
 import { ProcessorContext } from '../../../models/interfaces/processorContext';
 import { setIsYearPickerActive } from '../../../store/reducers/varshpahalaReducer';
 import moment from 'moment/moment';
+import { OptionSelector } from '../../../components/optionSelector/OptionSelector';
 
 enum TimeOptionValue {
   ONE_MINUTE,
@@ -83,9 +85,17 @@ const getMsTime = (value: ITimeOptionValue) => {
   }
 };
 
+const pad2 = (value: number) => String(value).padStart(2, '0');
+
 const Rectification = () => {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
+  const [selectedDay, setSelectedDay] = useState(1);
+  const [selectedMonth, setSelectedMonth] = useState(1);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [selectedHour, setSelectedHour] = useState(0);
+  const [selectedMinute, setSelectedMinute] = useState(0);
+  const [selectedSecond, setSelectedSecond] = useState(0);
   const [targetTimeOption, setTargetTimeOption] = useState(timeOptions[0]);
   const [isUpdateAvailable, setIsUpdateAvailable] = useState(false);
   const address = useGetHoroscopeAddressInformation();
@@ -139,6 +149,105 @@ const Rectification = () => {
   const isDateValid = useMemo(() => {
     return moment(date, 'DD.MM.YYYY', true).isValid();
   }, [date]);
+
+  useEffect(() => {
+    if (!date) {
+      return;
+    }
+
+    const [day, month, year] = date.split('.').map(Number);
+    if (!Number.isFinite(day) || !Number.isFinite(month) || !Number.isFinite(year)) {
+      return;
+    }
+
+    setSelectedDay(day);
+    setSelectedMonth(month);
+    setSelectedYear(year);
+  }, [date]);
+
+  useEffect(() => {
+    if (!time) {
+      return;
+    }
+
+    const [hours, minutes, seconds] = time.split(':').map(Number);
+    if (!Number.isFinite(hours) || !Number.isFinite(minutes) || !Number.isFinite(seconds)) {
+      return;
+    }
+
+    setSelectedHour(hours);
+    setSelectedMinute(minutes);
+    setSelectedSecond(seconds);
+  }, [time]);
+
+  const dayCount = useMemo(() => {
+    return new Date(selectedYear, selectedMonth, 0).getDate();
+  }, [selectedYear, selectedMonth]);
+
+  useEffect(() => {
+    if (selectedDay > dayCount) {
+      setSelectedDay(dayCount);
+    }
+  }, [dayCount, selectedDay]);
+
+  useEffect(() => {
+    if (!date) {
+      return;
+    }
+
+    setDate(`${pad2(selectedDay)}.${pad2(selectedMonth)}.${String(selectedYear).padStart(4, '0')}`);
+  }, [selectedDay, selectedMonth, selectedYear]);
+
+  useEffect(() => {
+    if (!time) {
+      return;
+    }
+
+    setTime(`${pad2(selectedHour)}:${pad2(selectedMinute)}:${pad2(selectedSecond)}`);
+  }, [selectedHour, selectedMinute, selectedSecond]);
+
+  const dayOptions = useMemo(() => {
+    return Array.from({ length: dayCount }, (_, index) => ({
+      label: pad2(index + 1),
+      value: index + 1
+    }));
+  }, [dayCount]);
+
+  const monthOptions = useMemo(() => {
+    return Array.from({ length: 12 }, (_, index) => ({
+      label: pad2(index + 1),
+      value: index + 1
+    }));
+  }, []);
+
+  const yearOptions = useMemo(() => {
+    const options = [];
+    for (let year = 1000; year <= 3000; year += 1) {
+      options.push({ label: String(year), value: year });
+    }
+    return options;
+  }, []);
+
+  const hourOptions = useMemo(() => {
+    return Array.from({ length: 24 }, (_, index) => ({
+      label: pad2(index),
+      value: index
+    }));
+  }, []);
+
+  const minuteOptions = useMemo(() => {
+    return Array.from({ length: 60 }, (_, index) => ({
+      label: pad2(index),
+      value: index
+    }));
+  }, []);
+
+  const secondOptions = useMemo(() => {
+    return Array.from({ length: 60 }, (_, index) => ({
+      label: pad2(index),
+      value: index
+    }));
+  }, []);
 
   const onCountHoroscopesClick = useCallback(() => {
     if (!isTimeValid || !isDateValid) {
@@ -241,35 +350,86 @@ const Rectification = () => {
         </Typography>}
         <Grid item container direction={'row'} spacing={2} pb={2}>
           <Grid item xs={6} md={6}>
-            <Input
-              placeholder='Дата'
-              inputType={InputType.date}
-              value={date}
-              onChange={setDate}
-              isError={!(isDateValid || !date)}
-              textError={'*'}
-            />
+            <Grid container spacing={1}>
+              <Grid item xs={4}>
+                <OptionSelector
+                  options={dayOptions}
+                  value={selectedDay}
+                  onChange={(option) => setSelectedDay(Number(option.value))}
+                  placeholder="День"
+                  type="normal"
+                  itemHeight={25}
+                  compact
+                  centered
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <OptionSelector
+                  options={monthOptions}
+                  value={selectedMonth}
+                  onChange={(option) => setSelectedMonth(Number(option.value))}
+                  placeholder="Месяц"
+                  type="normal"
+                  itemHeight={25}
+                  compact
+                  centered
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <OptionSelector
+                  options={yearOptions}
+                  value={selectedYear}
+                  onChange={(option) => setSelectedYear(Number(option.value))}
+                  placeholder="Год"
+                  type="normal"
+                  itemHeight={25}
+                  compact
+                  centered
+                />
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item xs={6} md={6}>
-            <Input
-              placeholder='Время'
-              inputType={InputType.time}
-              value={time}
-              onChange={setTime}
-              isError={!(isTimeValid || !time)}
-              textError={'*'}
-            />
-          </Grid>
-        </Grid>
-        <Grid item container flexDirection={'row'} display={'flex'} pb={2}>
-          <Grid item width={'40px'}>
-            <ButtonPrevForward onClick={() => onChangeTimeButtonClick(false)} type={'prev'}/>
-          </Grid>
-          <Grid item flex={1} ml={2} mr={2}>
-            <Input placeholder='Шаг' options={timeOptions} setTargetOption={setTargetTimeOption} targetOption={targetTimeOption} inputType={InputType.options}/>
-          </Grid>
-          <Grid item width={'40px'}>
-            <ButtonPrevForward onClick={() => onChangeTimeButtonClick(true)} type={'forward'}/>
+            <Grid container spacing={1}>
+              <Grid item xs={4}>
+                <OptionSelector
+                  options={hourOptions}
+                  value={selectedHour}
+                  onChange={(option) => setSelectedHour(Number(option.value))}
+                  placeholder="Часы"
+                  type="normal"
+                  itemHeight={25}
+                  compact
+                  centered
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <OptionSelector
+                  options={minuteOptions}
+                  value={selectedMinute}
+                  onChange={(option) => setSelectedMinute(Number(option.value))}
+                  placeholder="Минуты"
+                  placeholderShort="Мин"
+                  type="normal"
+                  itemHeight={25}
+                  compact
+                  centered
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <OptionSelector
+                  options={secondOptions}
+                  value={selectedSecond}
+                  onChange={(option) => setSelectedSecond(Number(option.value))}
+                  placeholder="Секунды"
+                  placeholderShort="Сек"
+                  type="normal"
+                  itemHeight={25}
+                  compact
+                  centered
+                />
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
         <Grid item pt={2}>
@@ -278,6 +438,9 @@ const Rectification = () => {
         {isUpdateAvailable && <Grid item pt={2}>
           <Button text={'Обновить время рождения'} type={ButtonType.outline} onClick={updateHoroscope} />
         </Grid>}
+      </Grid>
+      <Grid pl={2} pt={2} pb={2}>
+        <Header header={'Дробная таблица'} isIconActive={false} isPlain />
       </Grid>
       <DegreeTable table={table} />
       <RectificationDashiTable />

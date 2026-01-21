@@ -9,6 +9,12 @@
     z-index: 16;
   }
 
+  .aspect-ratio-map-image {
+    & > div {
+      background: none !important;
+    }
+  }
+
   .aspectsHint {
     position: absolute;
     left: 0;
@@ -131,8 +137,8 @@
 
 .deep-sky {
   .index {
-    color: #FFFFFF;
-    opacity: 0.3;
+    color: var(--color-primary);
+    opacity: 1;
     font-family: "Gilroy", sans-serif;
     font-style: normal;
     font-weight: 700;
